@@ -1,14 +1,14 @@
 import {useState, useRef} from 'react';
-import api from '@/utils/api';
+import huggingFaceApi from '@/utils/hugging-face-api';
 
 const ImageDragAndDrop: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [droppedImages, setDroppedImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  async function getImageSegmentation(data: any) {
+  async function getCatsAndDogClassifier(data: any) {
     console.log(data);
-    const respond = await api.getImageSegmentation(data);
+    const respond = await huggingFaceApi.getCatsAndDogClassifier(data);
     console.log(respond);
   }
 
@@ -18,8 +18,8 @@ const ImageDragAndDrop: React.FC = () => {
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
       setImageSrc(imageUrl);
-      setDroppedImages(prevImages => [...prevImages, imageUrl]);
-      getImageSegmentation(imageFile);
+      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+      getCatsAndDogClassifier(imageFile);
     }
   };
 
@@ -40,10 +40,10 @@ const ImageDragAndDrop: React.FC = () => {
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
       setImageSrc(imageUrl);
-      setDroppedImages(prevImages => [...prevImages, imageUrl]);
+      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
       event.target.value = ''; // Reset the file input field
 
-      getImageSegmentation(imageFile);
+      getCatsAndDogClassifier(imageFile);
     }
   };
 

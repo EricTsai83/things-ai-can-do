@@ -1,5 +1,5 @@
 'use client'; // This is a client component
-import api from '@/utils/api';
+import huggingFaceApi from '@/utils/hugging-face-api';
 import {useState, useRef} from 'react';
 
 interface Output {
@@ -25,7 +25,7 @@ export default function Content() {
     try {
       if (textForWs.current) {
         const postData = {inputs: textForWs.current.value};
-        const answer = await api.getChineseWs(postData);
+        const answer = await huggingFaceApi.getChineseWs(postData);
         setWsOutput(answer);
       }
     } catch (err) {
@@ -38,7 +38,7 @@ export default function Content() {
     try {
       if (textForPos.current) {
         const postData = {inputs: textForPos.current.value};
-        const answer = await api.getChinesePos(postData);
+        const answer = await huggingFaceApi.getChinesePos(postData);
         setPosOutput(answer);
       }
     } catch (err) {
@@ -51,7 +51,7 @@ export default function Content() {
     try {
       if (textForNer.current) {
         const postData = {inputs: textForNer.current.value};
-        const answer = await api.getChineseNer(postData);
+        const answer = await huggingFaceApi.getChineseNer(postData);
         setNerOutput(answer);
       }
     } catch (err) {
@@ -69,7 +69,7 @@ export default function Content() {
             context: textForContext.current.value,
           },
         };
-        const answer = await api.getChineseQA(postData);
+        const answer = await huggingFaceApi.getChineseQA(postData);
         setQaOutput(answer);
       }
     } catch (err) {

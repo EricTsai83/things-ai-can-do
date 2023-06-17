@@ -2,7 +2,7 @@
 // Receives microphone permissions from the browser using the getMicrophonePermission function
 // Sets MediaStream received from the navigator.mediaDevices.getUserMedia function to the stream state variable (we’ll get to using that soon)
 import {useState, useRef} from 'react';
-import api from '@/utils/api';
+import huggingFaceApi from '@/utils/hugging-face-api';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 
 const mimeType = 'audio/webm';
@@ -68,7 +68,7 @@ const AudioRecorder = (): JSX.Element => {
   async function getSpeechRecognition() {
     console.log(audioBlobData);
     if (audioBlobData) {
-      const respond = await api.getSpeechRecognition(audioBlobData);
+      const respond = await huggingFaceApi.getSpeechRecognition(audioBlobData);
       console.log(respond);
     }
   }

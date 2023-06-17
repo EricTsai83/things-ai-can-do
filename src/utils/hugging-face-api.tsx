@@ -8,7 +8,7 @@ interface QaInput {
   };
 }
 
-const huggingFaceAPI = {
+const huggingFaceApi = {
   hostname: 'https://api-inference.huggingface.co/models',
   accessToken: process.env.HUGGINGFACE_ACCESS_TOKEN,
   Header: {
@@ -137,4 +137,4 @@ const huggingFaceAPI = {
   },
 };
 
-export default huggingFaceAPI;
+export default huggingFaceApi;

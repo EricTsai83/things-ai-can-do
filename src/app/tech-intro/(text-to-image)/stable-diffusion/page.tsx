@@ -1,5 +1,5 @@
 'use client'; // This is a client component
-import api from '@/utils/api';
+import huggingFaceApi from '@/utils/hugging-face-api';
 import {useState, useRef} from 'react';
 
 export default function Content() {
@@ -10,7 +10,7 @@ export default function Content() {
     try {
       if (textForDiffusion.current) {
         const postData = {inputs: textForDiffusion.current.value};
-        const myBlob = await api.getStableDiffusionImage(postData);
+        const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
         const imgUrl = URL.createObjectURL(myBlob);
         setOutput(imgUrl);
       }

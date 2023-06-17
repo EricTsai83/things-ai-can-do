@@ -1,7 +1,7 @@
 import {Stage, Layer, Line, Text} from 'react-konva';
 import Konva from 'konva';
 import {useState, useRef} from 'react';
-import api from '@/utils/api';
+import api from '@/utils/hugging-face-api';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 
 interface LineData {
