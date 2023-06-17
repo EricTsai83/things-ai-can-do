@@ -10,10 +10,7 @@ const openai = new OpenAIApi(configuration);
 async function getChatGPTApi(input: string): Promise<string> {
   const requestPayload: CreateChatCompletionRequest = {
     model: 'gpt-3.5-turbo',
-    messages: [
-      {role: 'system', content: 'You are a helpful assistant.'},
-      {role: 'user', content: input},
-    ],
+    messages: [{role: 'user', content: input}],
   };
 
   const response = await openai.createChatCompletion(requestPayload);
