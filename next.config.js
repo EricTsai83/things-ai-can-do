@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  compilerOptions: {
+    baseUrl: '.',
+    paths: {
+      '@/utils/*': ['utils/*'],
+      '@/components/*': ['components/*'],
+    },
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
