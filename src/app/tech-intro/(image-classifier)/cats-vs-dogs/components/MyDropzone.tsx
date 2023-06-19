@@ -1,5 +1,6 @@
-import {useState, useRef} from 'react';
+import { useState, useRef } from 'react';
 import huggingFaceApi from '@/utils/hugging-face-api';
+import Image from 'next/image';
 
 const ImageDragAndDrop: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -55,7 +56,7 @@ const ImageDragAndDrop: React.FC = () => {
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
         {imageSrc && (
-          <img
+          <Image
             src={imageSrc}
             alt="Image"
             className="object-contain w-full h-full absolute top-0 left-0"
@@ -72,7 +73,7 @@ const ImageDragAndDrop: React.FC = () => {
       </div>
       <div className="flex justify-start items-center mt-4">
         {droppedImages.map((imageUrl, index) => (
-          <img
+          <Image
             key={index}
             src={imageUrl}
             alt={`Small Image ${index + 1}`}
