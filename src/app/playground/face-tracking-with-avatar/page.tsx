@@ -1,23 +1,20 @@
 'use client';
 import './page.css';
 
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaceLandmarker,
   FaceLandmarkerOptions,
   FilesetResolver,
 } from '@mediapipe/tasks-vision';
-import {Color, Euler, Matrix4} from 'three';
-import {Canvas, useFrame, useGraph} from '@react-three/fiber';
-import {useGLTF} from '@react-three/drei';
-import {useDropzone} from 'react-dropzone';
+import { Color, Euler, Matrix4 } from 'three';
+import { Canvas } from '@react-three/fiber';
+import { useDropzone } from 'react-dropzone';
 import Avatar from './components/Avatar';
 
 let video: HTMLVideoElement;
 let faceLandmarker: FaceLandmarker;
 let lastVideoTime = -1;
-// let blendshapes: any[];
-// let rotation: Euler;
 
 const options: FaceLandmarkerOptions = {
   baseOptions: {
@@ -35,10 +32,13 @@ function App() {
   const [rotation, setRotation] = useState<Euler>();
 
   // https://models.readyplayer.me/648ef0aef2caada0866fd637.glb
+  // https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb
+  // https://models.readyplayer.me/6490655e99211a8c97fc395f.glb
+  // https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb
   const [url, setUrl] = useState<string>(
-    'https://models.readyplayer.me/648ef0aef2caada0866fd637.glb',
+    'https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb',
   );
-  const {getRootProps} = useDropzone({
+  const { getRootProps } = useDropzone({
     onDrop: (files) => {
       const file = files[0];
       const reader = new FileReader();
@@ -61,7 +61,7 @@ function App() {
     video = document.getElementById('video') as HTMLVideoElement;
     navigator.mediaDevices
       .getUserMedia({
-        video: {width: 1280, height: 720},
+        video: { width: 1280, height: 720 },
         audio: false,
       })
       .then(function (stream) {
@@ -99,7 +99,7 @@ function App() {
   };
 
   const handleOnChange = (event: any) => {
-    setUrl(`${event.target.value}?morphTargets=ARKit&textureAtlas=1024`);
+    setUrl(`${event.target.value}`);
   };
 
   useEffect(() => {
@@ -108,9 +108,9 @@ function App() {
 
   return (
     <div className="App">
-      <div {...getRootProps({className: 'dropzone'})}>
+      {/* <div {...getRootProps({ className: 'dropzone' })}>
         <p>Drag & drop RPM avatar GLB file here</p>
-      </div>
+      </div> */}
       <input
         className="url"
         type="text"
@@ -118,7 +118,7 @@ function App() {
         onChange={handleOnChange}
       />
       <video className="camera-feed" id="video" autoPlay></video>
-      <Canvas style={{height: 600}} camera={{fov: 25}} shadows>
+      <Canvas style={{ height: 380 }} camera={{ fov: 25 }} shadows>
         <ambientLight intensity={0.5} />
         <pointLight
           position={[10, 10, 10]}

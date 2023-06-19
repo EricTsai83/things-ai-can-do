@@ -1,9 +1,9 @@
 'use client';
-import {useEffect} from 'react';
-import {useFrame, useGraph} from '@react-three/fiber';
-import {useGLTF} from '@react-three/drei';
-import {Euler} from 'three';
-import {Category} from '@mediapipe/tasks-vision';
+import { useEffect } from 'react';
+import { useFrame, useGraph } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
+import { Euler } from 'three';
+import { Category } from '@mediapipe/tasks-vision';
 
 let headMesh: any;
 function Avatar({
@@ -15,8 +15,8 @@ function Avatar({
   blendshapes: Category[];
   rotation: Euler;
 }) {
-  const {scene} = useGLTF(url);
-  const {nodes} = useGraph(scene);
+  const { scene } = useGLTF(url);
+  const { nodes } = useGraph(scene);
 
   useEffect(() => {
     headMesh =
@@ -26,7 +26,7 @@ function Avatar({
   useFrame((_, delta) => {
     if (headMesh?.morphTargetInfluences && blendshapes.length > 0) {
       blendshapes.forEach(
-        (element: {categoryName: string | number; score: any}) => {
+        (element: { categoryName: string | number; score: any }) => {
           let index = headMesh.morphTargetDictionary[element.categoryName];
           if (index >= 0) {
             headMesh.morphTargetInfluences[index] = element.score;
@@ -44,7 +44,7 @@ function Avatar({
     }
   });
 
-  return <primitive object={scene} position={[0, -1.75, 3]} />;
+  return <primitive object={scene} position={[0, -1.65, 4]} />;
 }
 
 export default Avatar;
