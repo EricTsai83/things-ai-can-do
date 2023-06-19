@@ -13,6 +13,7 @@
 // The root layout is a Server Component by default and can not be set to a Client Component.
 
 import './globals.css';
+import {Providers} from './GlobalRedux/provider';
 import {Inter} from 'next/font/google';
 
 const inter = Inter({subsets: ['latin']});
@@ -25,7 +26,9 @@ export const metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
