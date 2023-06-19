@@ -1,6 +1,7 @@
 'use client';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 
 export default function Content() {
   const textForDiffusion = useRef<HTMLInputElement>(null);
@@ -32,7 +33,7 @@ export default function Content() {
           API 請求
         </button>
 
-        <img src={output} />
+        {output && <Image src={output} alt="" />}
       </div>
     </main>
   );
