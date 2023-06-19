@@ -23,7 +23,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/utils/*": ["./src/utils/*"],
-      "@/components/*": ["./src/components/*"]
+      "@/components/*": ["./src/components/*"],
+      "@/GlobalRedux/*": ["./src/app/GlobalRedux/*"]
     }
   },
   "include": [
