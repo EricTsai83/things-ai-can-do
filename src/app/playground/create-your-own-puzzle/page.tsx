@@ -2,6 +2,7 @@
 import huggingFaceApi from '@/utils/hugging-face-api';
 import { useState, useRef } from 'react';
 import Puzzle from './components/Puzzle';
+import Image from 'next/image';
 
 export default function Content() {
   const textForDiffusion = useRef<HTMLInputElement>(null);
@@ -33,8 +34,8 @@ export default function Content() {
           }}>
           API 請求
         </button>
-
-        <img src={output} />
+        {output && <Image src={output} alt="" />}
+        {/* <img src={output} /> */}
       </div>
       <div>
         A large cabin on top of a sunny mountain in the style of Dreamworks,
