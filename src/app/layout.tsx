@@ -13,21 +13,35 @@
 // The root layout is a Server Component by default and can not be set to a Client Component.
 
 import './globals.css';
-import {Providers} from './GlobalRedux/provider';
-import {Inter} from 'next/font/google';
+import { Providers } from './GlobalRedux/provider';
+import { Inter } from 'next/font/google';
+import Header from '@/components/Header';
+import Navbar from '@/components/Navbar';
+import { NextAuthProvider } from './provider';
 
-const inter = Inter({subsets: ['latin']});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Things AI Can Do',
   description: 'Make AI Do Thing For You',
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {/* <NextAuthProvider> */}
+          <div className="max-w-5xl mx-auto px-8">
+            {/* <Navbar /> */}
+            <div className="pt-16"> {children}</div>
+          </div>
+          {/* </NextAuthProvider> */}
+        </Providers>
       </body>
     </html>
   );
