@@ -2,9 +2,9 @@
 // 因此在這裡我們要建一個 client side 的 component `Providers` 去替代 redux 的 `Provider`
 'use client';
 
-import {Provider} from 'react-redux';
-import {store} from './store';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
-export function Providers({children}: any) {
+export function ReduxProviders({ children }: any) {
   return <Provider store={store}>{children}</Provider>;
 }
