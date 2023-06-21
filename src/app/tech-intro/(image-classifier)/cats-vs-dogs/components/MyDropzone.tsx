@@ -60,6 +60,8 @@ const ImageDragAndDrop: React.FC = () => {
             src={imageSrc}
             alt="Image"
             className="object-contain w-full h-full absolute top-0 left-0"
+            width={600}
+            height={600}
           />
         )}
         {!imageSrc && 'Drop image here'}
@@ -79,6 +81,8 @@ const ImageDragAndDrop: React.FC = () => {
             alt={`Small Image ${index + 1}`}
             className="w-12 h-12 border border-black mr-2 cursor-pointer"
             onClick={() => handleSmallImageClick(imageUrl)}
+            width={600}
+            height={600}
           />
         ))}
       </div>

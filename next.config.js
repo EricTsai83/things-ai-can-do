@@ -10,11 +10,11 @@ const nextConfig = {
     NEXT_PUBLIC_GITHUB_CLIENT_ID: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
     NEXT_PUBLIC_GITHUB_CLIENT_SECRET:
       process.env.NEXT_PUBLIC_GITHUB_CLIENT_SECRET,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    NEXTAUTH_SECRET: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
   },
   images: {
-    // 下方是 github 和 google 在取資料所需要進入的網域
+    // 下方是 github 和 google 在取 avatar 所需要進入的網域
     domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com'],
   },
 };
