@@ -18,7 +18,7 @@ export default function ProfileIcon() {
         <button
           onClick={() => {
             // @ts-ignore
-            signOut('github');
+            signOut();
           }}>
           Sign Out
         </button>
@@ -26,5 +26,5 @@ export default function ProfileIcon() {
     );
   }
 
-  return <button onClick={() => signIn('github')}>Sign In</button>;
+  return <button onClick={() => signIn()}>Sign In</button>;
 }

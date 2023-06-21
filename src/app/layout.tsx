@@ -13,9 +13,8 @@
 // The root layout is a Server Component by default and can not be set to a Client Component.
 
 import './globals.css';
-import { Providers } from './GlobalRedux/provider';
+import { ReduxProviders } from './GlobalRedux/provider';
 import { Inter } from 'next/font/google';
-import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import { NextAuthProvider } from './provider';
 
@@ -34,14 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          {/* <NextAuthProvider> */}
-          <div className="max-w-5xl mx-auto px-8">
-            {/* <Navbar /> */}
-            <div className="pt-16"> {children}</div>
-          </div>
-          {/* </NextAuthProvider> */}
-        </Providers>
+        {/* 所有 provider 之後可以整合再一起 */}
+        <ReduxProviders>
+          <NextAuthProvider>
+            <div className="max-w-5xl mx-auto px-8">
+              <Navbar />
+              <div className="pt-16"> {children}</div>
+            </div>
+          </NextAuthProvider>
+        </ReduxProviders>
       </body>
     </html>
   );

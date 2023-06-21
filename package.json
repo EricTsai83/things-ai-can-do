@@ -27,7 +27,7 @@
     "eslint-config-next": "13.4.5",
     "i": "^0.3.7",
     "konva": "^9.2.0",
-    "next": "13.4.5",
+    "next": "^13.4.7-canary.2",
     "next-auth": "^4.22.1",
     "npm": "^9.7.1",
     "openai": "^3.3.0",
