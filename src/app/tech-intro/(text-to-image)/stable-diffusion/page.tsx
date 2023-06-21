@@ -32,8 +32,9 @@ export default function Content() {
           }}>
           API 請求
         </button>
-
-        {output && <Image src={output} alt="" />}
+        A small cabin on top of a snowy mountain in the style of Disney,
+        artstation
+        {output && <Image src={output} alt="" width={600} height={600} />}
       </div>
     </main>
   );
