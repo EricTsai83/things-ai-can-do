@@ -1,7 +1,10 @@
 'use client';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import { useState, useRef } from 'react';
-import Puzzle from './components/Puzzle';
+// import Puzzle from './components/Puzzle';
+import PuzzleLayout from './components/PuzzleLayout';
+import GPT from './components/GPT';
+
 import Image from 'next/image';
 
 export default function Content() {
@@ -34,14 +37,15 @@ export default function Content() {
           }}>
           API 請求
         </button>
-        {output && <Image src={output} alt="" />}
+        {output && <Image src={output} alt="" width={600} height={600} />}
         {/* <img src={output} /> */}
       </div>
       <div>
         A large cabin on top of a sunny mountain in the style of Dreamworks,
         artstation
       </div>
-      <div>{output && <Puzzle output={output} />}</div>
+      <div>{output && <PuzzleLayout output={output} />}</div>
+      {/* <GPT /> */}
     </main>
   );
 }
