@@ -1,0 +1,39 @@
+#grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  background-color: black;
+  grid-gap: 1px;
+  width: 600px;
+  height: 600px;
+  grid-auto-flow: column;
+}
+
+#tile_0_0 {
+  background-color: white;
+}
+
+#tile_0_1 {
+  background-color: white;
+}
+#tile_0_2 {
+  background-color: white;
+}
+#tile_1_0 {
+  background-color: white;
+}
+#tile_1_1 {
+  background-color: white;
+}
+#tile_1_2 {
+  background-color: white;
+}
+#tile_2_0 {
+  background-color: white;
+}
+#tile_2_1 {
+  background-color: white;
+}
+#tile_2_2 {
+  background-color: white;
+}

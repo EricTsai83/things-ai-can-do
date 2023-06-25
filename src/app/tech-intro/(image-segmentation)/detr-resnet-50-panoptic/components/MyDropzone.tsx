@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react';
+import { useImmer } from 'use-immer';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import Image from 'next/image';
 
 const ImageDragAndDrop: React.FC = () => {
+  const [imageBlob, setImageBlob] = useImmer<any>({});
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [droppedImages, setDroppedImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -18,6 +20,10 @@ const ImageDragAndDrop: React.FC = () => {
     const imageFile = event.dataTransfer.files[0];
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
+      setImageBlob((draft: any) => {
+        draft[imageUrl] = imageFile;
+        return draft;
+      });
       setImageSrc(imageUrl);
       setDroppedImages((prevImages) => [...prevImages, imageUrl]);
       getImageSegmentation(imageFile);
@@ -30,6 +36,11 @@ const ImageDragAndDrop: React.FC = () => {
 
   const handleSmallImageClick = (imageUrl: string) => {
     setImageSrc(imageUrl);
+    // Revert back to the image file
+    console.log(imageBlob);
+    console.log(imageBlob[imageUrl]);
+
+    getImageSegmentation(imageBlob[imageUrl]);
   };
 
   const handleBoxClick = () => {
