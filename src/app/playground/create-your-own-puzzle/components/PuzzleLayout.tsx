@@ -1,6 +1,6 @@
 'use client';
 import { useImmer } from 'use-immer';
-import { useState, useEffect, DragEventHandler } from 'react';
+import { useState, useEffect, useRef, DragEventHandler } from 'react';
 
 const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   let initialStates: any = [
@@ -19,6 +19,7 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   const [tileBeingDragged, setTileBeingDragged] = useState<any>(null);
   const [tileBeingReplaced, setTileBeingReplaced] = useState<any>(null);
   const [score, setScore] = useState(null);
+  const initialRef = useRef(true);
 
   function shuffleArray() {
     let newArray = imageArrangement.map((e: any) => e);
@@ -33,8 +34,9 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   }
 
   useEffect(() => {
-    shuffleArray();
-  }, []);
+    initialRef.current && shuffleArray();
+    initialRef.current = false;
+  }, [shuffleArray]);
 
   useEffect(() => {
     let scoreCt: any = 0;
@@ -59,32 +61,38 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   };
 
   const dragEnd = () => {
-    const tileBeingDraggedId = parseInt(
-      tileBeingDragged.getAttribute('data-positionid'),
-    );
-    const tileBeingReplacedId = parseInt(
-      tileBeingReplaced.getAttribute('data-positionid'),
-    );
+    if (tileBeingDragged && tileBeingReplaced) {
+      const tileBeingDraggedId = parseInt(
+        tileBeingDragged.getAttribute('data-positionid'),
+      );
+      const tileBeingReplacedId = parseInt(
+        tileBeingReplaced.getAttribute('data-positionid'),
+      );
 
-    setImageArrangement((prev: { dataId: number; style: string }[]) => {
-      let styleString;
-      let backgroundPosition;
-      let idString;
+      setImageArrangement((prev: { dataId: number; style: string }[]) => {
+        let styleString;
+        let backgroundPosition;
+        let idString;
 
-      styleString = tileBeingReplaced.getAttribute('style');
-      backgroundPosition = styleString.match(/background-position: ([^;]+)/)[1];
-      prev[tileBeingDraggedId].style = backgroundPosition;
+        styleString = tileBeingReplaced.getAttribute('style');
+        backgroundPosition = styleString.match(
+          /background-position: ([^;]+)/,
+        )[1];
+        prev[tileBeingDraggedId].style = backgroundPosition;
 
-      idString = tileBeingReplaced.getAttribute('data-dataid');
-      prev[tileBeingDraggedId].dataId = parseInt(idString);
+        idString = tileBeingReplaced.getAttribute('data-dataid');
+        prev[tileBeingDraggedId].dataId = parseInt(idString);
 
-      styleString = tileBeingDragged.getAttribute('style');
-      backgroundPosition = styleString.match(/background-position: ([^;]+)/)[1];
-      prev[tileBeingReplacedId].style = backgroundPosition;
+        styleString = tileBeingDragged.getAttribute('style');
+        backgroundPosition = styleString.match(
+          /background-position: ([^;]+)/,
+        )[1];
+        prev[tileBeingReplacedId].style = backgroundPosition;
 
-      idString = tileBeingDragged.getAttribute('data-dataid');
-      prev[tileBeingReplacedId].dataId = parseInt(idString);
-    });
+        idString = tileBeingDragged.getAttribute('data-dataid');
+        prev[tileBeingReplacedId].dataId = parseInt(idString);
+      });
+    }
   };
 
   return (

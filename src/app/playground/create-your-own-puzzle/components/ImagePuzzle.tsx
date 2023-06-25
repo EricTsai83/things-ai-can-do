@@ -1,19 +1,48 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import useDragger from '@/hook/useDragger';
 import './ImagePuzzle.css';
 import Image from 'next/image';
 
 const ImagePuzzle = ({ imgBlobs }: any) => {
+  const zIndexCounter = useRef(1);
   const imgWidth = 200;
   const imgHeight = 200;
-
-  const zIndexCounter = useRef(1);
-
+  const ids: any = [];
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      useDragger(`piece_${i}_${j}`);
+      ids.push(`piece_${i}_${j}`);
     }
   }
+
+  useDragger(`piece_0_0`);
+  useDragger(`piece_0_1`);
+  useDragger(`piece_0_2`);
+  useDragger(`piece_1_0`);
+  useDragger(`piece_1_1`);
+  useDragger(`piece_1_2`);
+  useDragger(`piece_2_0`);
+  useDragger(`piece_2_1`);
+  useDragger(`piece_2_2`);
+
+  // const renderCustomHooks = (ids: any): any => {
+  //   if (ids.length === 0) {
+  //     return null; // 递归结束条件
+  //   }
+  //   const [currentParam, ...remainingParams] = ids;
+  //   useDragger(currentParam);
+
+  //   return renderCustomHooks(remainingParams);
+  // };
+
+  // useEffect(() => {
+  //   renderCustomHooks(ids);
+  // }, [ids]);
+
+  // for (let i = 0; i < 3; i++) {
+  //   for (let j = 0; j < 3; j++) {
+  //     useDragger(`piece_${i}_${j}`);
+  //   }
+  // }
 
   function disableScroll(event: any) {
     event.preventDefault();
