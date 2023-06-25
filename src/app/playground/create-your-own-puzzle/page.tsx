@@ -1,15 +1,17 @@
 'use client';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import { useState, useRef } from 'react';
-// import Puzzle from './components/Puzzle';
+import { useState, useRef, useCallback } from 'react';
 import PuzzleLayout from './components/PuzzleLayout';
-import GPT from './components/GPT';
-
+import ImagePuzzle from './components/ImagePuzzle';
 import Image from 'next/image';
+import splitImage from '@/utils/split-image';
+import { useImmer } from 'use-immer';
 
 export default function Content() {
   const textForDiffusion = useRef<HTMLInputElement>(null);
-  const [output, setOutput] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>(); // 像是圖片的 reference，而不是圖片本身喔
+  const [imgBlobs, setImgBlobs] = useImmer<any>({});
+  const [showCut, setShowCut] = useState<any>(false);
 
   async function getStableDiffusionImage() {
     try {
@@ -17,14 +19,23 @@ export default function Content() {
         const postData = { inputs: textForDiffusion.current.value };
         const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
         const imgUrl = URL.createObjectURL(myBlob);
-        console.log(imgUrl);
-        setOutput(imgUrl);
+        setImageUrl(imgUrl);
+        setShowCut(false);
       }
     } catch (err) {
       console.log(err);
       console.log('model is currently loading');
     }
   }
+
+  const getSplitImage = useCallback(
+    async (imageUrl: any) => {
+      const tileObj = await splitImage(imageUrl);
+      console.log(tileObj);
+      setImgBlobs(tileObj);
+    },
+    [imageUrl],
+  );
 
   return (
     <main>
@@ -37,15 +48,32 @@ export default function Content() {
           }}>
           API 請求
         </button>
-        {output && <Image src={output} alt="" width={600} height={600} />}
-        {/* <img src={output} /> */}
       </div>
       <div>
         A large cabin on top of a sunny mountain in the style of Dreamworks,
         artstation
       </div>
-      <div>{output && <PuzzleLayout output={output} />}</div>
-      {/* <GPT /> */}
+      <button
+        onClick={async () => {
+          if (imageUrl) {
+            getSplitImage(imageUrl);
+          }
+          console.log('Cut completed.');
+        }}>
+        切割請求
+      </button>
+
+      <button
+        onClick={() => {
+          console.log(imgBlobs);
+          setShowCut(true);
+        }}>
+        查看切割
+      </button>
+      {imageUrl && <Image src={imageUrl} width={600} height={600} alt="" />}
+
+      <div>{imageUrl && showCut && <ImagePuzzle imgBlobs={imgBlobs} />}</div>
+      <div>{imageUrl && <PuzzleLayout imageUrl={imageUrl} />}</div>
     </main>
   );
 }

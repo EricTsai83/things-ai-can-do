@@ -1,11 +1,11 @@
 'use client';
 import { useImmer } from 'use-immer';
-import { useState, useEffect, SetStateAction, DragEventHandler } from 'react';
+import { useState, useEffect, DragEventHandler } from 'react';
 
-const PuzzleLayout = ({ output }: { output: string }) => {
+const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   let initialStates: any = [
-    { dataId: 0, style: '0px 0px' },
     { dataId: 1, style: '-200px 0px' },
+    { dataId: 0, style: '0px 0px' }, // 跟上面一行調換位置，避免初始化的時候拼圖就完成了
     { dataId: 2, style: '-400px 0px' },
     { dataId: 3, style: '0px -200px' },
     { dataId: 4, style: '-200px -200px' },
@@ -14,6 +14,7 @@ const PuzzleLayout = ({ output }: { output: string }) => {
     { dataId: 7, style: '-200px -400px' },
     { dataId: 8, style: '-400px -400px' },
   ];
+
   const [imageArrangement, setImageArrangement] = useImmer<any>(initialStates);
   const [tileBeingDragged, setTileBeingDragged] = useState<any>(null);
   const [tileBeingReplaced, setTileBeingReplaced] = useState<any>(null);
@@ -102,7 +103,7 @@ const PuzzleLayout = ({ output }: { output: string }) => {
               data-positionid={idx}
               className="absolute inset-0 bg-no-repeat bg-cover bg-center"
               style={{
-                backgroundImage: `url(${output})`,
+                backgroundImage: `url(${imageUrl})`,
                 backgroundPosition: element.style,
                 backgroundSize: '600px 600px',
               }}
