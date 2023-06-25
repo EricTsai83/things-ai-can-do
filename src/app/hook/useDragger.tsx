@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-function useDragger(id) {
+function useDragger(id: string) {
   const isClicked = useRef(false);
   const coords = useRef({
     startX: 0,
@@ -13,16 +13,19 @@ function useDragger(id) {
     // Get the element by its ID
     const target = document.getElementById(id);
     // Get the computed style for the element
+    // @ts-ignore
     const style = window.getComputedStyle(target);
-    coords.current.lastX = parseInt(style.getPropertyValue('left').trim('px'));
-    coords.current.lastY = parseInt(style.getPropertyValue('top').trim('px'));
+
+    // parseInt('260px', 10) => 260
+    coords.current.lastX = parseInt(style.getPropertyValue('left'), 10);
+    coords.current.lastY = parseInt(style.getPropertyValue('top'), 10);
 
     if (!target) throw new Error("Element with given id doesn't exist");
 
     const container = target.parentElement;
     if (!container) throw new Error('Target element must have a parent');
 
-    const onMouseDown = (e) => {
+    const onMouseDown = (e: any) => {
       e.preventDefault();
 
       isClicked.current = true;
@@ -30,7 +33,7 @@ function useDragger(id) {
       coords.current.startY = e.clientY; // 但我們的的起始點是 div 內，故要做位置調整
     };
 
-    const onMouseMove = (e) => {
+    const onMouseMove = (e: any) => {
       if (!isClicked.current) return;
 
       const nextX = e.clientX - coords.current.startX + coords.current.lastX; // 1.前面兩個項目表示右移了多少(透過整個 window 做計算)  2.上次最後的位置（透過畫布做計算）
