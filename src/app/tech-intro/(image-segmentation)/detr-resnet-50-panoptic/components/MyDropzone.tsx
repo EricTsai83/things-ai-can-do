@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useImmer } from 'use-immer';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import Image from 'next/image';
+import Image from 'next/image'; // the img element will automatically be assigned the position: "absolute" style.
 
 const ImageDragAndDrop: React.FC = () => {
   const [imageBlob, setImageBlob] = useImmer<any>({});
@@ -62,7 +62,7 @@ const ImageDragAndDrop: React.FC = () => {
   return (
     <div>
       <div
-        className="border-dashed border-2 border-black w-72 h-72 flex justify-center items-center relative"
+        className="object-contain border-dashed border-2 border-black w-[900px] h-[600px] flex justify-center items-center relative"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
@@ -70,30 +70,29 @@ const ImageDragAndDrop: React.FC = () => {
           <Image
             src={imageSrc}
             alt="Image"
-            className="object-contain w-full h-full absolute top-0 left-0"
-            width={600}
-            height={600}
+            className="object-contain w-full h-full"
+            fill={true}
+            object-fit="contain"
           />
         )}
-        {!imageSrc && 'Drop image here'}
-        <input
+        {!imageSrc && 'Drop image or click here to uploag image'}
+        {/* <input
           type="file"
           accept="image/*"
           ref={fileInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
-        />
+        /> */}
       </div>
-      <div className="flex justify-start items-center mt-4">
+      <div className="border-black w-20 h-20 flex justify-center items-center relative object-contain">
         {droppedImages.map((imageUrl, index) => (
           <Image
             key={index}
-            src={imageUrl}
-            alt={`Small Image ${index + 1}`}
-            className="w-12 h-12 border border-black mr-2 cursor-pointer"
+            src={imageUrl} // next js required
+            alt={`Small Image ${index + 1}`} // next js required
+            className="border border-black mr-2 cursor-pointer"
+            fill={true}
             onClick={() => handleSmallImageClick(imageUrl)}
-            width={600}
-            height={600}
           />
         ))}
       </div>
