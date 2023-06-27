@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import {useState} from 'react';
+import { useState } from 'react';
 
 // Note: react-konva is designed to work in the client-side.
 // On the server side, it will render just empty div. So it
