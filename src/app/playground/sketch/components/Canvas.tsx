@@ -1,6 +1,6 @@
-import {Stage, Layer, Line, Text} from 'react-konva';
+import { Stage, Layer, Line, Text } from 'react-konva';
 import Konva from 'konva';
-import {useState, useRef} from 'react';
+import { useState, useRef } from 'react';
 import api from '@/utils/hugging-face-api';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 
@@ -22,7 +22,7 @@ function downloadURI(uri: string, name: string) {
   document.body.removeChild(link);
 }
 
-function Canvas({tool}: CanvasProps) {
+function Canvas({ tool }: CanvasProps) {
   const [lines, setLines] = useState<LineData[]>([]);
   const isDrawing = useRef(false);
   const stageRef = useRef<Konva.Stage>(null);
@@ -38,7 +38,7 @@ function Canvas({tool}: CanvasProps) {
     // of pos by providing default values (0) in case pos is null or undefined.
     // This helps prevent potential runtime errors when attempting to access
     // properties of a null or undefined value.
-    setLines([...lines, {tool, points: [pos?.x ?? 0, pos?.y ?? 0]}]);
+    setLines([...lines, { tool, points: [pos?.x ?? 0, pos?.y ?? 0] }]);
   };
 
   const handleMouseMove = (event: Konva.KonvaEventObject<MouseEvent>) => {
@@ -49,7 +49,7 @@ function Canvas({tool}: CanvasProps) {
     if (!stage) return;
 
     const point = stage.getPointerPosition();
-    const lastLine = {...lines[lines.length - 1]};
+    const lastLine = { ...lines[lines.length - 1] };
     lastLine.points = lastLine.points.concat([point?.x ?? 0, point?.y ?? 0]);
     lines.splice(lines.length - 1, 1, lastLine);
     setLines([...lines]);
