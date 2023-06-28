@@ -1,4 +1,4 @@
-const Mask = ({ imageBase64String, faceDetails }: any) => {
+const ImageMask = ({ imageBase64String, faceDetails }: any) => {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   const image = new Image();
@@ -9,4 +9,4 @@ const Mask = ({ imageBase64String, faceDetails }: any) => {
   return <></>;
 };
 
-export default Mask;
+export default ImageMask;
