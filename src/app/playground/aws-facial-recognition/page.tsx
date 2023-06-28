@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import FacialRecognition from './components/FacialRecognition';
-import ImageMask from './components/ImageMask';
+// import ImageMask from './components/ImageMask';
 import MyDropzone from './components/MyDropzone';
 import { useImmer } from 'use-immer';
 
@@ -34,10 +34,10 @@ function Page() {
         setImageBase64String={setImageBase64String}
         setFaceDetails={setFaceDetails}
       />
-      <ImageMask
+      {/* <ImageMask
         imageBase64String={imageBase64String}
         faceDetails={faceDetails}
-      />
+      /> */}
       <FacialRecognition faceDetails={faceDetails} />
     </div>
   );
