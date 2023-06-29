@@ -1,17 +1,13 @@
 'use client';
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-
+import { useImmer } from 'use-immer';
 import convertImageToBase64 from '@/utils/convert-image-to-base64';
 
-const MyDropzone = ({
-  setFaceDetails,
-  imageBase64String,
-  setImageBase64String,
-}: any) => {
-  const [imageSrc, setImageSrc] = useState<any>(null);
+const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
   const [imageSrcRecords, setImageSrcRecords] = useState<any>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageBase64String, setImageBase64String] = useImmer<any>({});
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -63,14 +59,14 @@ const MyDropzone = ({
   return (
     <div>
       <div // dropzone
-        className="object-contain border-dashed border-2 border-black w-[900px] h-[600px] flex justify-center items-center relative"
+        className="relative flex h-[600px] w-[900px] items-center justify-center border-2 border-dashed border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
         {imageSrc && (
           <div className="absolute">
             <Image
-              className="w-auto h-auto max-w-[900px] max-h-[600px]"
+              className="h-auto max-h-[600px] w-auto max-w-[900px]"
               src={imageSrc}
               alt="Image"
               width={0}
@@ -89,12 +85,12 @@ const MyDropzone = ({
         />
       </div>
       <div // small image preview
-        className="border-black w-[900px] h-[80px] flex justify-center items-center">
+        className="flex h-[80px] w-[900px] items-center justify-center border-black">
         {imageSrcRecords &&
           imageSrcRecords.map((imageSrc: any, idx: any) => {
             return (
               <Image
-                className="border border-black mr-2 cursor-pointer w-[80px] h-auto"
+                className="mr-2 h-auto w-[80px] cursor-pointer border border-black"
                 onClick={() => {
                   setImageSrc(imageSrc);
                 }}
@@ -110,7 +106,7 @@ const MyDropzone = ({
       </div>
 
       <button
-        className="border bg-zinc-300 w-[200px] h-[40px]"
+        className="h-[40px] w-[200px] border bg-zinc-300"
         onClick={(): void => {
           console.log('正在打...');
           getFacialRecognition(imageBase64String[imageSrc]);
