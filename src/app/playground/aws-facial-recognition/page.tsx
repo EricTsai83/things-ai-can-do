@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
 import FacialRecognition from './components/FacialRecognition';
-// import ImageMask from './components/ImageMask';
 import MyDropzone from './components/MyDropzone';
-import { useImmer } from 'use-immer';
+
+import ImageMask from './components/ImageMask';
 
 export interface FaceDetail {
   AgeRange: { [key: string]: number };
@@ -25,19 +25,17 @@ export interface FaceDetail {
 
 function Page() {
   const [faceDetails, setFaceDetails] = useState<FaceDetail | null>(null);
-  const [imageBase64String, setImageBase64String] = useImmer<any>({});
+  const [imageSrc, setImageSrc] = useState<any>(null);
 
   return (
     <div>
       <MyDropzone
-        imageBase64String={imageBase64String}
-        setImageBase64String={setImageBase64String}
+        imageSrc={imageSrc}
+        setImageSrc={setImageSrc}
         setFaceDetails={setFaceDetails}
       />
-      {/* <ImageMask
-        imageBase64String={imageBase64String}
-        faceDetails={faceDetails}
-      /> */}
+
+      <ImageMask imageSrc={imageSrc} faceDetails={faceDetails} />
       <FacialRecognition faceDetails={faceDetails} />
     </div>
   );
