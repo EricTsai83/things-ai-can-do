@@ -1,48 +1,60 @@
 const drawBoundingBoxOnFace = (
   imageSrc: string,
   faceDetail: any,
-  // faceId: number,
-): Promise<any> => {
+  marksUsed: string[],
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     const image = new Image();
-    console.log(imageSrc);
-    image.src = imageSrc;
-    image.style.width = '600px';
-    image.style.height = '600px';
     const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d')!;
-    canvas.width = faceDetail.BoundingBox.Width * image.naturalWidth;
-    canvas.height = faceDetail.BoundingBox.Height * image.naturalHeight;
+    const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    context.clearRect(0, 0, image.naturalWidth, image.naturalHeight);
-    context.drawImage(
-      image,
-      faceDetail.BoundingBox.Left * image.naturalWidth, // source image: left
-      faceDetail.BoundingBox.Top * image.naturalHeight, // source image: top
-      faceDetail.BoundingBox.Width * image.naturalWidth, // source image: width
-      faceDetail.BoundingBox.Height * image.naturalHeight, // source image: height
-      0, // destination canvas: left
-      0, // destination canvas: top
-      faceDetail.BoundingBox.Width * image.naturalWidth, // destination canvas: width
-      faceDetail.BoundingBox.Height * image.naturalHeight, // destination canvas: height
-    );
-    let imageUrl: string;
-    // toBlob 是非同步行為，先包成 promise
-    const promise = new Promise<void>((resolve) => {
-      canvas.toBlob((blob: any) => {
-        console.log(blob);
-        imageUrl = URL.createObjectURL(blob);
-        resolve();
-      }, 'image/png');
-    });
+    const drawGreenCircle = () => {
+      canvas.width = faceDetail.BoundingBox.Width * image.naturalWidth;
+      canvas.height = faceDetail.BoundingBox.Height * image.naturalHeight;
 
-    promise
-      .then(() => {
-        resolve(imageUrl);
-      })
-      .catch((error) => {
-        reject(error);
-      });
+      context.drawImage(
+        image,
+        faceDetail.BoundingBox.Left * image.naturalWidth, // source image: left
+        faceDetail.BoundingBox.Top * image.naturalHeight, // source image: top
+        faceDetail.BoundingBox.Width * image.naturalWidth, // source image: width
+        faceDetail.BoundingBox.Height * image.naturalHeight, // source image: height
+        0, // destination canvas: left
+        0, // destination canvas: top
+        faceDetail.BoundingBox.Width * image.naturalWidth, // destination canvas: width
+        faceDetail.BoundingBox.Height * image.naturalHeight, // destination canvas: height
+      );
+
+      // Draw the green circle
+      if (marksUsed.length !== 0) {
+        const usedLandmarks = faceDetail.Landmarks.filter(
+          (landmark: { Type: string; X: number; Y: number }) =>
+            marksUsed.includes(landmark.Type),
+        );
+
+        usedLandmarks.forEach((usedLandmark: { X: number; Y: number }) => {
+          context.beginPath();
+          context.arc(
+            usedLandmark.X * image.naturalWidth -
+              faceDetail.BoundingBox.Left * image.naturalWidth,
+            usedLandmark.Y * image.naturalHeight -
+              faceDetail.BoundingBox.Top * image.naturalHeight,
+            4,
+            0,
+            2 * Math.PI,
+          );
+          context.fillStyle = '#90EE90';
+          context.fill();
+        });
+      }
+
+      // Convert the canvas to a new image URL
+      const newImageUrl = canvas.toDataURL('image/png');
+      resolve(newImageUrl);
+    };
+
+    image.onload = drawGreenCircle;
+    image.onerror = reject;
+    image.src = imageSrc;
   });
 };
 
