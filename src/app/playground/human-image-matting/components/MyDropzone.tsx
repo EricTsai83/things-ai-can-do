@@ -54,7 +54,6 @@ const MyDropzone: React.FC = () => {
     const respond = await huggingFaceApi.getImageSegmentation(data);
     console.log(respond);
     setApiData(respond);
-    console.log(1);
   }
 
   async function addBackgroundMaskToImage() {
@@ -90,15 +89,10 @@ const MyDropzone: React.FC = () => {
     }
   }
 
-  // async function removeBackground() {
-  //   const res = await getImageSegmentation(imageBlob);
-  //   console.log(res);
-  // }
-
   return (
     <div>
       <div // dropzone
-        className="object-contain border-dashed border-2 border-black w-[900px] h-[600px] flex justify-center items-center relative"
+        className="relative flex h-[600px] w-[900px] items-center justify-center border-2 border-dashed border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
@@ -135,7 +129,7 @@ const MyDropzone: React.FC = () => {
         />
       </div>
       <div // small image preview
-        className="border-black w-[900px] h-20 flex justify-center items-center">
+        className="flex h-20 w-[900px] items-center justify-center border-black">
         {apiData &&
           apiData.map((data: any, idx: any) => {
             return (
@@ -147,7 +141,7 @@ const MyDropzone: React.FC = () => {
                 key={idx}
                 src={`data:image/png;base64,${data.mask}`} // next js required
                 alt=""
-                className="border border-black mr-2 cursor-pointer"
+                className="mr-2 cursor-pointer border border-black"
                 width={80}
                 height={80}
               />
@@ -156,14 +150,14 @@ const MyDropzone: React.FC = () => {
       </div>
 
       <button
-        className="border bg-zinc-300 w-[200px] h-[40px]"
+        className="h-[40px] w-[200px] border bg-zinc-300"
         onClick={(): void => {
           getImageSegmentation(imageBlob);
         }}>
         1. 打API
       </button>
       <button
-        className="border bg-zinc-300 w-[200px] h-[40px]"
+        className="h-[40px] w-[200px] border bg-zinc-300"
         onClick={addBackgroundMaskToImage}>
         將 mask 白色部分變成透明灰色，黑色變成完全透明，然後蓋上圖片
       </button>

@@ -8,6 +8,22 @@
 // // If `OPTIONS` is not defined, Next.js will automatically implement `OPTIONS` and  set the appropriate Response `Allow` header depending on the other methods defined in the route handler.
 // export async function OPTIONS(request: Request) {}
 
-export async function GET(request: Request) {
-  return new Response('This is a new API route for testing.');
+import { NextResponse, NextRequest } from 'next/server';
+
+// export async function GET(request: NextRequest, { params }: any) {
+//   const name = request.nextUrl.searchParams.get('name');
+//   const age = request.nextUrl.searchParams.get('age');
+//   return NextResponse.json({ name, age });
+// }
+export async function GET(request: NextRequest, { params }: any) {
+  const authHeader = request.headers.get('Authorization');
+  const cookie = request.cookies.get('foo');
+  return NextResponse.json({ authHeader, cookie });
+}
+
+export async function POST(request: NextRequest, { params }: any) {
+  const body = request.body;
+  console.log(body);
+
+  return NextResponse.json(body);
 }

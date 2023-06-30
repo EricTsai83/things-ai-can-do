@@ -1,9 +1,8 @@
 // Declares the UI for the audio recorder components
 // Receives microphone permissions from the browser using the getMicrophonePermission function
 // Sets MediaStream received from the navigator.mediaDevices.getUserMedia function to the stream state variable (we’ll get to using that soon)
-import {useState, useRef} from 'react';
+import { useState, useRef } from 'react';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import dataURItoBlob from '@/utils/dataURItoBlob';
 
 const mimeType = 'audio/webm';
 
@@ -36,7 +35,7 @@ const AudioRecorder = (): JSX.Element => {
   const startRecording = (): void => {
     setRecordingStatus('recording');
     // create new MediaRecorder instance using the stream and mimeType
-    const media = new MediaRecorder(stream!, {mimeType});
+    const media = new MediaRecorder(stream!, { mimeType });
     // set the MediaRecorder instance to the mediaRecorder ref
     mediaRecorder.current = media;
     // invokes the start method to start the recording process
@@ -56,7 +55,7 @@ const AudioRecorder = (): JSX.Element => {
     mediaRecorder.current!.stop();
     mediaRecorder.current!.onstop = () => {
       // creates a blob file from the audiochunks data
-      const audioBlob = new Blob(audioChunks, {type: mimeType});
+      const audioBlob = new Blob(audioChunks, { type: mimeType });
       setAudioBlobData(audioBlob);
       // creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);

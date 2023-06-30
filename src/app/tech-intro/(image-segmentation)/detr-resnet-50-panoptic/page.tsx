@@ -1,11 +1,11 @@
 'use client';
 import { useState, useRef } from 'react';
 import { useImmer } from 'use-immer';
-import huggingFaceApi from '@/utils/hugging-face-api';
 import Image from 'next/image'; // the img element will automatically be assigned the position: "absolute" style.
 import ColorMask from './components/ColorMask';
 import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import Mask from './components/Mask';
+import huggingFaceApi from '@/utils/hugging-face-api';
 
 const Page: React.FC = () => {
   // 1. 取得照片的 blob
@@ -20,7 +20,6 @@ const Page: React.FC = () => {
   const [maskUniqueColors, setMaskUniqueColors] = useState<any>();
 
   async function getImageSegmentation(data: any) {
-    console.log(data);
     const respond = await huggingFaceApi.getImageSegmentation(data);
     console.log(respond);
     setMasks((draft: any) => {
@@ -67,8 +66,6 @@ const Page: React.FC = () => {
       setImageSrc(imageUrl);
       setDroppedImages((prevImages) => [...prevImages, imageUrl]);
       event.target.value = ''; // Reset the file input field
-
-      // getImageSegmentation(imageFile);
     }
   };
 
@@ -78,14 +75,10 @@ const Page: React.FC = () => {
     console.log('set color completed');
   };
 
-  // const getUniqueColors = useCallback(() => {
-  //   setUniqueColorsInPNG();
-  // }, [imageSrc, setUniqueColorsInPNG]);
-
   return (
     <div>
       <div
-        className="object-contain border-dashed border-2 border-black w-[900px] h-[600px] flex justify-center items-center relative"
+        className="relative flex h-[600px] w-[900px] items-center justify-center border-2 border-dashed border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
@@ -110,13 +103,13 @@ const Page: React.FC = () => {
           className="absolute -left-full"
         />
       </div>
-      <div className="border-black w-[900px] h-20 flex justify-center items-center">
+      <div className="flex h-20 w-[900px] items-center justify-center border-black">
         {droppedImages.map((imageUrl, index) => (
           <Image
             key={index}
             src={imageUrl} // next js required
             alt={`Small Image ${index + 1}`} // next js required
-            className="border border-black mr-2 cursor-pointer"
+            className="mr-2 cursor-pointer border border-black"
             width={80}
             height={80}
             onClick={() => handleSmallImageClick(imageUrl)}
@@ -124,7 +117,7 @@ const Page: React.FC = () => {
         ))}
       </div>
       <button
-        className="border border-gray-500 w-[100px] h-[100px]"
+        className="h-[100px] w-[100px] border border-gray-500"
         onClick={() => {
           getImageSegmentation(imageBlob[imageSrc]);
         }}>
@@ -132,7 +125,7 @@ const Page: React.FC = () => {
       </button>
 
       <div
-        className="bg-cyan-300 w-[80px] h-[40px]"
+        className="h-[40px] w-[80px] bg-cyan-300"
         onClick={setUniqueColorsInPNG}>
         點我上色彩
       </div>

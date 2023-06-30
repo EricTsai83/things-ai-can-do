@@ -9,7 +9,7 @@ const ImageDragAndDrop: React.FC = () => {
 
   async function getCatsAndDogClassifier(data: any) {
     console.log(data);
-    const respond = await huggingFaceApi.getCatsAndDogClassifier(data);
+    const respond = await huggingFaceApi.getCatsAndDogClass(data);
     console.log(respond);
   }
 
@@ -51,7 +51,7 @@ const ImageDragAndDrop: React.FC = () => {
   return (
     <div>
       <div
-        className="border-dashed border-2 border-black w-72 h-72 flex justify-center items-center relative"
+        className="relative flex h-72 w-72 items-center justify-center border-2 border-dashed border-black"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
@@ -59,7 +59,7 @@ const ImageDragAndDrop: React.FC = () => {
           <Image
             src={imageSrc}
             alt="Image"
-            className="object-contain w-full h-full absolute top-0 left-0"
+            className="absolute left-0 top-0 h-full w-full object-contain"
             width={600}
             height={600}
           />
@@ -73,13 +73,13 @@ const ImageDragAndDrop: React.FC = () => {
           className="absolute -left-full"
         />
       </div>
-      <div className="flex justify-start items-center mt-4">
+      <div className="mt-4 flex items-center justify-start">
         {droppedImages.map((imageUrl, index) => (
           <Image
             key={index}
             src={imageUrl}
             alt={`Small Image ${index + 1}`}
-            className="w-12 h-12 border border-black mr-2 cursor-pointer"
+            className="mr-2 h-12 w-12 cursor-pointer border border-black"
             onClick={() => handleSmallImageClick(imageUrl)}
             width={600}
             height={600}

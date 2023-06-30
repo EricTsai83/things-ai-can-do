@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const res = await fetch(
     'https://bq37u9xc0k.execute-api.us-west-2.amazonaws.com/prod/rekognition',
@@ -15,18 +15,7 @@ export async function POST(request: Request) {
       }),
     },
   );
-  // console.log(res);
 
   const data = await res.json();
-
   return NextResponse.json(data);
-
-  // const body = await request.json();
-  // console.log(body);
-  // request.headers.get('Authorization');
 }
-
-// export async function POST(request: Request) {
-//   const body = await request.json();
-//   return new Response('This is a new API route for testing.');
-// }

@@ -1,6 +1,6 @@
-'use client'; // This is a client component
+'use client';
+import { useState, useRef } from 'react';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import {useState, useRef} from 'react';
 
 interface Output {
   [key: string]: string;
@@ -24,7 +24,12 @@ export default function Content() {
   async function getChineseWs() {
     try {
       if (textForWs.current) {
-        const postData = {inputs: textForWs.current.value};
+        const postData = {
+          inputs: textForWs.current.value,
+          options: {
+            wait_for_model: true,
+          },
+        };
         const answer = await huggingFaceApi.getChineseWs(postData);
         setWsOutput(answer);
       }
@@ -37,7 +42,12 @@ export default function Content() {
   async function getChinesePos() {
     try {
       if (textForPos.current) {
-        const postData = {inputs: textForPos.current.value};
+        const postData = {
+          inputs: textForPos.current.value,
+          options: {
+            wait_for_model: true,
+          },
+        };
         const answer = await huggingFaceApi.getChinesePos(postData);
         setPosOutput(answer);
       }
@@ -50,7 +60,12 @@ export default function Content() {
   async function getChineseNer() {
     try {
       if (textForNer.current) {
-        const postData = {inputs: textForNer.current.value};
+        const postData = {
+          inputs: textForNer.current.value,
+          options: {
+            wait_for_model: true,
+          },
+        };
         const answer = await huggingFaceApi.getChineseNer(postData);
         setNerOutput(answer);
       }
@@ -60,7 +75,7 @@ export default function Content() {
     }
   }
 
-  async function getChineseQA() {
+  async function getChineseQa() {
     try {
       if (textForContext.current && textForQuestion.current) {
         const postData = {
@@ -68,8 +83,11 @@ export default function Content() {
             question: textForQuestion.current.value,
             context: textForContext.current.value,
           },
+          options: {
+            wait_for_model: true,
+          },
         };
-        const answer = await huggingFaceApi.getChineseQA(postData);
+        const answer = await huggingFaceApi.getChineseQa(postData);
         setQaOutput(answer);
       }
     } catch (err) {
@@ -140,7 +158,7 @@ export default function Content() {
         <button
           onClick={() => {
             if (textForContext.current && textForQuestion.current) {
-              getChineseQA();
+              getChineseQa();
               console.log('QA fetch completed.');
             }
           }}>
@@ -158,11 +176,11 @@ export default function Content() {
       <button
         disabled
         type="button"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+        className="mr-2 inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         <svg
           aria-hidden="true"
           role="status"
-          className="inline w-4 h-4 mr-3 text-white animate-spin"
+          className="mr-3 inline h-4 w-4 animate-spin text-white"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg">
