@@ -1,11 +1,11 @@
 'use client';
-import huggingFaceApi from '@/utils/hugging-face-api';
 import { useState, useRef, useCallback } from 'react';
 import PuzzleLayout from './components/PuzzleLayout';
 import ImagePuzzle from './components/ImagePuzzle';
 import Image from 'next/image';
 import splitImage from '@/utils/split-image';
 import { useImmer } from 'use-immer';
+import huggingFaceApi from '@/utils/hugging-face-api';
 
 export default function Content() {
   const textForDiffusion = useRef<HTMLInputElement>(null);
@@ -16,7 +16,12 @@ export default function Content() {
   async function getStableDiffusionImage() {
     try {
       if (textForDiffusion.current) {
-        const postData = { inputs: textForDiffusion.current.value };
+        const postData = {
+          inputs: textForDiffusion.current.value,
+          options: {
+            wait_for_model: true,
+          },
+        };
         const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
         const imgUrl = URL.createObjectURL(myBlob);
         setImageUrl(imgUrl);

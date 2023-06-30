@@ -1,7 +1,7 @@
 import { Stage, Layer, Line, Text } from 'react-konva';
 import Konva from 'konva';
 import { useState, useRef } from 'react';
-import api from '@/utils/hugging-face-api';
+import huggingFaceApi from '@/utils/hugging-face-api';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 
 interface LineData {
@@ -74,7 +74,7 @@ function Canvas({ tool }: CanvasProps) {
 
     const uri = stage.toDataURL();
     const blobData = dataURItoBlob(uri);
-    const respond = await api.getSketchClassifier(blobData);
+    const respond = await huggingFaceApi.getSketchClassifier(blobData);
     console.log(respond);
   }
 
