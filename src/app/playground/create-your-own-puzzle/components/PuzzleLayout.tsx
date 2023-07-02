@@ -1,6 +1,12 @@
 'use client';
 import { useImmer } from 'use-immer';
-import { useState, useEffect, useRef, DragEventHandler } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  DragEventHandler,
+  useCallback,
+} from 'react';
 
 const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   let initialStates: any = [
@@ -21,7 +27,11 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   const [score, setScore] = useState(null);
   const initialRef = useRef(true);
 
-  function shuffleArray() {
+  // function shuffleArray() {
+
+  // }
+
+  const shuffleArray = useCallback(() => {
     let newArray = imageArrangement.map((e: any) => e);
 
     let length = newArray.length;
@@ -31,7 +41,7 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
       newArray.push(randomitemArray[0]);
     }
     setImageArrangement(newArray);
-  }
+  }, []);
 
   useEffect(() => {
     initialRef.current && shuffleArray();
@@ -96,20 +106,20 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   };
 
   return (
-    <div className="w-[602px] grid grid-cols-3 gap-px">
+    <div className="grid w-[602px] grid-cols-3 gap-px">
       {imageArrangement.map((element: any, idx: any) => {
         return (
           <div
             key={idx}
-            className="w-[200px] h-[200px] relative
-            transition ease-in-out delay-150
-            hover:-translate-y-1 hover:scale-110
-            duration-300 
+            className="relative h-[200px] w-[200px]
+            transition delay-150 duration-300
+            ease-in-out hover:-translate-y-1
+            hover:scale-110 
             ">
             <div
               data-dataid={element.dataId}
               data-positionid={idx}
-              className="absolute inset-0 bg-no-repeat bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(${imageUrl})`,
                 backgroundPosition: element.style,
