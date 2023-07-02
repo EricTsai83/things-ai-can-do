@@ -1,45 +1,37 @@
-import { useState } from 'react';
+import type { FaceDetail } from '../types';
 
-const FacialRecognition = ({ faceDetails }: any) => {
+function FacialRecognition({
+  faceAnalysis,
+}: {
+  faceAnalysis: FaceDetail | null;
+}) {
   return (
     <>
-      {faceDetails &&
-        faceDetails.map((faceDetail: any) => {
-          return (
-            '年齡: ' +
-            faceDetail.AgeRange.Low.toString() +
-            '~' +
-            faceDetail.AgeRange.High.toString() +
-            '鬍子' +
-            faceDetail.Beard.Value.toString() +
-            '心情' +
-            faceDetail.Emotions.toString() +
-            '眼鏡' +
-            faceDetail.Eyeglasses.Value.toString() +
-            '眼睛張開' +
-            faceDetail.EyesOpen.Value.toString() +
-            '眼睛鼻子與嘴角是否有被偵測' + // FaceOccluded should return "true" with a high confidence score if a detected face’s eyes, nose, and mouth are partially captured
-            faceDetail.FaceOccluded.Value.toString() +
-            '性別' +
-            faceDetail.Gender.Value.toString() +
-            '張開嘴巴' +
-            faceDetail.MouthOpen.Value.toString() +
-            '鬍子' +
-            faceDetail.Mustache.Value.toString() +
-            '上下仰角' +
-            faceDetail.Pose.Pitch.toString() +
-            '整顆頭右偏左偏' +
-            faceDetail.Pose.Roll.toString() +
-            '臉右轉左轉' +
-            faceDetail.Pose.Yaw.toString() +
-            '有沒有笑' +
-            faceDetail.Smile.Value.toString() +
-            '太陽眼鏡' +
-            faceDetail.Sunglasses.Value.toString()
-          );
-        })}
+      {faceAnalysis && (
+        <div>
+          <div>
+            年齡: {faceAnalysis.AgeRange.Low} ~ {faceAnalysis.AgeRange.High}
+          </div>
+          <div>鬍子: {faceAnalysis.Beard.Value}</div>
+          <div>眼鏡: {faceAnalysis.Eyeglasses.Value.toString()}</div>
+          <div>眼睛張開: {faceAnalysis.EyesOpen.Value.toString()}</div>
+          <div>
+            {/* // FaceOccluded should return "true" with a high confidence score if a detected face’s eyes, nose, and mouth are partially captured */}
+            眼睛鼻子與嘴角是否有被偵測:{' '}
+            {faceAnalysis.FaceOccluded.Value.toString()}
+          </div>
+          <div>性別: {faceAnalysis.Gender.Value.toString()}</div>
+          <div>張開嘴巴: {faceAnalysis.MouthOpen.Value.toString()}</div>
+          <div>鬍子: {faceAnalysis.Mustache.Value.toString()}</div>
+          <div>上下仰角: {faceAnalysis.Pose.Pitch.toString()}</div>
+          <div>整顆頭右偏左偏: {faceAnalysis.Pose.Roll.toString()}</div>
+          <div>臉右轉左轉: {faceAnalysis.Pose.Yaw.toString()}</div>
+          <div>有沒有笑: {faceAnalysis.Smile.Value.toString()}</div>
+          <div>太陽眼鏡: {faceAnalysis.Sunglasses.Value.toString()}</div>
+        </div>
+      )}
     </>
   );
-};
+}
 
 export default FacialRecognition;

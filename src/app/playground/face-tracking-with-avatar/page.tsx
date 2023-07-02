@@ -27,7 +27,7 @@ const options: FaceLandmarkerOptions = {
   outputFacialTransformationMatrixes: true,
 };
 
-function App() {
+function Page() {
   const [blendshapes, setBlendshapes] = useState<Category[]>([]);
   const [rotation, setRotation] = useState<Euler>();
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -57,7 +57,7 @@ function App() {
   //   },
   // });
 
-  const setup = async () => {
+  async function setup() {
     const filesetResolver = await FilesetResolver.forVisionTasks(
       'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
     );
@@ -76,7 +76,7 @@ function App() {
         video.srcObject = stream;
         video.addEventListener('loadeddata', predict);
       });
-  };
+  }
 
   async function drawMaskOnWebcam() {
     const videoWidth = 200;
@@ -154,7 +154,7 @@ function App() {
     }
   }
 
-  const predict = async () => {
+  async function predict() {
     await drawMaskOnWebcam();
 
     let nowInMs = Date.now();
@@ -182,7 +182,7 @@ function App() {
     }
 
     window.requestAnimationFrame(predict);
-  };
+  }
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key !== 'Enter') return;
@@ -245,4 +245,4 @@ function App() {
   );
 }
 
-export default App;
+export default Page;

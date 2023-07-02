@@ -4,12 +4,12 @@ import * as posenet from '@tensorflow-models/posenet';
 import Webcam from 'react-webcam';
 import { drawKeypoints, drawSkeleton } from './utils';
 
-function App(): JSX.Element {
+function Page() {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const runPosenet = async (): Promise<void> => {
+    async function runPosenet(): Promise<void> {
       const modelConfig: posenet.ModelConfig = {
         architecture: 'MobileNetV1',
         outputStride: 16,
@@ -21,9 +21,9 @@ function App(): JSX.Element {
       setInterval(() => {
         detect(net);
       }, 100);
-    };
+    }
 
-    const detect = async (net: posenet.PoseNet): Promise<void> => {
+    async function detect(net: posenet.PoseNet): Promise<void> {
       if (
         typeof webcamRef.current !== 'undefined' &&
         webcamRef.current !== null &&
@@ -41,7 +41,7 @@ function App(): JSX.Element {
 
         drawCanvas(pose, video, videoWidth, videoHeight);
       }
-    };
+    }
 
     const drawCanvas = (
       pose: posenet.Pose,
@@ -100,4 +100,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default Page;

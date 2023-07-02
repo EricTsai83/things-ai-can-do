@@ -1,13 +1,30 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import { useImmer } from 'use-immer';
 import convertImageToBase64 from '@/utils/convert-image-to-base64';
+import type { FaceDetail } from '../types';
+import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
 
-const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
-  const [imageSrcRecords, setImageSrcRecords] = useState<any>([]);
+interface Props {
+  faceDetails: FaceDetail[] | null;
+  setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
+  imageSrc: string | null;
+  setImageSrc: Dispatch<SetStateAction<string | null>>;
+}
+
+function MyDropzone({
+  faceDetails,
+  setFaceDetails,
+  imageSrc,
+  setImageSrc,
+}: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageBase64String, setImageBase64String] = useImmer<any>({});
+  const [marksUsed, setMarksUsed] = useState<string[]>([]);
+  const [landmarks, setLandmarks] = useState<string[]>();
+  const [canvasUrls, setCanvasUrls] = useState<string | null>(null); // 存畫圖的url
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -19,8 +36,9 @@ const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
       setImageBase64String((draft: any) => {
         draft[imageUrl] = base64String;
       });
+      setFaceDetails(null);
+      setCanvasUrls(null);
       setImageSrc(imageUrl);
-      setImageSrcRecords((prev: any) => [...prev, imageUrl]);
     }
   };
 
@@ -42,7 +60,6 @@ const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
       });
       setImageSrc(imageUrl);
       event.target.value = '';
-      setImageSrcRecords((prev: any) => [...prev, imageUrl]);
     }
   };
 
@@ -54,6 +71,35 @@ const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
     const facialRecoRes = await res.json();
     console.log(facialRecoRes);
     setFaceDetails(facialRecoRes.Tags.FaceDetails);
+
+    const marks = await facialRecoRes.Tags.FaceDetails[0].Landmarks.map(
+      (landmark: any) => landmark.Type,
+    );
+    setLandmarks(marks);
+  }
+
+  async function asyncDrawFacialResultOnImg(faceDetails: FaceDetail[]) {
+    console.log(marksUsed);
+    if (imageSrc && faceDetails) {
+      const newImageUrl = await drawFacialResultOnImg(
+        imageSrc,
+        faceDetails,
+        marksUsed,
+      );
+      setCanvasUrls(newImageUrl);
+    }
+  }
+
+  async function handleChange(event: ChangeEvent) {
+    const target = event.target as HTMLInputElement;
+    const itemName = target.name;
+    const isChecked = target.checked;
+
+    if (isChecked) {
+      setMarksUsed((prev) => [...prev, itemName]);
+    } else {
+      setMarksUsed((prev) => prev.filter((item) => item !== itemName));
+    }
   }
 
   return (
@@ -67,7 +113,7 @@ const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
           <div className="absolute">
             <Image
               className="h-auto max-h-[600px] w-auto max-w-[900px]"
-              src={imageSrc}
+              src={canvasUrls ? canvasUrls : imageSrc}
               alt="Image"
               width={0}
               height={0}
@@ -84,37 +130,43 @@ const MyDropzone = ({ setFaceDetails, imageSrc, setImageSrc }: any) => {
           className="absolute -left-full"
         />
       </div>
-      <div // small image preview
-        className="flex h-[80px] w-[900px] items-center justify-center border-black">
-        {imageSrcRecords &&
-          imageSrcRecords.map((imageSrc: any, idx: any) => {
-            return (
-              <Image
-                className="mr-2 h-auto w-[80px] cursor-pointer border border-black"
-                onClick={() => {
-                  setImageSrc(imageSrc);
-                }}
-                key={idx}
-                src={imageSrc} // next js required
-                alt=""
-                // className="border border-black mr-2 cursor-pointer"
-                width={0}
-                height={0}
-              />
-            );
-          })}
-      </div>
 
       <button
         className="h-[40px] w-[200px] border bg-zinc-300"
         onClick={(): void => {
           console.log('正在打...');
-          getFacialRecognition(imageBase64String[imageSrc]);
+          imageSrc && getFacialRecognition(imageBase64String[imageSrc]);
         }}>
         打API
       </button>
+
+      <fieldset>
+        <legend>點我選臉部偵測點</legend>
+        {landmarks &&
+          landmarks.map((landmark) => {
+            return (
+              <div key={`${landmark}`}>
+                <input
+                  type="checkbox"
+                  id={landmark}
+                  name={landmark}
+                  onChange={(e) => handleChange(e)}
+                />
+                <label htmlFor={landmark}>{landmark}</label>
+              </div>
+            );
+          })}
+      </fieldset>
+
+      <button
+        className="border bg-slate-400"
+        onClick={async () => {
+          faceDetails && (await asyncDrawFacialResultOnImg(faceDetails));
+        }}>
+        在我臉上畫個龍
+      </button>
     </div>
   );
-};
+}
 
 export default MyDropzone;

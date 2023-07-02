@@ -1,8 +1,4 @@
-const drawBoundingBoxOnFace = (
-  imageSrc: string,
-  faceDetail: any,
-  marksUsed: string[],
-): Promise<string> => {
+const cutFaceOnImage = (imageSrc: string, faceDetail: any): Promise<string> => {
   return new Promise((resolve, reject) => {
     const image = new Image();
     const canvas = document.createElement('canvas');
@@ -24,29 +20,6 @@ const drawBoundingBoxOnFace = (
         faceDetail.BoundingBox.Height * image.naturalHeight, // destination canvas: height
       );
 
-      // Draw the green circle
-      if (marksUsed.length !== 0) {
-        const usedLandmarks = faceDetail.Landmarks.filter(
-          (landmark: { Type: string; X: number; Y: number }) =>
-            marksUsed.includes(landmark.Type),
-        );
-
-        usedLandmarks.forEach((usedLandmark: { X: number; Y: number }) => {
-          context.beginPath();
-          context.arc(
-            usedLandmark.X * image.naturalWidth -
-              faceDetail.BoundingBox.Left * image.naturalWidth,
-            usedLandmark.Y * image.naturalHeight -
-              faceDetail.BoundingBox.Top * image.naturalHeight,
-            4,
-            0,
-            2 * Math.PI,
-          );
-          context.fillStyle = '#90EE90';
-          context.fill();
-        });
-      }
-
       // Convert the canvas to a new image URL
       const newImageUrl = canvas.toDataURL('image/png');
       resolve(newImageUrl);
@@ -58,4 +31,4 @@ const drawBoundingBoxOnFace = (
   });
 };
 
-export default drawBoundingBoxOnFace;
+export default cutFaceOnImage;

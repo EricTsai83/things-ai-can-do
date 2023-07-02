@@ -1,77 +1,70 @@
 'use client';
-import { useEffect, useState, useCallback } from 'react';
-import { FaceDetail } from '../page';
+import { useState } from 'react';
 import Image from 'next/image';
-import drawBoundingBoxOnFace from '@/utils/draw-bounding-box-on-face';
-import { Event } from 'three';
+import cutFaceOnImage from '@/utils/cut-face-on-image';
+import type { FaceDetail } from '../types';
+import FacialRecognition from './FacialRecognition';
+import MoodPieChart from './MoodPieChart';
 
-const ImageMask = ({ imageSrc, faceDetails }: any) => {
-  const [faceUrls, setFaceUrls] = useState<string | null>(null);
-  const [landmarks, setLandmarks] = useState<any>();
-  const [marksUsed, setMarksUsed] = useState<any>([]);
+interface Props {
+  faceDetails: FaceDetail[] | null;
+  imageSrc: string | null;
+}
 
-  async function asyncDrawBoundingBoxOnFace() {
-    const imageUrls = await drawBoundingBoxOnFace(
-      imageSrc,
-      faceDetails[0],
-      marksUsed,
-    );
+function ImageMask({ imageSrc, faceDetails }: Props) {
+  const [faceUrls, setFaceUrls] = useState<string[]>([]);
+  const [faceAnalysis, setFaceAnalysis] = useState<any>();
 
-    setFaceUrls(imageUrls);
-    const marks = faceDetails.map((faceDetail: any) => faceDetail.Landmarks);
-    setLandmarks(marks);
+  async function asyncCutFaceOnImage(faceDetail: FaceDetail) {
+    if (imageSrc && faceDetail) {
+      const faceImageUrl = await cutFaceOnImage(imageSrc, faceDetail);
+      setFaceUrls((prev) => [...prev, faceImageUrl]);
+    }
   }
 
-  async function handleChange(e: Event) {
-    const itemName = e.target.name;
-    const isChecked = e.target.checked;
-
-    if (isChecked) {
-      setMarksUsed((prev: any) => [...prev, itemName]);
-    } else {
-      setMarksUsed((prev: any) =>
-        prev.filter((item: string) => item !== itemName),
-      );
-    }
+  async function showFaceAnalysisResult(idx: number) {
+    console.log(idx);
+    faceDetails && setFaceAnalysis(faceDetails[idx]);
   }
 
   return (
     <>
-      {faceUrls && <Image src={faceUrls} alt="" width={150} height={150} />}
       <button
         className="border bg-slate-400"
-        onClick={asyncDrawBoundingBoxOnFace}>
-        點我畫 Bounding Box
-      </button>
-      <button
-        className="border bg-slate-400"
-        onClick={asyncDrawBoundingBoxOnFace}>
-        我來看看點了哪些
-      </button>
+        onClick={() => {
+          setFaceUrls([]);
 
-      <fieldset>
-        <legend>點我選臉部偵測點</legend>
-        {landmarks &&
-          landmarks.map((landmark: any, idx1: any) => {
-            return landmark.map((faceItem: any, idx2: any) => {
-              return (
-                <div key={`${idx1}_${idx2}`}>
-                  <input
-                    type="checkbox"
-                    id={faceItem.Type}
-                    name={faceItem.Type}
-                    onChange={async (e) => {
-                      await handleChange(e);
-                    }}
-                  />
-                  <label htmlFor={faceItem.Type}>{faceItem.Type}</label>
-                </div>
-              );
-            });
-          })}
-      </fieldset>
+          // 在这个示例中，我们使用array.reduce方法来遍历数组，并在每个元素上执行异步函数asyncFunction。
+          // reduce方法的回调函数接收两个参数：previousPromise和data。previousPromise表示前一个异步
+          // 函数的返回值，而data则是当前元素的值。我们使用await previousPromise来等待前一个异步函数的完成
+          // ，然后使用await asyncFunction(data)来执行当前元素对应的异步函数。
+          // 通过这种方式，你可以确保异步函数按照数组中的顺序依次执行，并且每个异步函数都使用相应的数据作为输入。
+
+          faceDetails &&
+            faceDetails.reduce(async (previousPromise, faceDetail) => {
+              await previousPromise;
+              await asyncCutFaceOnImage(faceDetail);
+            }, Promise.resolve());
+        }}>
+        點我看詳情
+      </button>
+      {faceUrls &&
+        faceUrls.map((faceUrl, idx) => {
+          return (
+            <Image
+              onClick={() => showFaceAnalysisResult(idx)}
+              key={idx}
+              src={faceUrl}
+              alt=""
+              width={100}
+              height={100}
+            />
+          );
+        })}
+      {faceAnalysis && <FacialRecognition faceAnalysis={faceAnalysis} />}
+      <MoodPieChart faceAnalysis={faceAnalysis} />
     </>
   );
-};
+}
 
 export default ImageMask;
