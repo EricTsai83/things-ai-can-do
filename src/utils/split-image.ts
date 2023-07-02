@@ -1,8 +1,8 @@
-interface TileObject {
+export interface TileObject {
   [key: string]: string;
 }
 
-const splitImage = (dataUrl: any): Promise<TileObject> => {
+const splitImage = (dataUrl: string): Promise<TileObject> => {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.src = dataUrl;
@@ -36,8 +36,8 @@ const splitImage = (dataUrl: any): Promise<TileObject> => {
         );
 
         const promise = new Promise<void>((resolve) => {
-          canvas.toBlob((blob: any) => {
-            const objectUrl = URL.createObjectURL(blob);
+          canvas.toBlob((blob) => {
+            const objectUrl = URL.createObjectURL(blob!);
             tileObj[`piece_${row}_${col}`] = objectUrl;
             resolve();
           }, 'image/png');
