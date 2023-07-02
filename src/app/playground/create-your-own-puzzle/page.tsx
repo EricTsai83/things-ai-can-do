@@ -39,7 +39,7 @@ export default function Content() {
       console.log(tileObj);
       setImgBlobs(tileObj);
     },
-    [imageUrl, setImgBlobs],
+    [setImgBlobs],
   );
 
   return (

@@ -78,7 +78,7 @@ const ColorMask: React.FC = ({ segmentations, maskUniqueColors }: any) => {
       console.log(arrays);
       setPngStrAfterColorChange(arrays);
     }
-  }, [maskUniqueColors]);
+  }, [segmentations, maskUniqueColors]);
 
   return (
     <div className="relative z-10">
