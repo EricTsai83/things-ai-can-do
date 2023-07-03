@@ -1,6 +1,6 @@
 import MyDropzone from './components/MyDropzone';
 
-function imageMatting() {
+function Page() {
   return (
     <>
       <MyDropzone />
@@ -8,4 +8,4 @@ function imageMatting() {
   );
 }
 
-export default imageMatting;
+export default Page;

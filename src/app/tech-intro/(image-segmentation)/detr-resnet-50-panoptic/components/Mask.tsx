@@ -1,10 +1,12 @@
 'use client';
 import Image from 'next/image';
-const Mask: React.FC = ({ segmentations }: any) => {
+import { Respond } from '../page';
+
+function Mask({ segmentations }: { segmentations: Respond[] }) {
   return (
     <div className="flex flex-row gap-x-10">
       {segmentations &&
-        segmentations.map((segmentation: any, id: any) => {
+        segmentations.map((segmentation: Respond, id: number) => {
           return (
             <Image
               key={id}
@@ -18,6 +20,6 @@ const Mask: React.FC = ({ segmentations }: any) => {
         })}
     </div>
   );
-};
+}
 
 export default Mask;

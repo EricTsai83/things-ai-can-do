@@ -34,10 +34,6 @@ function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
   const [score, setScore] = useState(0);
   const initialRef = useRef(true);
 
-  // function shuffleArray() {
-
-  // }
-
   const shuffleArray = useCallback(() => {
     let newArray = imageArrangement.map((element) => element);
 
@@ -77,7 +73,7 @@ function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
     setTileBeingReplaced(target);
   };
 
-  const dragEnd = () => {
+  const dragEnd: DragEventHandler<HTMLDivElement> = () => {
     if (tileBeingDragged && tileBeingReplaced) {
       const tileBeingDraggedId = parseInt(
         tileBeingDragged.getAttribute('data-positionid')!,
@@ -140,21 +136,16 @@ function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
               }}
               draggable="true"
               onDragStart={dragStart}
-              onDragOver={(e) => e.preventDefault()}
-              onDragEnter={(e) => e.preventDefault()}
-              onDragLeave={(e) => e.preventDefault()}
+              onDragOver={(event) => event.preventDefault()}
+              onDragEnter={(event) => event.preventDefault()}
+              onDragLeave={(event) => event.preventDefault()}
               onDrop={dragDrop}
               onDragEnd={dragEnd}
             />
           </div>
         );
       })}
-      <button
-        onClick={() => {
-          shuffleArray();
-        }}>
-        shuffle
-      </button>
+      <button onClick={shuffleArray}>shuffle</button>
       <div>{score}</div>
     </div>
   );

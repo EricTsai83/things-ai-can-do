@@ -1,3 +1,7 @@
+export interface UniqueColorsInPng {
+  [key: string]: { r: number; g: number; b: number; a: number };
+}
+
 function getUniqueColorsInPNG(pngString: any) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
@@ -33,11 +37,10 @@ function getUniqueColorsInPNG(pngString: any) {
         uniqueColors.add(colorString); // Convert color object to string for uniqueness
       }
       // `${red}_${green}_${blue}_${alpha}`
-      const output = {};
+      const output: UniqueColorsInPng = {};
       uniqueColors.forEach((uniqueColor: any) => {
         const value = JSON.parse(uniqueColor);
         const key = `${value.r}_${value.g}_${value.b}_${value.a}`;
-        // @ts-ignore
         output[key] = value;
       });
 

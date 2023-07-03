@@ -3,7 +3,7 @@ import useDragger from '@/hook/useDragger';
 import Image from 'next/image';
 import type { TileObject } from '@/utils/split-image';
 
-const ImagePuzzle = ({ imgBlobs }: { imgBlobs: TileObject }) => {
+function ImagePuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
   const zIndexCounter = useRef(1);
   const imgWidth = 200;
   const imgHeight = 200;
@@ -78,7 +78,7 @@ const ImagePuzzle = ({ imgBlobs }: { imgBlobs: TileObject }) => {
     }
   };
 
-  const renderPuzzlePieces = () => {
+  function renderPuzzlePieces() {
     const puzzlePieces = [];
 
     for (let i = 0; i < 3; i++) {
@@ -116,9 +116,9 @@ const ImagePuzzle = ({ imgBlobs }: { imgBlobs: TileObject }) => {
       }
     }
     return puzzlePieces;
-  };
+  }
 
-  const renderPuzzleTableCell = () => {
+  function renderPuzzleTableCell() {
     const gridItems = [];
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
@@ -139,7 +139,7 @@ const ImagePuzzle = ({ imgBlobs }: { imgBlobs: TileObject }) => {
     }
 
     return gridItems;
-  };
+  }
 
   return (
     <div
@@ -154,6 +154,6 @@ const ImagePuzzle = ({ imgBlobs }: { imgBlobs: TileObject }) => {
       {renderPuzzleTableCell()}
     </div>
   );
-};
+}
 
 export default ImagePuzzle;
