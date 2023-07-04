@@ -7,7 +7,7 @@ const ImageDragAndDrop: React.FC = () => {
   const [droppedImages, setDroppedImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  async function getCatsAndDogClassifier(data: any) {
+  async function getCatsAndDogClassifier(data: File) {
     console.log(data);
     const respond = await huggingFaceApi.getCatsAndDogClass(data);
     console.log(respond);
