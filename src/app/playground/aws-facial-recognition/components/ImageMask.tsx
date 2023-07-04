@@ -13,7 +13,7 @@ interface Props {
 
 function ImageMask({ imageSrc, faceDetails }: Props) {
   const [faceUrls, setFaceUrls] = useState<string[]>([]);
-  const [faceAnalysis, setFaceAnalysis] = useState<any>();
+  const [faceAnalysis, setFaceAnalysis] = useState<FaceDetail | null>(null);
 
   async function asyncCutFaceOnImage(faceDetail: FaceDetail) {
     if (imageSrc && faceDetail) {

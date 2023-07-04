@@ -7,8 +7,11 @@ interface Data {
   value?: number;
   name?: string;
 }
+interface Props {
+  faceAnalysis: FaceDetail | null;
+}
 
-function MoodPieChart({ faceAnalysis }: { faceAnalysis: FaceDetail }) {
+function MoodPieChart({ faceAnalysis }: Props) {
   const [pieChartOption, setPieChartOption] = useState<
     ReactEChartsProps['option'] | null
   >(null);

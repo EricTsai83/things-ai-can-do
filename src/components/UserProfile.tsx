@@ -3,7 +3,7 @@
 import LoginButton from './LoginButton';
 import { useSession } from 'next-auth/react';
 
-function Profile() {
+function UserProfile() {
   const { data: session, status }: any = useSession();
   const ProfileCSS = 'flex h-screen flex-col items-center justify-center';
 
@@ -24,4 +24,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default UserProfile;
