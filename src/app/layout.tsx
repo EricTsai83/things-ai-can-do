@@ -15,7 +15,8 @@
 import './globals.css';
 import { ReduxProviders } from './GlobalRedux/provider';
 import { Inter } from 'next/font/google';
-import Navbar from '@/components/Navbar';
+import Header from '@/components/Header';
+import SideNavbar from '@/components/SideNavbar';
 import { NextAuthProvider } from './provider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -37,7 +38,8 @@ export default function RootLayout({
         <ReduxProviders>
           <NextAuthProvider>
             <div className="w-full">
-              <Navbar />
+              <Header />
+              <SideNavbar />
               <div className=""> {children}</div>
             </div>
           </NextAuthProvider>

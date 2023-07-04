@@ -1,7 +1,6 @@
-import Profile from '@/components/Profile';
-
-function Home() {
-  return <Profile />;
+import SideNavbar from '@/components/SideNavbar';
+function Page() {
+  return <div className=""></div>;
 }
 
-export default Home;
+export default Page;
