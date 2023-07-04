@@ -10,7 +10,7 @@ function Page() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
   return (
-    <div>
+    <div className="pt-16">
       <MyDropzone
         imageSrc={imageSrc}
         setImageSrc={setImageSrc}

@@ -44,7 +44,7 @@ function Page() {
   );
 
   return (
-    <main>
+    <main className="pt-16">
       <div>
         <input ref={textForDiffusion} className="border" />
         <button

@@ -202,45 +202,49 @@ function Page() {
   }, []);
 
   return (
-    <div className="mx-auto my-0 flex h-[600px] w-[500px] flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500">
-      {/* <div {...getRootProps({ className: 'dropzone' })}>
+    <div className="pt-[100px]">
+      <div className="mx-auto my-0 flex h-[600px] w-[500px] flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500">
+        {/* <div {...getRootProps({ className: 'dropzone' })}>
         <p>Drag & drop RPM avatar GLB file here</p>
       </div> */}
-      <input
-        ref={inputRef}
-        className="mt-4 flex h-8 w-4/5 items-center justify-center rounded-xl bg-stone-100 px-[16px]"
-        type="text"
-        placeholder="Paste RPM avatar URL"
-        onKeyDown={handleKeyDown}
-      />
-      <div className="relative mt-4 h-[80px] w-full">
-        <video
-          id="video"
-          className="absolute right-3 top-0 h-full rounded-3xl"
-          autoPlay
-          playsInline></video>
-        <canvas className="absolute right-3 top-0" id="output_canvas"></canvas>
-      </div>
+        <input
+          ref={inputRef}
+          className="mt-4 flex h-8 w-4/5 items-center justify-center rounded-xl bg-stone-100 px-[16px]"
+          type="text"
+          placeholder="Paste RPM avatar URL"
+          onKeyDown={handleKeyDown}
+        />
+        <div className="relative mt-4 h-[80px] w-full">
+          <video
+            id="video"
+            className="absolute right-3 top-0 h-full rounded-3xl"
+            autoPlay
+            playsInline></video>
+          <canvas
+            className="absolute right-3 top-0"
+            id="output_canvas"></canvas>
+        </div>
 
-      <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
-        <ambientLight intensity={0.5} />
-        <pointLight
-          position={[10, 10, 10]}
-          color={new Color(1, 1, 0)}
-          intensity={0.5}
-          castShadow
-        />
-        <pointLight
-          position={[-10, 0, 10]}
-          color={new Color(1, 0, 0)}
-          intensity={0.5}
-          castShadow
-        />
-        <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
-        {rotation && (
-          <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
-        )}
-      </Canvas>
+        <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
+          <ambientLight intensity={0.5} />
+          <pointLight
+            position={[10, 10, 10]}
+            color={new Color(1, 1, 0)}
+            intensity={0.5}
+            castShadow
+          />
+          <pointLight
+            position={[-10, 0, 10]}
+            color={new Color(1, 0, 0)}
+            intensity={0.5}
+            castShadow
+          />
+          <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
+          {rotation && (
+            <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
+          )}
+        </Canvas>
+      </div>
     </div>
   );
 }

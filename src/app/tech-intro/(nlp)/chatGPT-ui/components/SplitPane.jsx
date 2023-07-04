@@ -1,29 +1,27 @@
-import React, {
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import QuoteContext from './QuoteContext';
-import SplitPaneContext from './SplitPaneContext';
+import { useContext, useEffect, useRef, useState } from 'react';
+import QuoteContext from '../context/QuoteContext';
+import SplitPaneContext from '../context/SplitPaneContext';
 
-const SplitPane = ({ children, ...props }) => {
+// ...props: 可以方便你重用組建時，取不一樣的props
+function SplitPane({ children, ...props }) {
   const [clientHeight, setClientHeight] = useState(null);
   const [clientWidth, setClientWidth] = useState(null);
   const yDividerPos = useRef(null);
   const xDividerPos = useRef(null);
 
+  // 按下左鍵
   const onMouseHoldDown = (e) => {
     yDividerPos.current = e.clientY;
     xDividerPos.current = e.clientX;
   };
 
+  // 放開左鍵
   const onMouseHoldUp = () => {
     yDividerPos.current = null;
     xDividerPos.current = null;
   };
 
+  // 按者左鍵移動滑鼠
   const onMouseHoldMove = (e) => {
     if (!yDividerPos.current && !xDividerPos.current) {
       return;
@@ -60,7 +58,7 @@ const SplitPane = ({ children, ...props }) => {
       </SplitPaneContext.Provider>
     </div>
   );
-};
+}
 
 export const Divider = (props) => {
   const { onMouseHoldDown } = useContext(SplitPaneContext);
@@ -69,7 +67,7 @@ export const Divider = (props) => {
 };
 
 export const SplitPaneTop = (props) => {
-  const topRef = createRef();
+  const topRef = useRef();
   const { clientHeight, setClientHeight } = useContext(SplitPaneContext);
   const { quotes, setCurrQuote } = useContext(QuoteContext);
 
@@ -84,13 +82,16 @@ export const SplitPaneTop = (props) => {
   }, [clientHeight]);
 
   return (
-    <div {...props} className="split-pane-top" ref={topRef}>
-      <h1>Famous quotes:</h1>
-      <ul>
+    <div {...props} className="flex-1 overflow-hidden text-left" ref={topRef}>
+      <h1 className="text-2xl">ChatGPT Prompts Template:</h1>
+      <ul className="list-inside list-disc">
         {quotes.map((el, i) => {
           return (
-            <li key={i}>
-              <a href="#" onClick={() => setCurrQuote(el.id)}>
+            <li className="m-0.5" key={i}>
+              <a
+                className="text-xl underline decoration-sky-600 hover:decoration-blue-400"
+                href="#"
+                onClick={() => setCurrQuote(el.id)}>
                 {el.author}
               </a>
             </li>
@@ -102,22 +103,26 @@ export const SplitPaneTop = (props) => {
 };
 
 export const SplitPaneBottom = (props) => {
-  const { currQuote } = useContext(QuoteContext);
+  // const { currQuote } = useContext(QuoteContext);
+
+  const { quotes, currQuote } = useContext(QuoteContext);
+  const quote = quotes.find((element) => element.id === currQuote);
 
   return (
-    <div {...props} className="split-pane-bottom">
-      Current <b>quote id</b>: {currQuote}
+    <div {...props} className="flex-1 overflow-hidden text-left">
+      <b>Prompt 結構</b>: {quote.description}
     </div>
   );
 };
 
 export const SplitPaneLeft = (props) => {
-  const topRef = createRef();
+  const topRef = useRef();
   const { clientWidth, setClientWidth } = useContext(SplitPaneContext);
 
   useEffect(() => {
     if (!clientWidth) {
       setClientWidth(topRef.current.clientWidth / 2);
+      console.log(props);
       return;
     }
 
@@ -125,19 +130,16 @@ export const SplitPaneLeft = (props) => {
     topRef.current.style.maxWidth = clientWidth + 'px';
   }, [clientWidth]);
 
-  return <div {...props} className="split-pane-left" ref={topRef} />;
+  return <div {...props} className="flex-1 overflow-hidden" ref={topRef} />;
 };
 
-export const SplitPaneRight = (props) => {
+export const SplitPaneRight = ({ children, ...props }) => {
   const { quotes, currQuote } = useContext(QuoteContext);
   const quote = quotes.find((el) => el.id === currQuote);
 
   return (
-    <div {...props} className="split-pane-right">
-      <div className="quote">
-        <blockquote>{quote.description}</blockquote>—{' '}
-        <span>{quote.author}</span>
-      </div>
+    <div {...props} className="flex-1 overflow-hidden">
+      {children}
     </div>
   );
 };

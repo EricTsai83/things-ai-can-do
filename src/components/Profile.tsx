@@ -3,26 +3,25 @@
 import LoginButton from './LoginButton';
 import { useSession } from 'next-auth/react';
 
-export default function Header() {
+function Profile() {
   const { data: session, status }: any = useSession();
+  const ProfileCSS = 'flex h-screen flex-col items-center justify-center';
 
   if (status === 'authenticated') {
     return (
-      <div
-        className="flex flex-col items-center justify-center
-    h-screen -mt-16">
+      <div className={ProfileCSS}>
         <h1>Welcome,</h1>
-        <span className="font-bold text-2xl">{session.user.name}</span>
+        <span className="text-2xl font-bold">{session.user.name}</span>
       </div>
     );
   }
 
   return (
-    <div
-      className="flex flex-col items-center justify-center
-      h-screen -mt-16">
+    <div className={ProfileCSS}>
       <h1>Login to get started</h1>
       <LoginButton />
     </div>
   );
 }
+
+export default Profile;

@@ -91,7 +91,7 @@ function Page() {
   }
 
   return (
-    <div>
+    <div className="pt-16">
       <div
         className="relative flex h-[600px] w-[900px] items-center justify-center border-2 border-dashed border-black object-contain"
         onDrop={handleDrop}

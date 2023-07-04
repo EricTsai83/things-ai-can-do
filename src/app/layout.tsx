@@ -36,9 +36,9 @@ export default function RootLayout({
         {/* 所有 provider 之後可以整合再一起 */}
         <ReduxProviders>
           <NextAuthProvider>
-            <div className="max-w-5xl mx-auto px-8">
+            <div className="w-full">
               <Navbar />
-              <div className="pt-16"> {children}</div>
+              <div className=""> {children}</div>
             </div>
           </NextAuthProvider>
         </ReduxProviders>

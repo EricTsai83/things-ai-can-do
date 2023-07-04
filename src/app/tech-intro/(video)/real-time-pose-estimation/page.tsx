@@ -64,7 +64,7 @@ function Page() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="pt-16">
       <header className="App-header">
         <Webcam
           ref={webcamRef}

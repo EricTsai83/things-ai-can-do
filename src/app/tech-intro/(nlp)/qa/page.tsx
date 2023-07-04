@@ -97,7 +97,7 @@ export default function Content() {
   }
 
   return (
-    <main>
+    <main className="pt-16">
       <div>
         <input ref={textForWs} className="border" />
         <button

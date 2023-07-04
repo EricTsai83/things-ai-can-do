@@ -1,6 +1,6 @@
 'use client';
-import type {RootState} from '@/GlobalRedux/store';
-import {useSelector, useDispatch} from 'react-redux';
+import type { RootState } from '@/GlobalRedux/store';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   increment,
   decrement,
