@@ -4,14 +4,15 @@ import PuzzleLayout from './components/PuzzleLayout';
 import ImagePuzzle from './components/ImagePuzzle';
 import Image from 'next/image';
 import splitImage from '@/utils/split-image';
+import type { TileObject } from '@/utils/split-image';
 import { useImmer } from 'use-immer';
 import huggingFaceApi from '@/utils/hugging-face-api';
 
-export default function Content() {
+function Page() {
   const textForDiffusion = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string>(); // 像是圖片的 reference，而不是圖片本身喔
-  const [imgBlobs, setImgBlobs] = useImmer<any>({});
-  const [showCut, setShowCut] = useState<any>(false);
+  const [imgBlobs, setImgBlobs] = useImmer<TileObject>({});
+  const [showCut, setShowCut] = useState<boolean>(false);
 
   async function getStableDiffusionImage() {
     try {
@@ -34,16 +35,16 @@ export default function Content() {
   }
 
   const getSplitImage = useCallback(
-    async (imageUrl: any) => {
+    async (imageUrl: string) => {
       const tileObj = await splitImage(imageUrl);
       console.log(tileObj);
       setImgBlobs(tileObj);
     },
-    [imageUrl, setImgBlobs],
+    [setImgBlobs],
   );
 
   return (
-    <main>
+    <main className="pt-16">
       <div>
         <input ref={textForDiffusion} className="border" />
         <button
@@ -82,3 +83,5 @@ export default function Content() {
     </main>
   );
 }
+
+export default Page;

@@ -2,7 +2,7 @@
 // 不是很懂，細讀一下
 import { useState, useRef } from 'react';
 
-function Page() {
+function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [response, setResponse] = useState('');
 
@@ -59,4 +59,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default ChatGPT;

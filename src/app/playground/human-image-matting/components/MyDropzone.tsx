@@ -1,21 +1,27 @@
 'use client';
 import { useState, useRef } from 'react';
+import type { DragEvent, ChangeEvent } from 'react';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import Image from 'next/image'; // the img element will automatically be assigned the position: "absolute" style.
+import Image from 'next/image';
 import replaceColorsInPNG from '@/utils/replace-color-in-png';
-// import generateHighlyDistinctRGB from '@/utils/generate-highly-distinct-rgb';
 
-const MyDropzone: React.FC = () => {
-  const [imageBlob, setImageBlob] = useState<any>();
-  const [imageSrc, setImageSrc] = useState<any>(null); // 用來記錄當下dropzone 展示哪一張照片
+interface Respond {
+  label: string;
+  mask: string;
+  score: number;
+}
+
+function MyDropzone() {
+  const [imageBlob, setImageBlob] = useState<File>();
+  const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
   const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊up load file
-  const [apiData, setApiData] = useState<any>(null); // set api data
-  const [mask, setMask] = useState<any>(null);
-  const [pngStrAfterColorChange, setPngStrAfterColorChange] = useState<any[]>(
-    [],
-  );
+  const [apiData, setApiData] = useState<Respond[] | null>(null); // set api data
+  const [mask, setMask] = useState<string | null>(null);
+  const [pngStrAfterColorChange, setPngStrAfterColorChange] = useState<
+    string[]
+  >([]);
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const imageFile = event.dataTransfer.files[0];
     if (imageFile) {
@@ -28,7 +34,7 @@ const MyDropzone: React.FC = () => {
     }
   };
 
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
 
@@ -36,7 +42,7 @@ const MyDropzone: React.FC = () => {
     fileInputRef.current?.click();
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0];
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
@@ -49,7 +55,7 @@ const MyDropzone: React.FC = () => {
     }
   };
 
-  async function getImageSegmentation(data: any) {
+  async function getImageSegmentation(data: File) {
     console.log(data);
     const respond = await huggingFaceApi.getImageSegmentation(data);
     console.log(respond);
@@ -103,11 +109,7 @@ const MyDropzone: React.FC = () => {
         )}
         {!imageSrc && 'Drop image or click here to uploag image'}
         {pngStrAfterColorChange &&
-          pngStrAfterColorChange.map((pngStr: any, id: any) => {
-            // console.log(element.label);
-            // console.log(maskUniqueColors);
-            // console.log('=========');
-            // console.log(pngStr);
+          pngStrAfterColorChange.map((pngStr: string, id: number) => {
             return (
               <Image
                 className="absolute"
@@ -131,7 +133,7 @@ const MyDropzone: React.FC = () => {
       <div // small image preview
         className="flex h-20 w-[900px] items-center justify-center border-black">
         {apiData &&
-          apiData.map((data: any, idx: any) => {
+          apiData.map((data: Respond, idx: number) => {
             return (
               <Image
                 onClick={() => {
@@ -152,7 +154,7 @@ const MyDropzone: React.FC = () => {
       <button
         className="h-[40px] w-[200px] border bg-zinc-300"
         onClick={(): void => {
-          getImageSegmentation(imageBlob);
+          imageBlob && getImageSegmentation(imageBlob);
         }}>
         1. 打API
       </button>
@@ -163,6 +165,6 @@ const MyDropzone: React.FC = () => {
       </button>
     </div>
   );
-};
+}
 
 export default MyDropzone;

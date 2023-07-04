@@ -1,6 +1,10 @@
-function replaceColorsInPNG(pngString: any, colorMappings: any) {
+import type { ColorMappingItem } from '../app/tech-intro/(image-segmentation)/detr-resnet-50-panoptic/components/ColorMask';
+function replaceColorsInPNG(
+  pngString: string,
+  colorMappings: ColorMappingItem[],
+) {
   const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext('2d')!;
 
   const image = new Image();
   image.src = 'data:image/png;base64,' + pngString;
@@ -9,9 +13,8 @@ function replaceColorsInPNG(pngString: any, colorMappings: any) {
     image.onload = function () {
       canvas.width = image.width;
       canvas.height = image.height;
-      // @ts-ignore
+
       context.drawImage(image, 0, 0);
-      // @ts-ignore
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const pixels = imageData.data;
 
@@ -35,7 +38,6 @@ function replaceColorsInPNG(pngString: any, colorMappings: any) {
           }
         }
       }
-      // @ts-ignore
       context.putImageData(imageData, 0, 0);
 
       const modifiedPNGString = canvas.toDataURL('image/png');

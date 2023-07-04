@@ -1,13 +1,13 @@
-import { useRef } from 'react';
+import { MouseEventHandler, useRef } from 'react';
 import useDragger from '@/hook/useDragger';
-import './ImagePuzzle.css';
 import Image from 'next/image';
+import type { TileObject } from '@/utils/split-image';
 
-const ImagePuzzle = ({ imgBlobs }: any) => {
+function ImagePuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
   const zIndexCounter = useRef(1);
   const imgWidth = 200;
   const imgHeight = 200;
-  const ids: any = [];
+  const ids: string[] = [];
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       ids.push(`piece_${i}_${j}`);
@@ -24,44 +24,44 @@ const ImagePuzzle = ({ imgBlobs }: any) => {
   useDragger(`piece_2_1`);
   useDragger(`piece_2_2`);
 
-  function disableScroll(event: any) {
+  function disableScroll(event: Event) {
     event.preventDefault();
     event.stopPropagation();
   }
 
-  function mouseDownAct(e: any) {
-    e.preventDefault();
+  const mouseDownAct: MouseEventHandler = (event) => {
+    event.preventDefault();
     document.body.addEventListener('scroll', disableScroll); // 不給滾
     // document.body.style.overflow = 'hidden'; // 讓滾動條消失
-    zIndexCounter.current++;
-    e.target.style.zIndex = zIndexCounter.current;
-    console.log(e.target);
-  }
+    const target = event.target as HTMLElement;
+    if (target) {
+      zIndexCounter.current++;
+      target.style.zIndex = zIndexCounter.current.toString();
+      console.log(event.target);
+    }
+  };
 
-  function mouseUpAct(e: any) {
-    e.preventDefault();
+  const mouseUpAct: MouseEventHandler = (event) => {
+    event.preventDefault();
     document.body.removeEventListener('scroll', disableScroll);
+
+    const target = event.target as HTMLElement;
     // document.body.style.overflow = 'auto';
-    const style = window.getComputedStyle(e.target);
+    const style = window.getComputedStyle(target);
     // console.log(style);
     const top = parseInt(style.getPropertyValue('top'));
     const left = parseInt(style.getPropertyValue('left'));
     // console.log(top);
     const anwserTopStart = parseInt(
-      e.target.getAttribute('data-anwsertopstart'),
+      target.getAttribute('data-anwsertopstart')!,
     );
-
-    const anwserTopEnd = parseInt(e.target.getAttribute('data-anwsertopend'));
-
+    const anwserTopEnd = parseInt(target.getAttribute('data-anwsertopend')!);
     const anwserLeftStart = parseInt(
-      e.target.getAttribute('data-anwserleftstart'),
+      target.getAttribute('data-anwserleftstart')!,
     );
-
-    const anwserLeftEnd = parseInt(e.target.getAttribute('data-anwserleftend'));
-
-    const tileId = e.target.getAttribute('data-anwsertile');
-
-    const id = e.target.getAttribute('id');
+    const anwserLeftEnd = parseInt(target.getAttribute('data-anwserleftend')!);
+    const tileId = target.getAttribute('data-anwsertile')!;
+    const id = target.getAttribute('id')!;
 
     if (
       anwserTopStart <= top &&
@@ -73,12 +73,12 @@ const ImagePuzzle = ({ imgBlobs }: any) => {
       if (tile) {
         console.log(tile);
         tile.style.backgroundImage = `url(${imgBlobs[id]})`;
-        e.target.style.display = 'none';
+        target.style.display = 'none';
       }
     }
-  }
+  };
 
-  const renderPuzzlePieces = () => {
+  function renderPuzzlePieces() {
     const puzzlePieces = [];
 
     for (let i = 0; i < 3; i++) {
@@ -116,14 +116,15 @@ const ImagePuzzle = ({ imgBlobs }: any) => {
       }
     }
     return puzzlePieces;
-  };
+  }
 
-  const renderPuzzleTableCell = () => {
+  function renderPuzzleTableCell() {
     const gridItems = [];
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         gridItems.push(
           <div
+            className="bg-white"
             key={`tile_${i}_${j}`}
             id={`tile_${i}_${j}`}
             style={{
@@ -138,11 +139,11 @@ const ImagePuzzle = ({ imgBlobs }: any) => {
     }
 
     return gridItems;
-  };
+  }
 
   return (
     <div
-      id="grid"
+      className="grid h-[600px] w-[600px] grid-flow-col grid-cols-3 grid-rows-3 gap-px bg-black"
       style={{
         position: 'relative',
         width: '600px',
@@ -153,6 +154,6 @@ const ImagePuzzle = ({ imgBlobs }: any) => {
       {renderPuzzleTableCell()}
     </div>
   );
-};
+}
 
 export default ImagePuzzle;

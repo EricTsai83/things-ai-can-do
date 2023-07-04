@@ -1,9 +1,20 @@
 'use client';
+import {
+  useState,
+  useEffect,
+  useRef,
+  DragEventHandler,
+  useCallback,
+} from 'react';
 import { useImmer } from 'use-immer';
-import { useState, useEffect, useRef, DragEventHandler } from 'react';
 
-const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
-  let initialStates: any = [
+interface InitialStates {
+  dataId: number;
+  style: string;
+}
+
+function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
+  let initialStates: InitialStates[] = [
     { dataId: 1, style: '-200px 0px' },
     { dataId: 0, style: '0px 0px' }, // 跟上面一行調換位置，避免初始化的時候拼圖就完成了
     { dataId: 2, style: '-400px 0px' },
@@ -15,14 +26,16 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
     { dataId: 8, style: '-400px -400px' },
   ];
 
-  const [imageArrangement, setImageArrangement] = useImmer<any>(initialStates);
-  const [tileBeingDragged, setTileBeingDragged] = useState<any>(null);
-  const [tileBeingReplaced, setTileBeingReplaced] = useState<any>(null);
-  const [score, setScore] = useState(null);
+  const [imageArrangement, setImageArrangement] = useImmer(initialStates);
+  const [tileBeingDragged, setTileBeingDragged] =
+    useState<HTMLDivElement | null>(null);
+  const [tileBeingReplaced, setTileBeingReplaced] =
+    useState<HTMLDivElement | null>(null);
+  const [score, setScore] = useState(0);
   const initialRef = useRef(true);
 
-  function shuffleArray() {
-    let newArray = imageArrangement.map((e: any) => e);
+  const shuffleArray = useCallback(() => {
+    let newArray = imageArrangement.map((element) => element);
 
     let length = newArray.length;
     for (let i = 0; i < length; i++) {
@@ -31,7 +44,7 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
       newArray.push(randomitemArray[0]);
     }
     setImageArrangement(newArray);
-  }
+  }, []);
 
   useEffect(() => {
     initialRef.current && shuffleArray();
@@ -39,7 +52,7 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
   }, [shuffleArray]);
 
   useEffect(() => {
-    let scoreCt: any = 0;
+    let scoreCt: number = 0;
     for (let i = 0; i < 9; i++) {
       if (imageArrangement[i].dataId === i) {
         scoreCt += 1;
@@ -60,56 +73,62 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
     setTileBeingReplaced(target);
   };
 
-  const dragEnd = () => {
+  const dragEnd: DragEventHandler<HTMLDivElement> = () => {
     if (tileBeingDragged && tileBeingReplaced) {
       const tileBeingDraggedId = parseInt(
-        tileBeingDragged.getAttribute('data-positionid'),
+        tileBeingDragged.getAttribute('data-positionid')!,
       );
       const tileBeingReplacedId = parseInt(
-        tileBeingReplaced.getAttribute('data-positionid'),
+        tileBeingReplaced.getAttribute('data-positionid')!,
       );
 
       setImageArrangement((prev: { dataId: number; style: string }[]) => {
-        let styleString;
-        let backgroundPosition;
-        let idString;
+        let styleString: string;
+        let backgroundPosition: string;
+        let idString: string;
 
-        styleString = tileBeingReplaced.getAttribute('style');
-        backgroundPosition = styleString.match(
-          /background-position: ([^;]+)/,
-        )[1];
-        prev[tileBeingDraggedId].style = backgroundPosition;
+        styleString = tileBeingReplaced.getAttribute('style')!;
+        if (styleString) {
+          const match = styleString.match(/background-position: ([^;]+)/);
+          if (match) {
+            backgroundPosition = match[1];
+            prev[tileBeingDraggedId].style = backgroundPosition;
+          }
+        }
 
-        idString = tileBeingReplaced.getAttribute('data-dataid');
+        idString = tileBeingReplaced.getAttribute('data-dataid')!;
         prev[tileBeingDraggedId].dataId = parseInt(idString);
 
-        styleString = tileBeingDragged.getAttribute('style');
-        backgroundPosition = styleString.match(
-          /background-position: ([^;]+)/,
-        )[1];
-        prev[tileBeingReplacedId].style = backgroundPosition;
+        styleString = tileBeingDragged.getAttribute('style')!;
+        if (styleString) {
+          const match = styleString.match(/background-position: ([^;]+)/);
+          if (match) {
+            backgroundPosition = match[1];
+            prev[tileBeingReplacedId].style = backgroundPosition;
+          }
+        }
 
-        idString = tileBeingDragged.getAttribute('data-dataid');
+        idString = tileBeingDragged.getAttribute('data-dataid')!;
         prev[tileBeingReplacedId].dataId = parseInt(idString);
       });
     }
   };
 
   return (
-    <div className="w-[602px] grid grid-cols-3 gap-px">
-      {imageArrangement.map((element: any, idx: any) => {
+    <div className="grid w-[602px] grid-cols-3 gap-px">
+      {imageArrangement.map((element, idx) => {
         return (
           <div
             key={idx}
-            className="w-[200px] h-[200px] relative
-            transition ease-in-out delay-150
-            hover:-translate-y-1 hover:scale-110
-            duration-300 
+            className="relative h-[200px] w-[200px]
+            transition delay-150 duration-300
+            ease-in-out hover:-translate-y-1
+            hover:scale-110 
             ">
             <div
               data-dataid={element.dataId}
               data-positionid={idx}
-              className="absolute inset-0 bg-no-repeat bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url(${imageUrl})`,
                 backgroundPosition: element.style,
@@ -117,24 +136,19 @@ const PuzzleLayout = ({ imageUrl }: { imageUrl: string }) => {
               }}
               draggable="true"
               onDragStart={dragStart}
-              onDragOver={(e) => e.preventDefault()}
-              onDragEnter={(e) => e.preventDefault()}
-              onDragLeave={(e) => e.preventDefault()}
+              onDragOver={(event) => event.preventDefault()}
+              onDragEnter={(event) => event.preventDefault()}
+              onDragLeave={(event) => event.preventDefault()}
               onDrop={dragDrop}
               onDragEnd={dragEnd}
             />
           </div>
         );
       })}
-      <button
-        onClick={() => {
-          shuffleArray();
-        }}>
-        shuffle
-      </button>
+      <button onClick={shuffleArray}>shuffle</button>
       <div>{score}</div>
     </div>
   );
-};
+}
 
 export default PuzzleLayout;

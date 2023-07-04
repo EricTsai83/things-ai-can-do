@@ -1,10 +1,10 @@
 'use client';
-import {useState} from 'react';
+import { useState } from 'react';
 import AudioRecorder from './components/AudioRecorder';
 
 const Content = () => {
   return (
-    <div>
+    <div className="pt-16">
       <h1 className="text-6xl">React Media Recorder</h1>
       <div className="button-flex"></div>
       <div>

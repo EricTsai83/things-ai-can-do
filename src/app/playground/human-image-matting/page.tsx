@@ -1,11 +1,11 @@
 import MyDropzone from './components/MyDropzone';
 
-function imageMatting() {
+function Page() {
   return (
-    <>
+    <div className="pt-16">
       <MyDropzone />
-    </>
+    </div>
   );
 }
 
-export default imageMatting;
+export default Page;

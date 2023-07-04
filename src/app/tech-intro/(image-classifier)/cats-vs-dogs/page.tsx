@@ -3,7 +3,7 @@ import MyDropzone from './components/MyDropzone';
 
 export default function Content() {
   return (
-    <div>
+    <div className="pt-16">
       <MyDropzone />
     </div>
   );

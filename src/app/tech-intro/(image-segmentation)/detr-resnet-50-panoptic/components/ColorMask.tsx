@@ -1,21 +1,44 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import replaceColorsInPNG from '@/utils/replace-color-in-png';
-import { useState, useEffect } from 'react';
 import generateHighlyDistinctRGB from '@/utils/generate-highly-distinct-rgb';
-const ColorMask: React.FC = ({ segmentations, maskUniqueColors }: any) => {
-  const [pngStrAfterColorChange, setPngStrAfterColorChange] = useState<any[]>(
-    [],
-  );
+import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
+
+interface Segmentation {
+  score: number;
+  label: string;
+  mask: string;
+}
+
+interface Props {
+  segmentations: Segmentation[];
+  maskUniqueColors: UniqueColorsInPng;
+}
+
+export interface ColorMappingItem {
+  targetColor: { r: number; g: number; b: number; a: number };
+  replacementColor: {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+  };
+}
+
+function ColorMask({ segmentations, maskUniqueColors }: Props) {
+  const [pngStrAfterColorChange, setPngStrAfterColorChange] = useState<
+    string[]
+  >([]);
 
   useEffect(() => {
     if (maskUniqueColors) {
       console.log(segmentations);
 
       const randomRGB = generateHighlyDistinctRGB(segmentations.length);
-      let arrays: any = [];
-      segmentations.forEach((segmentation: any, idx: any) => {
-        const colorMappings = [
+      let arrays: string[] = [];
+      segmentations.forEach((segmentation: Segmentation, idx: number) => {
+        const colorMappings: ColorMappingItem[] = [
           {
             targetColor: maskUniqueColors['255_255_255_255'],
             replacementColor: {
@@ -32,8 +55,9 @@ const ColorMask: React.FC = ({ segmentations, maskUniqueColors }: any) => {
         ];
 
         replaceColorsInPNG(segmentation.mask, colorMappings)
-          .then((modifiedPNGString) => {
-            arrays.push(modifiedPNGString);
+          .then((modifiedPNGString): void => {
+            const pngStr = modifiedPNGString as string;
+            modifiedPNGString && arrays.push(pngStr);
           })
           .catch((error) => {
             console.error(error);
@@ -42,12 +66,12 @@ const ColorMask: React.FC = ({ segmentations, maskUniqueColors }: any) => {
       console.log(arrays);
       setPngStrAfterColorChange(arrays);
     }
-  }, [maskUniqueColors]);
+  }, [segmentations, maskUniqueColors]);
 
   return (
     <div className="relative z-10">
       {pngStrAfterColorChange &&
-        pngStrAfterColorChange.map((pngStr: any, id: any) => {
+        pngStrAfterColorChange.map((pngStr: string, id: number) => {
           // console.log(element.label);
           // console.log(maskUniqueColors);
           // console.log('=========');
@@ -66,6 +90,6 @@ const ColorMask: React.FC = ({ segmentations, maskUniqueColors }: any) => {
         })}
     </div>
   );
-};
+}
 
 export default ColorMask;
