@@ -137,7 +137,6 @@ function ImagePuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
         );
       }
     }
-
     return gridItems;
   }
 
