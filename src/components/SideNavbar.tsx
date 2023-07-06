@@ -15,54 +15,60 @@ import {
   MdOutlineSpaceDashboard,
 } from 'react-icons/md';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // group 可以把子元素綁在一起，比如說服元素被hover，相當於子元素也觸發了 hover
 const navItemStyle = `
   group flex w-full cursor-pointer items-center justify-start
-  gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 hover:bg-teal-50`;
-const iconStyle = `text-2xl text-gray-600 group-hover:text-teal-600`;
-const nameStyle = `text-base font-medium text-gray-800 group-hover:text-teal-600`;
+  gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 hover:bg-zinc-100`;
+const iconStyle = `text-2xl text-gray-600 group-hover:text-gray-800`;
+const nameStyle = `text-base font-medium text-gray-600 group-hover:text-gray-800`;
 const titleStyle = `pb-4 text-base font-semibold text-gray-800`;
 const blockStyle = `my-4 border-b border-gray-100 pb-4`;
 
 const selectedNavItemStyle = `
-flex w-full cursor-pointer items-center justify-start
-gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 bg-teal-50`;
+  flex w-full cursor-pointer items-center justify-start
+  gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 bg-teal-100`;
 const selectedIconStyle = `
-text-2xl text-gray-600 text-teal-600`;
+  text-2xl text-teal-800`;
 const selectedNameStyle = `
-text-base font-medium text-gray-800 text-teal-600`;
+  text-base font-medium text-teal-800`;
 
 function SideNavbar() {
+  const pathname = usePathname();
   const [selected, setSelected] = useState('首頁');
 
   useEffect(() => {
-    const currentPath = window.location.pathname;
-    console.log(currentPath);
-    if (currentPath === '/') {
+    const pathElements = pathname.split('/');
+    const lastElement = pathElements[pathElements.length - 1];
+
+    console.log(pathname);
+    console.log(lastElement);
+
+    if (lastElement === '') {
       setSelected('首頁');
-    } else if (currentPath === '/playground/aws-facial-recognition') {
+    } else if (lastElement === 'aws-api') {
       setSelected('臉部識別');
-    } else if (currentPath === '/playground/chat-gpt') {
+    } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
-    } else if (currentPath === '/playground/create-your-own-puzzle') {
+    } else if (lastElement === 'create-your-own-puzzle') {
       setSelected('文字轉圖像');
-    } else if (currentPath === '/tech-intro/real-time-pose-estimation') {
+    } else if (lastElement === 'real-time-pose-estimation') {
       setSelected('肢體偵測');
-    } else if (currentPath === '/playground/human-image-matting') {
+    } else if (lastElement === 'human-image-matting') {
       setSelected('圖像分割');
-    } else if (currentPath === '/playground/sketch') {
+    } else if (lastElement === 'sketch') {
       setSelected('圖片分類');
-    } else if (currentPath === '/knowledge/data-science') {
+    } else if (lastElement === 'data-science') {
       setSelected('資料科學');
-    } else if (currentPath === '/knowledge/data-visualization') {
+    } else if (lastElement === 'data-visualization') {
       setSelected('資料視覺化');
     }
-  }, []); // 讓重新整理有作用就行
+  }, [pathname]); // 讓重新整理有作用就行
 
   function renderPlaygroundItem() {
     const hrefs = [
-      '/playground/aws-facial-recognition',
+      '/playground/facial-recognition/aws-api',
       '/playground/chat-gpt',
       '/playground/create-your-own-puzzle',
       '/tech-intro/real-time-pose-estimation',
@@ -107,7 +113,7 @@ function SideNavbar() {
     const items = [];
     for (let i = 0; i < hrefs.length; i++) {
       items.push(
-        <Link href={hrefs[i]} key={i}>
+        <Link href={hrefs[i]} key={i} prefetch={false}>
           <div
             onClick={() => {
               setSelected(selectOption[i]);
@@ -130,52 +136,63 @@ function SideNavbar() {
   }
 
   return (
-    <Disclosure as="nav">
+    <Disclosure as="nav" className="">
       {/* Use the `open` state to conditionally change the direction of an icon. */}
       {({ open, close }) => (
         <>
-          <button
-            className="absolute right-40 top-40"
+          <div
+            className={
+              open
+                ? `
+                absolute right-0 top-0 z-40 h-screen w-screen
+              bg-black opacity-50
+                transition delay-150 duration-500 ease-out
+                xl:hidden`
+                : `
+              bg-white opacity-100
+                transition delay-150 duration-500 ease-out`
+            }
             onClick={() => {
-              console.log('e04麻把我關掉！');
+              console.log('e04麻把我關掉!');
               close();
-            }}>
-            close
-          </button>
+            }}></div>
           <Disclosure.Button
             // When you need to style an element based on the state of a sibling
             // element, mark the sibling with the peer class, and use peer-* modifiers
             // like peer-invalid to style the target element:
             className="
-                group peer
-                absolute left-6 top-2.5
-                inline-flex items-center justify-center
-                rounded-md p-2 text-gray-800
-              hover:bg-gray-900 hover:text-white
-                focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-            <GiHamburgerMenu className="block h-6 w-6" aria-hidden="true" />
+              group peer
+              absolute left-6 top-2.5 z-50
+              inline-flex items-center justify-center
+              rounded-md p-2 text-gray-500
+              hover:rounded-full hover:bg-gray-100
+              focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+            <GiHamburgerMenu
+              className="block h-6 w-6 xl:hidden"
+              aria-hidden="true"
+            />
           </Disclosure.Button>
           <div
             // peer-focus:left-0 可以讓點其他element，將 side navbar 收回，
             className={
               open
-                ? `peer:transition fixed left-0 top-16 z-20
+                ? `peer:transition fixed left-0 top-16 z-50
                   h-screen w-1/2
-                  overflow-y-auto bg-white p-6
-                  pt-0 delay-150 duration-300
-                  ease-out
+                  overflow-y-auto 
+                bg-white p-6 pt-0 
+                  delay-150 duration-300 ease-out
                   ssm:w-60
                   `
-                : `peer:transition fixed -left-1/2 top-16 z-20
+                : `peer:transition fixed -left-1/2 top-16 z-50
                   h-screen w-1/2
-                  overflow-y-auto bg-white p-6
-                  pt-0 delay-150 duration-300
-                  ease-out ssm:-left-60
-                  ssm:w-60
-                  `
+                  overflow-y-auto 
+                bg-white p-6 pt-0 
+                  delay-150 duration-300 ease-out
+                  ssm:-left-60 ssm:w-60
+                  xl:left-0`
             }>
             <div className={blockStyle}>
-              <Link href={'/'}>
+              <Link href={'/'} prefetch={false}>
                 <div
                   onClick={() => {
                     setSelected('首頁');
@@ -203,10 +220,10 @@ function SideNavbar() {
                 <h2 className={titleStyle}>Playground</h2>
                 {renderPlaygroundItem()}
               </div>
-              {/* setting  */}
+
               <div className={blockStyle}>
                 <h2 className={titleStyle}>Knowledge</h2>
-                <Link href={'/knowledge/data-science'}>
+                <Link href={'/'} prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('資料科學');
@@ -229,7 +246,7 @@ function SideNavbar() {
                     </h3>
                   </div>
                 </Link>
-                <Link href={'/knowledge/data-visualization'}>
+                <Link href={'/'} prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('資料視覺化');
@@ -257,9 +274,11 @@ function SideNavbar() {
                   </div>
                 </Link>
               </div>
-              {/* logout */}
+
               <div className="my-4">
-                <div className="group m-auto mb-2 flex cursor-pointer items-center justify-start gap-4 rounded-md border border-gray-200 p-2 pl-5 hover:bg-sky-900 hover:shadow-lg">
+                <div
+                  className="
+                    group m-auto mb-2 flex cursor-pointer items-center justify-start gap-4 rounded-md border border-gray-200 p-2 pl-5 hover:bg-sky-900 hover:shadow-lg">
                   <HiOutlineMail className="text-2xl text-gray-600 group-hover:text-white" />
                   <h3 className="text-base font-semibold text-gray-800 group-hover:text-white">
                     與我聯繫
