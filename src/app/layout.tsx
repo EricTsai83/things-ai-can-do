@@ -18,6 +18,7 @@ import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import SideNavbar from '@/components/SideNavbar';
 import { NextAuthProvider } from './provider';
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,13 +35,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NextTopLoader color="linear-gradient(to right, rgb(153, 246, 228), rgb(217, 249, 157))" />
         {/* 所有 provider 之後可以整合再一起 */}
         <ReduxProviders>
           <NextAuthProvider>
             <div className="w-full">
               <Header />
-              <SideNavbar />
-              <div className=""> {children}</div>
+              <div className="flex">
+                <SideNavbar />
+                <div className="xl:pl-60"> {children}</div>
+              </div>
             </div>
           </NextAuthProvider>
         </ReduxProviders>
