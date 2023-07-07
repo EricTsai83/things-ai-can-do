@@ -47,7 +47,7 @@ function SideNavbar() {
 
     if (lastElement === '') {
       setSelected('首頁');
-    } else if (lastElement === 'aws-api') {
+    } else if (lastElement === 'facial-recognition') {
       setSelected('臉部識別');
     } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
@@ -68,7 +68,7 @@ function SideNavbar() {
 
   function renderPlaygroundItem() {
     const hrefs = [
-      '/playground/facial-recognition/aws-api',
+      '/playground/facial-recognition',
       '/playground/chat-gpt',
       '/playground/create-your-own-puzzle',
       '/tech-intro/real-time-pose-estimation',
@@ -146,11 +146,11 @@ function SideNavbar() {
                 ? `
                 absolute right-0 top-0 z-40 h-screen w-screen
               bg-black opacity-50
-                transition delay-150 duration-500 ease-out
+                transition delay-150 duration-300 ease-out
                 xl:hidden`
                 : `
-              bg-white opacity-100
-                transition delay-150 duration-500 ease-out`
+              bg-black opacity-0
+                transition delay-150 duration-300 ease-out`
             }
             onClick={() => {
               console.log('e04麻把我關掉!');

@@ -11,6 +11,7 @@ import { Color, Euler, Matrix4 } from 'three';
 import { Canvas } from '@react-three/fiber';
 // import { useDropzone } from 'react-dropzone';
 import Avatar from './components/Avatar';
+import type { SearchParams } from '../types';
 
 let video: HTMLVideoElement;
 let faceLandmarker: FaceLandmarker;
@@ -27,7 +28,7 @@ const options: FaceLandmarkerOptions = {
   outputFacialTransformationMatrixes: true,
 };
 
-function Page() {
+function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   const [blendshapes, setBlendshapes] = useState<Category[]>([]);
   const [rotation, setRotation] = useState<Euler>();
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -37,9 +38,7 @@ function Page() {
   // https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb (女)
   // https://models.readyplayer.me/6490655e99211a8c97fc395f.glb
   // https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb
-  const [url, setUrl] = useState<string>(
-    'https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb',
-  );
+  const [url, setUrl] = useState<string | null>(null);
 
   function validateURL(url: string): boolean {
     const pattern = /^https:\/\/models\.readyplayer\.me\/.*\.glb$/;
@@ -84,7 +83,9 @@ function Page() {
       'output_canvas',
     ) as HTMLCanvasElement;
 
-    const canvasCtx = canvasElement.getContext('2d')!; // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
+    const canvasCtx = canvasElement.getContext('2d')!;
+
+    // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
 
     const radio = video.videoHeight / video.videoWidth;
     video.style.width = videoWidth + 'px';
@@ -154,6 +155,7 @@ function Page() {
     }
   }
 
+  let myReq: number;
   async function predict() {
     await drawMaskOnWebcam();
 
@@ -180,14 +182,13 @@ function Page() {
         setRotation(rotationData);
       }
     }
-
-    window.requestAnimationFrame(predict);
+    myReq = window.requestAnimationFrame(predict);
   }
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key !== 'Enter') return;
     const target = event.target as HTMLInputElement;
-    if (validateURL(target?.value) && event.key === 'Enter') {
+    if (validateURL(target.value) && event.key === 'Enter') {
       console.log(target.value);
       setUrl(target.value);
       target.value = '';
@@ -198,11 +199,41 @@ function Page() {
 
   useEffect(() => {
     setup();
+    return () => {
+      video.removeEventListener('loadeddata', predict);
+      window.cancelAnimationFrame(myReq);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if ('gender' in searchParams && 'age' in searchParams) {
+      if (searchParams.gender === 'man' && searchParams.age === '40') {
+        console.log('gender', searchParams.gender);
+        console.log('age', searchParams.age);
+
+        setUrl('https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb');
+      } else if (searchParams.gender === 'woman' && searchParams.age === '36') {
+        console.log('gender', searchParams.gender);
+        console.log('age', searchParams.age);
+        setUrl('https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb');
+      } else if (searchParams.gender === 'man' && searchParams.age === '28') {
+        console.log('gender', searchParams.gender);
+        console.log('age', searchParams.age);
+        setUrl('https://models.readyplayer.me/648ef0aef2caada0866fd637.glb');
+      } else if (searchParams.gender === 'woman' && searchParams.age === '18') {
+        console.log('gender', searchParams.gender);
+        console.log('age', searchParams.age);
+        setUrl('https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb');
+      } else {
+        console.log('gender', searchParams.gender);
+        console.log('age', searchParams.age);
+      }
+    }
+  }, [searchParams.gender, searchParams.age, setUrl]);
+
   return (
-    <div className="pt-[100px]">
+    <div className="">
       <div className="mx-auto my-0 flex h-[600px] w-[500px] flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500">
         {/* <div {...getRootProps({ className: 'dropzone' })}>
         <p>Drag & drop RPM avatar GLB file here</p>
@@ -240,7 +271,7 @@ function Page() {
             castShadow
           />
           <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
-          {rotation && (
+          {rotation && url && (
             <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
           )}
         </Canvas>
@@ -249,4 +280,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default AvatarBox;

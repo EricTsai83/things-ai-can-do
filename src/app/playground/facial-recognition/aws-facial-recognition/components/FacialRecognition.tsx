@@ -12,7 +12,7 @@ function FacialRecognition({
           <div>
             年齡: {faceAnalysis.AgeRange.Low} ~ {faceAnalysis.AgeRange.High}
           </div>
-          <div>鬍子: {faceAnalysis.Beard.Value}</div>
+          <div>鬍子: {faceAnalysis.Beard.Value.toString()}</div>
           <div>眼鏡: {faceAnalysis.Eyeglasses.Value.toString()}</div>
           <div>眼睛張開: {faceAnalysis.EyesOpen.Value.toString()}</div>
           <div>
