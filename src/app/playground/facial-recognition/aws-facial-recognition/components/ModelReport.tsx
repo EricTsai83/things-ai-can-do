@@ -47,7 +47,7 @@ export default function ModelReport({
 
   return (
     <div className="w-full pt-16">
-      <div className="mx-auto w-full min-w-[85%] max-w-md rounded-2xl bg-white p-2">
+      <div className="mx-auto w-full min-w-[85%] rounded-2xl bg-white p-2">
         <Disclosure>
           {({ open }) => (
             <>
