@@ -47,7 +47,7 @@ function SideNavbar() {
 
     if (lastElement === '') {
       setSelected('首頁');
-    } else if (lastElement === 'aws-api') {
+    } else if (lastElement === 'facial-recognition') {
       setSelected('臉部識別');
     } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
@@ -68,7 +68,7 @@ function SideNavbar() {
 
   function renderPlaygroundItem() {
     const hrefs = [
-      '/playground/facial-recognition/aws-api',
+      '/playground/facial-recognition',
       '/playground/chat-gpt',
       '/playground/create-your-own-puzzle',
       '/tech-intro/real-time-pose-estimation',
@@ -146,11 +146,11 @@ function SideNavbar() {
                 ? `
                 absolute right-0 top-0 z-40 h-screen w-screen
               bg-black opacity-50
-                transition delay-150 duration-500 ease-out
+                transition delay-150 duration-300 ease-out
                 xl:hidden`
                 : `
-              bg-white opacity-100
-                transition delay-150 duration-500 ease-out`
+              bg-black opacity-0
+                transition delay-150 duration-300 ease-out`
             }
             onClick={() => {
               console.log('e04麻把我關掉!');
@@ -179,17 +179,18 @@ function SideNavbar() {
                 ? `peer:transition fixed left-0 top-16 z-50
                   h-screen w-1/2
                   overflow-y-auto 
-                bg-white p-6 pt-0 
-                  delay-150 duration-300 ease-out
-                  ssm:w-60
+                border-r-2 border-gray-100 bg-white 
+                  p-6 pt-0 delay-150
+                  duration-300
+                  ease-out ssm:w-60
                   `
                 : `peer:transition fixed -left-1/2 top-16 z-50
                   h-screen w-1/2
                   overflow-y-auto 
-                bg-white p-6 pt-0 
-                  delay-150 duration-300 ease-out
-                  ssm:-left-60 ssm:w-60
-                  xl:left-0`
+                border-r-2 border-gray-100 bg-white 
+                  p-6 pt-0 delay-150
+                  duration-300 ease-out
+                  ssm:-left-60 ssm:w-60 xl:left-0`
             }>
             <div className={blockStyle}>
               <Link href={'/'} prefetch={false}>

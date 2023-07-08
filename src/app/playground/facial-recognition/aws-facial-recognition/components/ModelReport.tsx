@@ -1,0 +1,137 @@
+import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
+import { Disclosure } from '@headlessui/react';
+import { ChevronUpIcon } from '@heroicons/react/20/solid';
+import { useState } from 'react';
+import { FaceDetail } from '../types';
+import { SelectOption } from './Select';
+import { ImCross, ImCheckmark } from 'react-icons/im';
+import ImageMask from './ImageMask';
+import cutFaceOnImage from '@/utils/cut-face-on-image';
+import { GiClick } from 'react-icons/gi';
+
+interface Props {
+  faceDetails: FaceDetail[] | null;
+  imageSrc: string | null;
+  selectOption: SelectOption[];
+  setCanvasUrls: any;
+}
+
+export default function ModelReport({
+  faceDetails,
+  selectOption,
+  imageSrc,
+  setCanvasUrls,
+}: Props) {
+  const [faceUrls, setFaceUrls] = useState<string[]>([]);
+
+  async function asyncDrawFacialResultOnImg(faceDetails: FaceDetail[]) {
+    console.log(selectOption);
+    if (imageSrc && faceDetails && selectOption) {
+      const marksUsed = selectOption.map((element) => element.label);
+      const newImageUrl = await drawFacialResultOnImg(
+        imageSrc,
+        faceDetails,
+        marksUsed,
+      );
+      setCanvasUrls(newImageUrl);
+    }
+  }
+
+  async function asyncCutFaceOnImage(faceDetail: FaceDetail) {
+    if (imageSrc && faceDetail) {
+      const faceImageUrl = await cutFaceOnImage(imageSrc, faceDetail);
+      setFaceUrls((prev) => [...prev, faceImageUrl]);
+    }
+  }
+
+  return (
+    <div className="w-full pt-16">
+      <div className="mx-auto w-full min-w-[85%] max-w-md rounded-2xl bg-white p-2">
+        <Disclosure>
+          {({ open }) => (
+            <>
+              <Disclosure.Button
+                onClick={() => {
+                  faceDetails && asyncDrawFacialResultOnImg(faceDetails);
+                }}
+                className="
+                  flex w-full items-center justify-between rounded-lg
+                bg-teal-50 px-4 py-2 text-left text-lg font-medium
+                text-teal-600
+                hover:bg-teal-100 focus:outline-none
+                  focus-visible:ring focus-visible:ring-teal-200
+                  focus-visible:ring-opacity-75 ">
+                <span>顯示臉部偵測點在圖片上</span>
+                <ChevronUpIcon
+                  className={`${
+                    open ? 'rotate-180 transform' : ''
+                  } h-8 w-8 text-teal-600`}
+                />
+              </Disclosure.Button>
+              <Disclosure.Panel className="flex px-6 pb-2 pt-4 text-sm text-gray-500">
+                {faceDetails ? (
+                  <div className="flex">
+                    <ImCheckmark className="text-2xl text-green-600" />
+                    <p className="ml-1 flex items-center justify-center">
+                      已完成繪製臉部偵測框與臉部偵測點
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex">
+                    <ImCross className="text-2xl text-red-600" />
+                    <p className="ml-2 flex items-center justify-center">
+                      顯示失敗: 請先上傳圖片後，點擊模型推論的按鈕喔！
+                    </p>
+                  </div>
+                )}
+              </Disclosure.Panel>
+            </>
+          )}
+        </Disclosure>
+        <Disclosure as="div" className="mt-2">
+          {({ open }) => (
+            <>
+              <Disclosure.Button
+                onClick={() => {
+                  setFaceUrls([]);
+                  // 在此示例中，我們使用array.reduce 方法來檢索吞吐量，並在每個元素上執行異步函數 asyncFunction。
+                  // reduce方法的回調函數接收兩個參數：previousPromise和data。previousPromise表示前一個異步
+                  // 函數的返回值，而data寫入當前元素的值。我們使用await previousPromise來等待前一個異步函數的完成
+                  // ，然後使用await asyncFunction(data)來執行當前元素對應的異步函數。
+                  // 通過這種方式，你可以確保異步函數按照隊列中的順序依次執行，並且每個異步函數都使用相應的數據作為輸入。
+
+                  faceDetails &&
+                    faceDetails.reduce(async (previousPromise, faceDetail) => {
+                      await previousPromise;
+                      await asyncCutFaceOnImage(faceDetail);
+                    }, Promise.resolve());
+                }}
+                className="
+                flex w-full items-center justify-between rounded-lg bg-teal-50
+                px-4 py-2 text-left text-lg font-medium text-teal-600
+                hover:bg-teal-100 focus:outline-none focus-visible:ring
+                focus-visible:ring-teal-200 focus-visible:ring-opacity-75">
+                <span>臉部分析模型推論結果</span>
+                <ChevronUpIcon
+                  className={`${
+                    open ? 'rotate-180 transform' : ''
+                  } h-8 w-8 text-teal-600`}
+                />
+              </Disclosure.Button>
+              <Disclosure.Panel className="flex flex-col items-start px-6 pb-2 pt-4 text-sm text-gray-500">
+                <div className="flex">
+                  <GiClick className="text-2xl text-cyan-600" />
+                  <p className="mb-4 ml-1 flex items-center justify-center">
+                    點擊頭像取得進一步的結果
+                  </p>
+                </div>
+
+                <ImageMask faceDetails={faceDetails} faceUrls={faceUrls} />
+              </Disclosure.Panel>
+            </>
+          )}
+        </Disclosure>
+      </div>
+    </div>
+  );
+}

@@ -58,7 +58,5 @@ export function ReactECharts({
     }
   }, [loading, theme]);
 
-  return (
-    <div ref={chartRef} style={{ width: '100%', height: '100px', ...style }} />
-  );
+  return <div ref={chartRef} style={{ ...style }} />;
 }
