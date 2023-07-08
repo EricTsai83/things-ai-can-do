@@ -4,7 +4,6 @@ import type { Dispatch, SetStateAction, DragEvent, ChangeEvent } from 'react';
 import { useImmer } from 'use-immer';
 import type { FaceDetail } from '../types';
 import convertImageToBase64 from '@/utils/convert-image-to-base64';
-// import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
 import Image from 'next/image';
 import sampleImg1 from '../img/sample-img-1.jpg';
 import sampleImg2 from '../img/sample-img-2.jpeg';
@@ -42,7 +41,6 @@ function MyDropzone({
   const [imageBase64String, setImageBase64String] = useImmer<
     WritableDraft<ImageBase64String>
   >({});
-  // const [canvasUrls, setCanvasUrls] = useState<string | null>(null); // 存畫圖的url
   const [loading, setLoading] = useState(false);
 
   const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
@@ -99,19 +97,6 @@ function MyDropzone({
       setLoading(false);
     }
   }
-
-  // async function asyncDrawFacialResultOnImg(faceDetails: FaceDetail[]) {
-  //   console.log(selectOption);
-  //   if (imageSrc && faceDetails && selectOption) {
-  //     const marksUsed = selectOption.map((element) => element.label);
-  //     const newImageUrl = await drawFacialResultOnImg(
-  //       imageSrc,
-  //       faceDetails,
-  //       marksUsed,
-  //     );
-  //     setCanvasUrls(newImageUrl);
-  //   }
-  // }
 
   async function handleSampleImg(blob: Blob) {
     const imageUrl = URL.createObjectURL(blob);
@@ -181,14 +166,6 @@ function MyDropzone({
         loading={loading}
         getFacialRecognition={getFacialRecognition}
       />
-
-      {/* <button
-        className="border bg-slate-400"
-        onClick={async () => {
-          faceDetails && (await asyncDrawFacialResultOnImg(faceDetails));
-        }}>
-        顯示偵測點
-      </button> */}
     </div>
   );
 }
