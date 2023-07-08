@@ -179,17 +179,18 @@ function SideNavbar() {
                 ? `peer:transition fixed left-0 top-16 z-50
                   h-screen w-1/2
                   overflow-y-auto 
-                bg-white p-6 pt-0 
-                  delay-150 duration-300 ease-out
-                  ssm:w-60
+                border-r-2 border-gray-100 bg-white 
+                  p-6 pt-0 delay-150
+                  duration-300
+                  ease-out ssm:w-60
                   `
                 : `peer:transition fixed -left-1/2 top-16 z-50
                   h-screen w-1/2
                   overflow-y-auto 
-                bg-white p-6 pt-0 
-                  delay-150 duration-300 ease-out
-                  ssm:-left-60 ssm:w-60
-                  xl:left-0`
+                border-r-2 border-gray-100 bg-white 
+                  p-6 pt-0 delay-150
+                  duration-300 ease-out
+                  ssm:-left-60 ssm:w-60 xl:left-0`
             }>
             <div className={blockStyle}>
               <Link href={'/'} prefetch={false}>

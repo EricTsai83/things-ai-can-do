@@ -8,19 +8,19 @@ import MoodPieChart from './MoodPieChart';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
-  imageSrc: string | null;
+  faceUrls: string[];
 }
 
-function ImageMask({ imageSrc, faceDetails }: Props) {
-  const [faceUrls, setFaceUrls] = useState<string[]>([]);
+function ImageMask({ faceDetails, faceUrls }: Props) {
+  // const [faceUrls, setFaceUrls] = useState<string[]>([]);
   const [faceAnalysis, setFaceAnalysis] = useState<FaceDetail | null>(null);
 
-  async function asyncCutFaceOnImage(faceDetail: FaceDetail) {
-    if (imageSrc && faceDetail) {
-      const faceImageUrl = await cutFaceOnImage(imageSrc, faceDetail);
-      setFaceUrls((prev) => [...prev, faceImageUrl]);
-    }
-  }
+  // async function asyncCutFaceOnImage(faceDetail: FaceDetail) {
+  //   if (imageSrc && faceDetail) {
+  //     const faceImageUrl = await cutFaceOnImage(imageSrc, faceDetail);
+  //     setFaceUrls((prev) => [...prev, faceImageUrl]);
+  //   }
+  // }
 
   async function showFaceAnalysisResult(idx: number) {
     console.log(idx);
@@ -28,8 +28,8 @@ function ImageMask({ imageSrc, faceDetails }: Props) {
   }
 
   return (
-    <>
-      <button
+    <div className="flex">
+      {/* <button
         className="border bg-slate-400"
         onClick={() => {
           setFaceUrls([]);
@@ -47,23 +47,30 @@ function ImageMask({ imageSrc, faceDetails }: Props) {
             }, Promise.resolve());
         }}>
         點我看詳情
-      </button>
-      {faceUrls &&
-        faceUrls.map((faceUrl, idx) => {
-          return (
-            <Image
-              onClick={() => showFaceAnalysisResult(idx)}
-              key={idx}
-              src={faceUrl}
-              alt=""
-              width={100}
-              height={100}
-            />
-          );
-        })}
-      {faceAnalysis && <FacialRecognition faceAnalysis={faceAnalysis} />}
-      <MoodPieChart faceAnalysis={faceAnalysis} />
-    </>
+      </button> */}
+      <div className="flex w-full flex-col">
+        <div className="flex gap-2">
+          {faceUrls &&
+            faceUrls.map((faceUrl, idx) => {
+              return (
+                <Image
+                  className="cursor-pointer"
+                  onClick={() => showFaceAnalysisResult(idx)}
+                  key={idx}
+                  src={faceUrl}
+                  alt=""
+                  width={100}
+                  height={100}
+                />
+              );
+            })}
+        </div>
+        {faceAnalysis && <FacialRecognition faceAnalysis={faceAnalysis} />}
+      </div>
+      <div className="flex grow items-center justify-center">
+        <MoodPieChart faceAnalysis={faceAnalysis} />
+      </div>
+    </div>
   );
 }
 

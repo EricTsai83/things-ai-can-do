@@ -23,6 +23,7 @@ export const theme = {
   extend: {
     backgroundImage: {},
     colors: {},
+    spacing: {},
   },
 };
 

@@ -29,7 +29,7 @@ function MoodPieChart({ faceAnalysis }: Props) {
         },
         series: [
           {
-            name: 'Access From',
+            name: '情緒',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
@@ -66,7 +66,22 @@ function MoodPieChart({ faceAnalysis }: Props) {
     }
   }, [faceAnalysis]);
 
-  return pieChartOption && <ReactECharts option={pieChartOption} />;
+  return (
+    <div className="w-full">
+      {pieChartOption && (
+        <ReactECharts
+          style={{
+            width: '450px',
+            height: '480px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          option={pieChartOption}
+        />
+      )}
+    </div>
+  );
 }
 
 export default MoodPieChart;

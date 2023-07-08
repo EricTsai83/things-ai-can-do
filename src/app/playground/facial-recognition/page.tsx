@@ -4,61 +4,65 @@ import AwsFacialRecognition from './aws-facial-recognition/AwsFacialRecognition'
 import AvatarBox from './avatar/AvatarBox';
 import Tabs from './components/Tabs';
 import type { SearchParams } from './types';
-import { Select, SelectOption } from './components/Select';
-
-const options = [
-  { label: 'eyeLeft', value: 1 },
-  { label: 'eyeRight', value: 2 },
-  { label: 'mouthLeft', value: 3 },
-  { label: 'mouthRight', value: 4 },
-  { label: 'nose', value: 5 },
-  { label: 'leftEyeBrowLeft', value: 6 },
-  { label: 'leftEyeBrowRight', value: 7 },
-  { label: 'leftEyeBrowUp', value: 8 },
-  { label: 'rightEyeBrowLeft', value: 9 },
-  { label: 'rightEyeBrowRight', value: 10 },
-  { label: 'rightEyeBrowUp', value: 11 },
-  { label: 'leftEyeLeft', value: 12 },
-  { label: 'leftEyeRight', value: 13 },
-  { label: 'leftEyeUp', value: 14 },
-  { label: 'leftEyeDown', value: 15 },
-  { label: 'rightEyeLeft', value: 16 },
-  { label: 'rightEyeRight', value: 17 },
-  { label: 'rightEyeUp', value: 18 },
-  { label: 'rightEyeDown', value: 19 },
-  { label: 'noseLeft', value: 20 },
-  { label: 'noseRight', value: 21 },
-  { label: 'mouthUp', value: 22 },
-  { label: 'mouthDown', value: 23 },
-  { label: 'leftPupil', value: 24 },
-  { label: 'rightPupil', value: 25 },
-  { label: 'upperJawlineLeft', value: 26 },
-  { label: 'midJawlineLeft', value: 27 },
-  { label: 'chinBottom', value: 28 },
-  { label: 'midJawlineRight', value: 29 },
-  { label: 'upperJawlineRight', value: 30 },
-];
+import {
+  Select,
+  SelectOption,
+} from './aws-facial-recognition/components/Select';
+import options from './aws-facial-recognition/components/select-option-config';
+import ModelReport from './aws-facial-recognition/components/ModelReport';
+import { FaceDetail } from './aws-facial-recognition/types';
 
 function Page({ searchParams }: { searchParams: SearchParams }) {
   const [tabClass, setTabClass] = useState<string>('picture');
-  const [facePoints, setFacePoints] = useState<SelectOption[]>([options[0]]);
+  const [selectOption, setSelectOption] = useState<SelectOption[]>([
+    options[0],
+  ]);
+  const [faceDetails, setFaceDetails] = useState<FaceDetail[] | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [canvasUrls, setCanvasUrls] = useState<string | null>(null); // 存畫圖的url
 
   return (
-    <div className="flex px-2 pt-16">
-      {tabClass === 'picture' ? (
-        <AwsFacialRecognition searchParams={searchParams} />
-      ) : (
-        <AvatarBox searchParams={searchParams} />
-      )}
-      <div>
-        {/* <Tabs setTabClass={setTabClass} /> */}
-        <Select
-          multiple
-          options={options}
-          value={facePoints}
-          onChange={(o) => setFacePoints(o)}
-        />
+    <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
+      <div className="flex w-full gap-6">
+        {tabClass === 'picture' ? (
+          <AwsFacialRecognition
+            searchParams={searchParams}
+            selectOption={selectOption}
+            faceDetails={faceDetails}
+            setFaceDetails={setFaceDetails}
+            imageSrc={imageSrc}
+            setImageSrc={setImageSrc}
+            canvasUrls={canvasUrls}
+            setCanvasUrls={setCanvasUrls}
+          />
+        ) : (
+          <AvatarBox searchParams={searchParams} />
+        )}
+        <div className="flex w-full min-w-[360px] flex-col items-end gap-6">
+          <Tabs setTabClass={setTabClass} />
+          {tabClass === 'picture' && (
+            <div className="flex w-full flex-col gap-2">
+              <h3 className="text-base font-medium text-gray-600">
+                偵測點參數選擇
+              </h3>
+              <Select
+                multiple
+                options={options}
+                value={selectOption}
+                onChange={(o) => setSelectOption(o)}
+              />
+            </div>
+          )}
+        </div>
       </div>
+      {tabClass === 'picture' && (
+        <ModelReport
+          faceDetails={faceDetails}
+          imageSrc={imageSrc}
+          selectOption={selectOption}
+          setCanvasUrls={setCanvasUrls}
+        />
+      )}
     </div>
   );
 }

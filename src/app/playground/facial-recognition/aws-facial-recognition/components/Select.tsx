@@ -91,7 +91,7 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
       onClick={() => setIsOpen((prev) => !prev)}
       tabIndex={0}
       className="
-        relative flex w-96 max-w-xs items-center gap-1
+        relative flex w-full items-center gap-1
         rounded-lg border border-gray-400 p-1
       focus:border-gray-500">
       <span className="flex max-h-96 grow flex-wrap gap-1.5 overflow-y-auto">
