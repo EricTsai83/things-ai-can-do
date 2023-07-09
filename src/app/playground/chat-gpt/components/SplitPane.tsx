@@ -1,7 +1,13 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import type { ReactNode, MouseEventHandler } from 'react';
-import QuoteContext from '../context/QuoteContext';
+import ContentContext from '../context/ContentContext';
 import SplitPaneContext from '../context/SplitPaneContext';
+import Delimiter from './prompt/Delimiter';
+import StructureFormat from './prompt/StructureFormat';
+import Condition from './prompt/Condition';
+import Link from 'next/link';
+import Imitate from './prompt/Imitate';
+import { TbTargetArrow } from 'react-icons/tb';
 
 interface SplitPaneProps {
   children: ReactNode[];
@@ -80,7 +86,7 @@ export const Divider = (props: ClassNameProps) => {
 export const SplitPaneTop = () => {
   const topRef = useRef<HTMLDivElement>(null);
   const { clientHeight, setClientHeight } = useContext(SplitPaneContext);
-  const { quotes, setCurrQuote } = useContext(QuoteContext);
+  const { contents, currContent, setCurrContent } = useContext(ContentContext);
 
   useEffect(() => {
     if (clientHeight === null && topRef.current) {
@@ -94,18 +100,27 @@ export const SplitPaneTop = () => {
   }, [clientHeight]);
 
   return (
-    <div className="flex-1 overflow-hidden text-left" ref={topRef}>
-      <h1 className="text-2xl">ChatGPT Prompts Template:</h1>
-      <ul className="list-inside list-disc">
-        {quotes.map((el, i) => {
+    <div
+      className="min-h-[300px] flex-1 overflow-hidden text-left"
+      ref={topRef}>
+      <h1 className="text-2xl text-gray-800 underline decoration-teal-400 underline-offset-4">
+        ChatGPT Prompts 模板:
+      </h1>
+      <ul className="m-0.5 mt-3 flex list-inside list-disc flex-col gap-2">
+        {contents.map((element) => {
           return (
-            <li className="m-0.5" key={i}>
-              <a
-                className="text-xl underline decoration-sky-600 hover:decoration-blue-400"
-                href="#"
-                onClick={() => setCurrQuote(el.id)}>
-                {el.author}
-              </a>
+            <li key={element.id}>
+              <Link
+                className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
+                href=""
+                onClick={() => setCurrContent(element.id)}>
+                {element.subject}
+                {currContent === element.id && (
+                  <div className="inline-block align-middle">
+                    <TbTargetArrow className="ml-2 text-2xl text-red-600" />
+                  </div>
+                )}
+              </Link>
             </li>
           );
         })}
@@ -115,16 +130,24 @@ export const SplitPaneTop = () => {
 };
 
 export const SplitPaneBottom = () => {
-  // const { currQuote } = useContext(QuoteContext);
+  const { contents, currContent } = useContext(ContentContext);
+  const content = contents.find((element) => element.id === currContent)!;
 
-  const { quotes, currQuote } = useContext(QuoteContext);
-  const quote = quotes.find((element) => element.id === currQuote)!;
+  function pageContent() {
+    if (content.description === 'delimiter') {
+      return <Delimiter />;
+    } else if (content.description === 'output-format') {
+      return <StructureFormat />;
+    } else if (content.description === 'condition') {
+      return <Condition />;
+    } else if (content.description === 'imitate') {
+      return <Imitate />;
+    } else {
+      // pass
+    }
+  }
 
-  return (
-    <div className="flex-1 overflow-hidden text-left">
-      <b>Prompt 結構</b>: {quote.description}
-    </div>
-  );
+  return <div className="overflow-y-auto">{pageContent()}</div>;
 };
 
 interface SplitPaneLeftProps {
@@ -154,8 +177,8 @@ interface SplitPaneRightProps {
 }
 
 export const SplitPaneRight = ({ children }: SplitPaneRightProps) => {
-  // const { quotes, currQuote } = useContext(QuoteContext);
-  // const quote = quotes.find((element) => element.id === currQuote);
+  // const { contents, currQuote } = useContext(QuoteContext);
+  // const quote = contents.find((element) => element.id === currQuote);
 
   return <div className="flex-1 overflow-hidden">{children}</div>;
 };

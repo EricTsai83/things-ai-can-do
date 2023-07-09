@@ -1,13 +1,14 @@
-import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
 import { Disclosure } from '@headlessui/react';
-import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import { FaceDetail } from '../types';
 import { SelectOption } from './Select';
-import { ImCross, ImCheckmark } from 'react-icons/im';
 import ImageMask from './ImageMask';
 import cutFaceOnImage from '@/utils/cut-face-on-image';
+import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
+import { ChevronUpIcon } from '@heroicons/react/20/solid';
+import { ImCross, ImCheckmark } from 'react-icons/im';
 import { GiClick } from 'react-icons/gi';
+import { IoIosRefreshCircle } from 'react-icons/io';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -46,7 +47,7 @@ export default function ModelReport({
 
   return (
     <div className="w-full pt-16">
-      <div className="mx-auto w-full min-w-[85%] max-w-md rounded-2xl bg-white p-2">
+      <div className="mx-auto w-full min-w-[85%] rounded-2xl bg-white p-2">
         <Disclosure>
           {({ open }) => (
             <>
@@ -71,7 +72,25 @@ export default function ModelReport({
               <Disclosure.Panel className="flex px-6 pb-2 pt-4 text-sm text-gray-500">
                 {faceDetails ? (
                   <div className="flex">
-                    <ImCheckmark className="text-2xl text-green-600" />
+                    {/* <ImCheckmark className="text-2xl text-green-600" /> */}
+
+                    <div className="group relative">
+                      <IoIosRefreshCircle
+                        onClick={() => {
+                          faceDetails &&
+                            asyncDrawFacialResultOnImg(faceDetails);
+                        }}
+                        className="cursor-pointer text-3xl text-green-600"
+                      />
+                      <div
+                        className="
+                        absolute -left-8 top-8 hidden w-32 border border-gray-300
+                      bg-white p-2 text-center
+                        group-hover:block">
+                        刷新臉部偵測點
+                      </div>
+                    </div>
+
                     <p className="ml-1 flex items-center justify-center">
                       已完成繪製臉部偵測框與臉部偵測點
                     </p>

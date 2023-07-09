@@ -44,7 +44,7 @@ function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
       newArray.push(randomitemArray[0]);
     }
     setImageArrangement(newArray);
-  }, []);
+  }, [imageArrangement, setImageArrangement]);
 
   useEffect(() => {
     initialRef.current && shuffleArray();

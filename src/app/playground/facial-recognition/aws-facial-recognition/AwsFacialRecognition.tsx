@@ -1,8 +1,5 @@
 'use client';
-// import { useState } from 'react';
-// import FacialRecognition from './components/FacialRecognition';
 import MyDropzone from './components/MyDropzone';
-// import ImageMask from './components/ImageMask';
 import type { FaceDetail } from './types';
 import type { SearchParams } from '../types';
 import { SelectOption } from './components/Select';
@@ -29,9 +26,6 @@ function AwsFacialRecognition({
   canvasUrls,
   setCanvasUrls,
 }: Props) {
-  // const [faceDetails, setFaceDetails] = useState<FaceDetail[] | null>(null);
-  // const [imageSrc, setImageSrc] = useState<string | null>(null);
-
   return (
     <div className="flex w-full flex-col">
       <MyDropzone
@@ -44,7 +38,6 @@ function AwsFacialRecognition({
         canvasUrls={canvasUrls}
         setCanvasUrls={setCanvasUrls}
       />
-      {/* <ImageMask imageSrc={imageSrc} faceDetails={faceDetails} /> */}
     </div>
   );
 }

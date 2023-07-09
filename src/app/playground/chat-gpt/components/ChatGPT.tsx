@@ -1,6 +1,8 @@
 'use client';
 // 不是很懂，細讀一下
 import { useState, useRef } from 'react';
+import { AiOutlineSend } from 'react-icons/ai';
+import { MdCleaningServices } from 'react-icons/md';
 
 function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -44,17 +46,69 @@ function ChatGPT() {
   }
 
   async function handleSendClick() {
-    if (inputRef.current) {
+    if (inputRef.current?.value) {
       setResponse(''); // Clear previous response
       await getChatGPTResponse(inputRef.current.value);
     }
   }
 
+  const resizeTextarea = (event: any) => {
+    event.target.style.height = 'auto';
+    event.target.style.height = `${event.target.scrollHeight}px`;
+  };
+
   return (
-    <div className="pt-16">
-      <textarea className="border" ref={inputRef} />
-      <button onClick={handleSendClick}>Send</button>
-      {response && <div className="response">{response}</div>}
+    <div className="flex w-full flex-col items-center justify-center">
+      <div className="relative w-full">
+        <div
+          className="
+          absolute left-0 top-0 w-full rounded-lg bg-gray-700
+          p-2 text-center text-lg text-gray-200">
+          ChatGPT
+        </div>
+        <MdCleaningServices
+          onClick={() => {
+            setResponse('');
+          }}
+          className="absolute right-5 top-3 cursor-pointer text-xl text-gray-200 active:text-white"
+        />
+      </div>
+      <div className="w-full">
+        {response && (
+          <div className="mx-4 mt-14 text-gray-200">
+            {response.slice(1).slice(0, -2)}
+          </div>
+        )}
+      </div>
+
+      <div className="fixed bottom-6 px-12">
+        <div className="relative">
+          <textarea
+            onInput={resizeTextarea}
+            placeholder="輸入訊息"
+            className="
+              flex w-full items-center overflow-hidden
+              rounded-lg border border-gray-400
+              p-4 pr-10 placeholder:text-slate-400
+            focus:border-gray-500"
+            ref={inputRef}
+          />
+          <AiOutlineSend
+            onClick={handleSendClick}
+            className="absolute bottom-8 right-4 cursor-pointer text-xl active:text-gray-200"
+          />
+        </div>
+        <p className="mt-1.5 text-xs text-gray-200">
+          Free Research Preview. ChatGPT may produce inaccurate information
+          about people, places, or facts.
+          <a
+            className="underline decoration-1"
+            href="https://platform.openai.com/docs/guides/gpt/chat-completions-api"
+            target="_blank">
+            gpt-3.5-turbo
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

@@ -230,7 +230,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
         console.log('age', searchParams.age);
       }
     }
-  }, [searchParams.gender, searchParams.age, setUrl]);
+  }, [searchParams.gender, searchParams.age, searchParams, setUrl]);
 
   return (
     <div className="">
