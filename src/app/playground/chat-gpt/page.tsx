@@ -29,7 +29,7 @@ function Page() {
           <Divider className="cursor-col-resize border-2 border-black" />
 
           <SplitPaneRight>
-            <div className="h-full bg-gray-500">
+            <div className="h-full rounded-t-lg bg-gray-500">
               <ChatGPT />
             </div>
           </SplitPaneRight>

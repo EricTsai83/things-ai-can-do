@@ -1,34 +1,33 @@
 import { useRef } from 'react';
 import { RiFileCopyFill } from 'react-icons/ri';
+import copyToClipboard from './copy-to-clipboard';
 
 export function WithStepDesc() {
   return (
     <div className="rounded-2xl bg-gray-500 text-gray-100">
-      <div className="p-6">
+      <div className="whitespace-normal p-8">
         <p>
-          You will be provided with text delimited by triple quotes. If it
-          contains a sequence of instructions, re-write those instructions in
-          the following format:
+          {`You will be provided with text delimited by triple quotes. If it\
+          contains a sequence of instructions, re-write those instructions in\
+          the following format:\
+          `}
         </p>
-        <br />
-        <p>Step 1 - ...</p>
-        <p> Step 2 - … </p>
-        <p>… </p>
-        <p>Step N - …</p>
-        <br />
+        <p>{`\nStep 1 - ...`}</p>
+        <p>{`\nStep 2 - …`}</p>
+        <p>{`\n…`}</p>
+        <p>{`\nStep N - …`}</p>
         <p>
-          If the text does not contain a sequence of instructions, then simply
-          write &quot;No steps provided.&quot;
+          {`\nIf the text does not contain a sequence of instructions, then simply\
+          write "No steps provided."`}
         </p>
-        <br />
         <p>
-          &quot;&quot;&quot;Making a cup of tea is easy! First, you need to get
-          some water boiling. While that&apos;s happening, grab a cup and put a
-          tea bag in it. Once the water is hot enough, just pour it over the tea
-          bag. Let it sit for a bit so the tea can steep. After a few minutes,
-          take out the tea bag. If you like, you can add some sugar or milk to
-          taste. And that&apos;s it! You&apos;ve got yourself a delicious cup of
-          tea to enjoy.&quot;&quot;&quot;
+          {`\n"""Making a cup of tea is easy! First, you need to get\
+          some water boiling. While that&apos;s happening, grab a cup and put a\
+          tea bag in it. Once the water is hot enough, just pour it over the tea\
+          bag. Let it sit for a bit so the tea can steep. After a few minutes,\
+          take out the tea bag. If you like, you can add some sugar or milk to\
+          taste. And that&apos;s it! You&apos;ve got yourself a delicious cup of\
+          tea to enjoy."""`}
         </p>
       </div>
     </div>
@@ -38,31 +37,30 @@ export function WithStepDesc() {
 export function WithoutStepDesc() {
   return (
     <div className="rounded-2xl bg-gray-500 text-gray-100">
-      <div className="p-6">
+      <div className="whitespace-normal p-8">
         <p>
-          You will be provided with text delimited by triple quotes. If it
-          contains a sequence of instructions, re-write those instructions in
-          the following format:
+          {`You will be provided with text delimited by triple quotes. If it\
+          contains a sequence of instructions, re-write those instructions in\
+          the following format:`}
+        </p>
+        <p>{`\nStep 1 - ...`}</p>
+        <p> {`\nStep 2 - …`} </p>
+        <p>{`\n…`} </p>
+        <p>{`\nStep N - …`}</p>
+        <p>
+          {`\nIf the text does not contain a sequence of instructions, then simply\
+          write "No steps provided."`}
         </p>
         <br />
-        <p>Step 1 - ...</p>
-        <p> Step 2 - … </p>
-        <p>… </p>
-        <p>Step N - …</p>
-        <br />
         <p>
-          If the text does not contain a sequence of instructions, then simply
-          write &quot;No steps provided.&quot;
-        </p>
-        <br />
-        <p>
-          &quot;&quot;&quot;The sun is shining brightly today, and the birds are
-          singing. It&apos;s a beautiful day to go for a walk in the park. The
-          flowers are blooming, and the trees are swaying gently in the breeze.
-          People are out and about, enjoying the lovely weather. Some are having
-          picnics, while others are playing games or simply relaxing on the
-          grass. It&apos;s a perfect day to spend time outdoors and appreciate
-          the beauty of nature.&quot;&quot;&quot;
+          {`
+          """The sun is shining brightly today, and the birds are\
+          singing. It&apos;s a beautiful day to go for a walk in the park. The\
+          flowers are blooming, and the trees are swaying gently in the breeze.\
+          People are out and about, enjoying the lovely weather. Some are having\
+          picnics, while others are playing games or simply relaxing on the\
+          grass. It&apos;s a perfect day to spend time outdoors and appreciate\
+          the beauty of nature."""`}
         </p>
       </div>
     </div>
@@ -72,22 +70,24 @@ export function WithoutStepDesc() {
 function Condition() {
   const tactic1Ref = useRef<HTMLDivElement | null>(null);
   const tactic2Ref = useRef<HTMLDivElement | null>(null);
-  const copyToClipboard = (divRef: any) => {
-    const textToCopy = divRef.current?.textContent as string;
-    navigator.clipboard
-      .writeText(textToCopy)
-      .then(() => {
-        console.log('Text copied to clipboard');
-      })
-      .catch((error) => {
-        console.error('Error copying text:', error);
-      });
-  };
+
+  function renderPromptHeader(tacticRef: any) {
+    return (
+      <div className="absolute -top-5 w-full rounded-2xl bg-gray-700 p-2 text-gray-200">
+        <div className="pl-3">prompt</div>
+        <button
+          className="absolute right-3 top-2 cursor-pointer text-gray-200 active:text-white"
+          onClick={() => copyToClipboard(tacticRef)}>
+          <RiFileCopyFill className="text-2xl" />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 overflow-y-scroll whitespace-pre-line text-left">
       <div className="text-lg text-gray-800">📝 應用技巧</div>
-      <div className="text-gray-600">
+      <div className="mt-3 text-gray-600">
         <p>
           可以透過給定條件來讓模型判斷並給出相應的結果。以下第一部分的 prompt
           給的是有順序的描述，請 chatGPT
@@ -96,29 +96,22 @@ function Condition() {
         </p>
       </div>
       <br />
-      <h3 className="text-lg text-gray-800">🟢 情境一: 有步驟順序的描述</h3>
+      <h3 className="mt-6 text-lg text-gray-800">
+        🟢 情境一: 有步驟順序的描述
+      </h3>
       <br />
-      <div className="relative">
-        <button
-          className="absolute right-3 top-2 cursor-pointer text-gray-200 active:text-white"
-          onClick={() => copyToClipboard(tactic1Ref)}>
-          <RiFileCopyFill className="text-2xl" />
-        </button>
+      <div className="relative mt-8">
+        {renderPromptHeader(tactic1Ref)}
         <div ref={tactic1Ref}>
           <WithStepDesc />
         </div>
       </div>
 
-      <br />
-      <br />
-      <h3 className="text-lg text-gray-800">🟢 情境二: 沒有步驟順序的描述</h3>
-      <br />
-      <div className="relative">
-        <button
-          className="absolute right-3 top-2 cursor-pointer text-gray-200 active:text-white"
-          onClick={() => copyToClipboard(tactic2Ref)}>
-          <RiFileCopyFill className="text-2xl" />
-        </button>
+      <h3 className="mt-6 text-lg text-gray-800">
+        🟢 情境二: 沒有步驟順序的描述
+      </h3>
+      <div className="relative mt-8">
+        {renderPromptHeader(tactic2Ref)}
         <div ref={tactic2Ref}>
           <WithoutStepDesc />
         </div>

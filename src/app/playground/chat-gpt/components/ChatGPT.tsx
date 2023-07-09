@@ -1,12 +1,12 @@
 'use client';
 // 不是很懂，細讀一下
-import { useState, useRef, SetStateAction } from 'react';
+import { useState, useRef } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
+import { MdCleaningServices } from 'react-icons/md';
 
 function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [response, setResponse] = useState('');
-  const [value, setValue] = useState('');
 
   async function getChatGPTResponse(data: string) {
     const response = await fetch(`/api/chatGPT`, {
@@ -52,12 +52,6 @@ function ChatGPT() {
     }
   }
 
-  const handleTextareaChange = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setValue(event.target.value);
-  };
-
   const resizeTextarea = (event: any) => {
     event.target.style.height = 'auto';
     event.target.style.height = `${event.target.scrollHeight}px`;
@@ -65,16 +59,31 @@ function ChatGPT() {
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      {response && (
-        <div className="mx-4 my-7 text-gray-200">
-          {response.slice(1).slice(0, -2)}
+      <div className="relative w-full">
+        <div
+          className="
+          absolute left-0 top-0 w-full rounded-lg bg-gray-700
+          p-2 text-center text-lg text-gray-200">
+          ChatGPT
         </div>
-      )}
+        <MdCleaningServices
+          onClick={() => {
+            setResponse('');
+          }}
+          className="absolute right-5 top-3 cursor-pointer text-xl text-gray-200 active:text-white"
+        />
+      </div>
+      <div className="w-full">
+        {response && (
+          <div className="mx-4 mt-14 text-gray-200">
+            {response.slice(1).slice(0, -2)}
+          </div>
+        )}
+      </div>
 
       <div className="fixed bottom-6 px-12">
         <div className="relative">
           <textarea
-            onChange={handleTextareaChange}
             onInput={resizeTextarea}
             placeholder="輸入訊息"
             className="

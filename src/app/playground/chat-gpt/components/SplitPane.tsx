@@ -7,6 +7,7 @@ import StructureFormat from './prompt/StructureFormat';
 import Condition from './prompt/Condition';
 import Link from 'next/link';
 import Imitate from './prompt/Imitate';
+import { TbTargetArrow } from 'react-icons/tb';
 
 interface SplitPaneProps {
   children: ReactNode[];
@@ -85,7 +86,7 @@ export const Divider = (props: ClassNameProps) => {
 export const SplitPaneTop = () => {
   const topRef = useRef<HTMLDivElement>(null);
   const { clientHeight, setClientHeight } = useContext(SplitPaneContext);
-  const { contents, setCurrContent } = useContext(ContentContext);
+  const { contents, currContent, setCurrContent } = useContext(ContentContext);
 
   useEffect(() => {
     if (clientHeight === null && topRef.current) {
@@ -102,16 +103,23 @@ export const SplitPaneTop = () => {
     <div
       className="min-h-[300px] flex-1 overflow-hidden text-left"
       ref={topRef}>
-      <h1 className="text-2xl">ChatGPT Prompts 模板:</h1>
-      <ul className="list-inside list-disc">
-        {contents.map((el, i) => {
+      <h1 className="text-2xl text-gray-800 underline decoration-teal-400 underline-offset-4">
+        ChatGPT Prompts 模板:
+      </h1>
+      <ul className="m-0.5 mt-3 flex list-inside list-disc flex-col gap-2">
+        {contents.map((element) => {
           return (
-            <li className="m-0.5 flex flex-col gap-2" key={i}>
+            <li key={element.id}>
               <Link
-                className="text-xl underline decoration-sky-600 hover:decoration-blue-400"
+                className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
                 href=""
-                onClick={() => setCurrContent(el.id)}>
-                {el.subject}
+                onClick={() => setCurrContent(element.id)}>
+                {element.subject}
+                {currContent === element.id && (
+                  <div className="inline-block align-middle">
+                    <TbTargetArrow className="ml-2 text-2xl text-red-600" />
+                  </div>
+                )}
               </Link>
             </li>
           );
@@ -139,7 +147,7 @@ export const SplitPaneBottom = () => {
     }
   }
 
-  return <div className="overflow-y-scroll">{pageContent()}</div>;
+  return <div className="overflow-y-auto">{pageContent()}</div>;
 };
 
 interface SplitPaneLeftProps {
