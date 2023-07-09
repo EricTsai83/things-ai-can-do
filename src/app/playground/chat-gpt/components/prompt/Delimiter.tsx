@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { RiFileCopyFill } from 'react-icons/ri';
-import copyToClipboard from './copy-to-clipboard';
+import { copyRefToClipboard } from '@/utils/copy-to-clipboard';
 
 export function DelimiterTactic1() {
   return (
@@ -54,7 +54,7 @@ function Delimiter() {
         <div className="pl-3">prompt</div>
         <button
           className="absolute right-3 top-2 cursor-pointer text-gray-200 active:text-white"
-          onClick={() => copyToClipboard(tacticRef)}>
+          onClick={() => copyRefToClipboard(tacticRef)}>
           <RiFileCopyFill className="text-2xl" />
         </button>
       </div>

@@ -46,7 +46,7 @@ export default function ModelReport({
   }
 
   return (
-    <div className="w-full pt-16">
+    <div className="w-full pt-10">
       <div className="mx-auto w-full min-w-[85%] rounded-2xl bg-white p-2">
         <Disclosure>
           {({ open }) => (
@@ -62,7 +62,16 @@ export default function ModelReport({
                 hover:bg-teal-100 focus:outline-none
                   focus-visible:ring focus-visible:ring-teal-200
                   focus-visible:ring-opacity-75 ">
-                <span>顯示臉部偵測點在圖片上</span>
+                <span className="flex items-center">
+                  顯示臉部偵測點在圖片上
+                  <IoIosRefreshCircle
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      faceDetails && asyncDrawFacialResultOnImg(faceDetails);
+                    }}
+                    className="z-10 ml-3 cursor-pointer text-3xl text-green-600"
+                  />
+                </span>
                 <ChevronUpIcon
                   className={`${
                     open ? 'rotate-180 transform' : ''
@@ -72,16 +81,7 @@ export default function ModelReport({
               <Disclosure.Panel className="flex px-6 pb-2 pt-4 text-sm text-gray-500">
                 {faceDetails ? (
                   <div className="flex">
-                    {/* <ImCheckmark className="text-2xl text-green-600" /> */}
-
                     <div className="group relative">
-                      <IoIosRefreshCircle
-                        onClick={() => {
-                          faceDetails &&
-                            asyncDrawFacialResultOnImg(faceDetails);
-                        }}
-                        className="cursor-pointer text-3xl text-green-600"
-                      />
                       <div
                         className="
                         absolute -left-8 top-8 hidden w-32 border border-gray-300
@@ -91,8 +91,11 @@ export default function ModelReport({
                       </div>
                     </div>
 
-                    <p className="ml-1 flex items-center justify-center">
-                      已完成繪製臉部偵測框與臉部偵測點
+                    <p className="flex">
+                      <ImCheckmark className="text-2xl text-green-600" />
+                      <p className="ml-2 flex items-center justify-center">
+                        已完成繪製臉部偵測框與臉部偵測點
+                      </p>
                     </p>
                   </div>
                 ) : (
@@ -130,7 +133,24 @@ export default function ModelReport({
                 px-4 py-2 text-left text-lg font-medium text-teal-600
                 hover:bg-teal-100 focus:outline-none focus-visible:ring
                 focus-visible:ring-teal-200 focus-visible:ring-opacity-75">
-                <span>臉部分析模型推論結果</span>
+                <span className="flex items-center">
+                  臉部分析模型推論結果
+                  <IoIosRefreshCircle
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setFaceUrls([]);
+                      faceDetails &&
+                        faceDetails.reduce(
+                          async (previousPromise, faceDetail) => {
+                            await previousPromise;
+                            await asyncCutFaceOnImage(faceDetail);
+                          },
+                          Promise.resolve(),
+                        );
+                    }}
+                    className="z-10 ml-3 cursor-pointer text-3xl text-green-600"
+                  />
+                </span>
                 <ChevronUpIcon
                   className={`${
                     open ? 'rotate-180 transform' : ''
@@ -138,14 +158,25 @@ export default function ModelReport({
                 />
               </Disclosure.Button>
               <Disclosure.Panel className="flex flex-col items-start px-6 pb-2 pt-4 text-sm text-gray-500">
-                <div className="flex">
-                  <GiClick className="text-2xl text-cyan-600" />
-                  <p className="mb-4 ml-1 flex items-center justify-center">
-                    點擊頭像取得進一步的結果
-                  </p>
-                </div>
+                {faceDetails ? (
+                  <div>
+                    <div className="flex">
+                      <GiClick className="text-2xl text-cyan-600" />
+                      <p className="mb-4 ml-1 flex items-center justify-center">
+                        點擊頭像取得進一步的結果
+                      </p>
+                    </div>
 
-                <ImageMask faceDetails={faceDetails} faceUrls={faceUrls} />
+                    <ImageMask faceDetails={faceDetails} faceUrls={faceUrls} />
+                  </div>
+                ) : (
+                  <div className="flex">
+                    <ImCross className="text-2xl text-red-600" />
+                    <p className="ml-2 flex items-center justify-center">
+                      分析失敗: 請先上傳圖片後，點擊模型推論的按鈕喔！
+                    </p>
+                  </div>
+                )}
               </Disclosure.Panel>
             </>
           )}

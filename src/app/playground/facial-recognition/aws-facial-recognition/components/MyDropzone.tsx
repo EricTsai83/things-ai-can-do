@@ -141,10 +141,10 @@ function MyDropzone({
     <div className="w-full">
       <div // dropzone
         className="
-          relative flex h-[360px] w-full min-w-[360px] 
-          items-center justify-center 
-          border-2 border-dashed border-black
-          object-contain"
+          relative mb-6 flex h-[360px] w-full 
+          min-w-[360px] items-center 
+          justify-center border-2 border-dashed
+          border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
@@ -167,10 +167,7 @@ function MyDropzone({
           className="absolute -left-full"
         />
       </div>
-      <LoadingButton
-        loading={loading}
-        getFacialRecognition={getFacialRecognition}
-      />
+      <LoadingButton loading={loading} executeFunction={getFacialRecognition} />
     </div>
   );
 }

@@ -80,7 +80,6 @@ function ChatGPT() {
           </div>
         )}
       </div>
-
       <div className="fixed bottom-6 px-12">
         <div className="relative">
           <textarea
@@ -98,7 +97,7 @@ function ChatGPT() {
             className="absolute bottom-8 right-4 cursor-pointer text-xl active:text-gray-200"
           />
         </div>
-        <p className="mt-1.5 text-xs text-gray-200">
+        <p className="mt-1.5 px-10 text-xs text-gray-200">
           Free Research Preview. ChatGPT may produce inaccurate information
           about people, places, or facts.
           <a
