@@ -1,14 +1,13 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { copyTextToClipboard } from '@/utils/copy-to-clipboard';
+import { RiFileCopyFill } from 'react-icons/ri';
 
 const people = [
   {
     id: 1,
-    name: `
-      ull body cyborg| full-length portrait| detailed face| 
-      symmetric| steampunk| cyberpunk| cyborg| intricate detailed| 
-      to scale| hyperrealistic| cinematic lighting| digital art`,
+    name: `ull body cyborg| full-length portrait| detailed face| symmetric| steampunk| cyberpunk| cyborg| intricate detailed| to scale| hyperrealistic| cinematic lighting| digital art`,
   },
   { id: 2, name: `batman-cat, hyper detalic, cinematic, animation, 8k` },
   {
@@ -17,33 +16,22 @@ const people = [
   },
   {
     id: 4,
-    name: `
-      hawaiian sea turtle, tropical beach, perfect photo-realistic face, 
-      ethereal and dreamy watercolor painting by Robert Wyland, highly detailed, 
-      dramatic cinematic lighting, 4k, 50mm lens`,
+    name: `hawaiian sea turtle, tropical beach, perfect photo-realistic face, ethereal and dreamy watercolor painting by Robert Wyland, highly detailed, dramatic cinematic lighting, 4k, 50mm lens`,
   },
   {
     id: 5,
-    name: `
-      painting of a bouquet of flowers in vase, interior design in background, 
-      dreamy sunken living room conversation pit, small windows opening onto the 
-      garden, high ceiling, wide shot, bright soft diffused light, depth of field, 
-      digital painting, artstation, concept art, intricate, highly detailed, masterpiece, 
-      trending on Artstation, art by artgerm and greg rutkowski and alphonse mucha, hdr 4k, 8k`,
+    name: `painting of a bouquet of flowers in vase, interior design in background, dreamy sunken living room conversation pit, small windows opening onto the garden, high ceiling, wide shot, bright soft diffused light, depth of field, digital painting, artstation, concept art, intricate, highly detailed, masterpiece, trending on Artstation, art by artgerm and greg rutkowski and alphonse mucha, hdr 4k, 8k`,
   },
   {
     id: 6,
-    name: `
-      professional portrait of XIX century worker, male, tired look, XIX century, 
-      heavy brushstrokes, textured paint, impasto paint, highly detailed, intricate, 
-      cinematic lighting, oil painting, highly textured skin, dramatic, 8k, trending 
-      on artstation, painting by Vittorio Matteo Corcos and Albert Lynch and Tom Roberts`,
+    name: `professional portrait of XIX century worker, male, tired look, XIX century, heavy brushstrokes, textured paint, impasto paint, highly detailed, intricate, cinematic lighting, oil painting, highly textured skin, dramatic, 8k, trending on artstation, painting by Vittorio Matteo Corcos and Albert Lynch and Tom Roberts`,
   },
 ];
 
 function PromptSearchBox() {
   const [selected, setSelected] = useState(people[0]);
   const [query, setQuery] = useState('');
+  // const inputPromptRef = useRef<HTMLInputElement | null>(null);
 
   const filteredPeople =
     query === ''
@@ -56,10 +44,22 @@ function PromptSearchBox() {
         );
 
   return (
-    <div className="w-96">
+    <div className="flex w-full items-center justify-center">
+      <button
+        className="mr-2 flex cursor-pointer items-center justify-center text-gray-700 active:text-white"
+        onClick={() => copyTextToClipboard(selected.name)}>
+        <RiFileCopyFill className="text-3xl" />
+      </button>
+
       <Combobox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+        <div className="relative mt-1 grow">
+          <div
+            className="
+              relative w-full cursor-default overflow-hidden rounded-lg
+            bg-white text-left shadow-md
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-white
+              focus-visible:ring-opacity-75 focus-visible:ring-offset-2
+            focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               displayValue={(person: any) => person.name}

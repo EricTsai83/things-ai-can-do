@@ -13,12 +13,16 @@ import { IoImages } from 'react-icons/io5';
 import { MdOutlineTextFields } from 'react-icons/md';
 import { ImArrowRight } from 'react-icons/im';
 import LoadingButton from '@/components/LoadingButton';
+import ImageShowMode from './components/ImageShowMode';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
   const [imageUrl, setImageUrl] = useState<string>(); // 像是圖片的 reference，而不是圖片本身喔
   const [imgBlobs, setImgBlobs] = useImmer<TileObject>({});
-  const [showCut, setShowCut] = useState<boolean>(false);
+  const [showImage, SetShowImage] = useState<boolean>(false);
+  const [showEasyPuzzle, SetShowEasyPuzzle] = useState<boolean>(false);
+  const [showDifficultPuzzle, setShowDifficultPuzzle] =
+    useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
   async function getStableDiffusionImage() {
@@ -34,7 +38,7 @@ function Page() {
         const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
         const imgUrl = URL.createObjectURL(myBlob);
         setImageUrl(imgUrl);
-        setShowCut(false);
+        SetShowEasyPuzzle(true);
         setLoading(false);
       }
     } catch (err) {
@@ -52,13 +56,13 @@ function Page() {
     [setImgBlobs],
   );
 
-  // async function getStableDiffusionImage() {
-  //   if (textForDiffusion.current) {
-  //     setLoading(true);
-  //     await getStableDiffusionImage();
-  //     setLoading(false);
-  //   }
-  // }
+  async function getPuzzle() {
+    if (imageUrl) {
+      await getSplitImage(imageUrl);
+      setShowDifficultPuzzle(true);
+      console.log('Cut completed.');
+    }
+  }
 
   return (
     <main className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
@@ -76,8 +80,10 @@ function Page() {
         </div>
       </PageTitle>
 
-      <div className="absolute right-16 top-80">
-        <PromptSearchBox />
+      <div className="flex w-full justify-end">
+        <div className="w-3/4">
+          <PromptSearchBox />
+        </div>
       </div>
 
       <div className="flex flex-col pt-14">
@@ -86,38 +92,57 @@ function Page() {
           placeholder="填入想要的場景和人事物"
           className="mb-6 min-h-[100px] w-full border placeholder:p-10"
         />
-        {/* <button
-          onClick={() => {
-            textForDiffusion.current && getStableDiffusionImage();
-            console.log('Diffusion fetch completed.');
-          }}>
-          API 請求
-        </button> */}
         <div className="flex justify-end">
-          <LoadingButton executeFunction={getStableDiffusionImage} />
+          <LoadingButton
+            loading={loading}
+            executeFunction={getStableDiffusionImage}
+          />
         </div>
       </div>
-      <button
+      <ImageShowMode
+        SetShowImage={SetShowImage}
+        getPuzzle={getPuzzle}
+        setShowDifficultPuzzle={setShowDifficultPuzzle}
+        SetShowEasyPuzzle={SetShowEasyPuzzle}
+      />
+      {/* <button
         onClick={async () => {
           if (imageUrl) {
-            getSplitImage(imageUrl);
+            await getSplitImage(imageUrl);
+            setShowCut(true);
           }
           console.log('Cut completed.');
         }}>
         切割請求
-      </button>
+      </button> */}
 
-      <button
+      {/* <button
         onClick={() => {
           console.log(imgBlobs);
-          setShowCut(true);
+          setShowDifficultPuzzle(true);
         }}>
         查看切割
-      </button>
-      {imageUrl && <Image src={imageUrl} width={600} height={600} alt="" />}
+      </button> */}
 
-      <div>{imageUrl && showCut && <ImagePuzzle imgBlobs={imgBlobs} />}</div>
-      <div>{imageUrl && <PuzzleLayout imageUrl={imageUrl} />}</div>
+      <div className="flex min-h-[700px] w-full items-center justify-center">
+        {imageUrl && (
+          <Image
+            className={`${showImage ? '' : 'hidden'}`}
+            src={imageUrl}
+            width={600}
+            height={600}
+            alt=""
+          />
+        )}
+        <div>
+          {imageUrl && showDifficultPuzzle && (
+            <ImagePuzzle imgBlobs={imgBlobs} />
+          )}
+        </div>
+        <div>
+          {imageUrl && showEasyPuzzle && <PuzzleLayout imageUrl={imageUrl} />}
+        </div>
+      </div>
     </main>
   );
 }
