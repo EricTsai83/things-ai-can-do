@@ -1,6 +1,4 @@
-import { useRef, useState } from 'react';
-
-function LoadingButton({ loading, getFacialRecognition }: any) {
+function LoadingButton({ loading, executeFunction }: any) {
   return (
     <button
       // className="search-button"
@@ -8,11 +6,11 @@ function LoadingButton({ loading, getFacialRecognition }: any) {
       className={`
       ${loading ? 'cursor-not-allowed' : ''}
       flex h-12 w-40 items-center justify-center rounded
-      bg-red-500 text-lg text-gray-900 transition-all
+      bg-red-500 text-lg text-white transition-all
       hover:bg-red-400 active:bg-red-300
       `}
       onClick={() => {
-        getFacialRecognition();
+        executeFunction();
       }}>
       <div
         className={`${loading ? '' : 'hidden'}

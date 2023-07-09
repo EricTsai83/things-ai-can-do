@@ -20,7 +20,11 @@ interface Categories {
   [key: string]: Category[];
 }
 
-export default function Tabs({ setTabClass }: any) {
+export default function Tabs({
+  setTabClass,
+  setFaceDetails,
+  setCanvasUrls,
+}: any) {
   let [categories] = useState<Categories>({
     picture: [
       {
@@ -131,6 +135,10 @@ export default function Tabs({ setTabClass }: any) {
                         'absolute inset-0 rounded-md',
                         'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
                       )}
+                      onClick={() => {
+                        setFaceDetails(null);
+                        setCanvasUrls(null);
+                      }}
                     />
                   </li>
                 ))}
