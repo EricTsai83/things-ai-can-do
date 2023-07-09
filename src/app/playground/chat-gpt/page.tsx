@@ -22,11 +22,11 @@ function Page() {
           <SplitPaneLeft>
             <SplitPane className="flex h-full w-full flex-col">
               <SplitPaneTop />
-              <Divider className="cursor-row-resize border-2 border-black" />
+              <Divider className="cursor-row-resize border border-gray-800 hover:border-4 active:border-4" />
               <SplitPaneBottom />
             </SplitPane>
           </SplitPaneLeft>
-          <Divider className="cursor-col-resize border-2 border-black" />
+          <Divider className="cursor-col-resize border border-gray-800 hover:border-4 active:border-4" />
 
           <SplitPaneRight>
             <div className="h-full rounded-t-lg bg-gray-500">
