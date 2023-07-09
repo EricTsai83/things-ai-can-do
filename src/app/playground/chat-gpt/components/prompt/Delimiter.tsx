@@ -6,10 +6,6 @@ export function DelimiterTactic1() {
     <div className="rounded-2xl bg-gray-500 text-gray-100">
       <div className="p-6">
         <p>
-          Summarize the text delimited by triple backticks into a single
-          sentence.
-        </p>
-        <p>
           ``` You should express what you want a model to do by providing
           instructions that are as clear and specific as you can possibly make
           them. This will guide the model towards the desired output, and reduce
@@ -17,6 +13,10 @@ export function DelimiterTactic1() {
           confuse writing a clear prompt with writing a short prompt. In many
           cases, longer prompts provide more clarity and context for the model,
           which can lead to more detailed and relevant outputs. ```
+        </p>
+        <p className="whitespace-pre-line">
+          {`\nSummarize the text delimited by triple backticks into a single\
+          sentence.`}
         </p>
       </div>
     </div>
@@ -27,19 +27,16 @@ export function DelimiterTactic2() {
   return (
     <div className="rounded-2xl bg-gray-500 text-gray-100">
       <div className="p-6">
-        <p>
-          Summarize the text delimited by triple backticks into a single
-          sentence.
+        <p className="whitespace-pre-line">
+          {`You should express what you want a model to do by providing\
+          instructions that are as clear and specific as you can possibly make\
+          them. This will guide the model towards the desired output, and reduce\
+          the chances of receiving irrelevant or incorrect responses. Don&#39;t\
+          confuse writing a clear prompt with writing a short prompt. In many\
+          cases, longer prompts provide more clarity and context for the model,\
+          which can lead to more detailed and relevant outputs.\n`}
         </p>
-        <p>
-          You should express what you want a model to do by providing
-          instructions that are as clear and specific as you can possibly make
-          them. This will guide the model towards the desired output, and reduce
-          the chances of receiving irrelevant or incorrect responses. Don&#39;t
-          confuse writing a clear prompt with writing a short prompt. In many
-          cases, longer prompts provide more clarity and context for the model,
-          which can lead to more detailed and relevant outputs.
-        </p>
+        <p>Summarize the text.</p>
       </div>
     </div>
   );
@@ -88,7 +85,7 @@ function Delimiter() {
       <br />
       <br />
       <h3 className="text-lg text-gray-800">
-        🟢 情境二: 移除 ``` 後，模型誤認需要總結的內容為指示
+        🟢 情境二: 移除 ``` 後，模型無法清楚知道你希望它總結的內容在哪裡
       </h3>
       <br />
       <div className="relative">

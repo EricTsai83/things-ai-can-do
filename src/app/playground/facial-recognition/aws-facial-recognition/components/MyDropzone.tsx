@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Dispatch, SetStateAction, DragEvent, ChangeEvent } from 'react';
 import { useImmer } from 'use-immer';
 import type { FaceDetail } from '../types';
@@ -108,12 +108,17 @@ function MyDropzone({
     setImageSrc(imageUrl);
   }
 
+  const handleSampleImgCallback = useCallback((blob: Blob) => {
+    handleSampleImg(blob);
+  }, []);
+
   useEffect(() => {
     if (searchParams.img === 'sample-img-1') {
       fetch(sampleImg1.src)
         .then((response) => response.blob())
         .then((blob) => {
-          handleSampleImg(blob);
+          // 因為這個執行是有待參數的，為了讓其加入dependency後，可以一直被視為相同function，故要加入useCallback
+          handleSampleImgCallback(blob);
         })
         .catch((error) => {
           console.error('Failed to fetch image:', error);
@@ -122,7 +127,7 @@ function MyDropzone({
       fetch(sampleImg2.src)
         .then((response) => response.blob())
         .then((blob) => {
-          handleSampleImg(blob);
+          handleSampleImgCallback(blob);
         })
         .catch((error) => {
           console.error('Failed to fetch image:', error);
@@ -130,7 +135,7 @@ function MyDropzone({
     } else {
       // pass
     }
-  }, [searchParams.img]);
+  }, [searchParams.img, handleSampleImgCallback]);
 
   return (
     <div className="w-full">

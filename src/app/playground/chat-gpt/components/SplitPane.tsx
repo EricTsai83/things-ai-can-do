@@ -93,7 +93,6 @@ export const SplitPaneTop = () => {
       return;
     }
     if (topRef.current) {
-      console.log(clientHeight);
       topRef.current.style.minHeight = clientHeight + 'px';
       topRef.current.style.maxHeight = clientHeight + 'px';
     }

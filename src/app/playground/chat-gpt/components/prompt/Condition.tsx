@@ -18,16 +18,17 @@ export function WithStepDesc() {
         <br />
         <p>
           If the text does not contain a sequence of instructions, then simply
-          write "No steps provided."
+          write &quot;No steps provided.&quot;
         </p>
         <br />
         <p>
-          """Making a cup of tea is easy! First, you need to get some water
-          boiling. While that's happening, grab a cup and put a tea bag in it.
-          Once the water is hot enough, just pour it over the tea bag. Let it
-          sit for a bit so the tea can steep. After a few minutes, take out the
-          tea bag. If you like, you can add some sugar or milk to taste. And
-          that's it! You've got yourself a delicious cup of tea to enjoy."""
+          &quot;&quot;&quot;Making a cup of tea is easy! First, you need to get
+          some water boiling. While that&apos;s happening, grab a cup and put a
+          tea bag in it. Once the water is hot enough, just pour it over the tea
+          bag. Let it sit for a bit so the tea can steep. After a few minutes,
+          take out the tea bag. If you like, you can add some sugar or milk to
+          taste. And that&apos;s it! You&apos;ve got yourself a delicious cup of
+          tea to enjoy.&quot;&quot;&quot;
         </p>
       </div>
     </div>
@@ -51,17 +52,17 @@ export function WithoutStepDesc() {
         <br />
         <p>
           If the text does not contain a sequence of instructions, then simply
-          write "No steps provided."
+          write &quot;No steps provided.&quot;
         </p>
         <br />
         <p>
-          """The sun is shining brightly today, and the birds are singing. It's
-          a beautiful day to go for a walk in the park. The flowers are
-          blooming, and the trees are swaying gently in the breeze. People are
-          out and about, enjoying the lovely weather. Some are having picnics,
-          while others are playing games or simply relaxing on the grass. It's a
-          perfect day to spend time outdoors and appreciate the beauty of
-          nature."""
+          &quot;&quot;&quot;The sun is shining brightly today, and the birds are
+          singing. It&apos;s a beautiful day to go for a walk in the park. The
+          flowers are blooming, and the trees are swaying gently in the breeze.
+          People are out and about, enjoying the lovely weather. Some are having
+          picnics, while others are playing games or simply relaxing on the
+          grass. It&apos;s a perfect day to spend time outdoors and appreciate
+          the beauty of nature.&quot;&quot;&quot;
         </p>
       </div>
     </div>

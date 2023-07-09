@@ -15,7 +15,7 @@ function Page() {
   const [currContent, setCurrContent] = useState(1);
 
   return (
-    <div className="flex h-screen w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
       <ContentContext.Provider
         value={{ contents, currContent, setCurrContent }}>
         <SplitPane className="flex h-full w-full flex-row">
@@ -29,7 +29,9 @@ function Page() {
           <Divider className="cursor-col-resize border-2 border-black" />
 
           <SplitPaneRight>
-            <ChatGPT />
+            <div className="h-full bg-gray-500">
+              <ChatGPT />
+            </div>
           </SplitPaneRight>
         </SplitPane>
       </ContentContext.Provider>
