@@ -1,11 +1,11 @@
 'use client';
 // slider image
-import chatbot from '@/assets/home-carousel/chatbot.png';
+import chatbot from '@/assets/home-carousel/GPT-3.webp';
 import facialRecognation from '@/assets/home-carousel/facial-recognition.jpg';
-import imageClassification from '@/assets/home-carousel/image-classification.png';
-import imageSegmation from '@/assets/home-carousel/image-segmation.png';
-import postDetection from '@/assets/home-carousel/post-detection.webp';
-import textToImage from '@/assets/home-carousel/text-to-image.jpeg';
+import imagesegmentation from '@/assets/home-carousel/image-seg.png';
+import textToImage from '@/assets/home-carousel/stable-diffusion.png';
+import avatar from '@/assets/home-carousel/avatar.png';
+import bodyDetection from '@/assets/home-carousel/body-detection.png';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -14,60 +14,54 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { EffectCoverflow, Pagination, Navigation } from 'swiper';
 import Image from 'next/image';
+import Link from 'next/link';
+import './HomeSlider.Style.css';
+import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 
 const slides = [
-  chatbot,
-  facialRecognation,
-  imageClassification,
-  imageSegmation,
-  postDetection,
-  textToImage,
+  {
+    id: 0,
+    image: chatbot,
+    title: 'Chatbot-Slides',
+    url: '/playground/chat-gpt',
+  },
+  {
+    id: 1,
+    image: facialRecognation,
+    title: 'Facial-Recognation-Slides',
+    url: '/playground/facial-recognition',
+  },
+  {
+    id: 2,
+    image: imagesegmentation,
+    title: 'Image-Segmation-Slides',
+    url: '/playground/human-image-matting',
+  },
+  {
+    id: 3,
+    image: textToImage,
+    title: 'Text-To-Image-Slides',
+    url: '/playground/create-your-own-puzzle',
+  },
+  {
+    id: 4,
+    image: avatar,
+    title: 'Avatar',
+    url: '/playground/facial-recognition',
+  },
+  {
+    id: 5,
+    image: bodyDetection,
+    title: 'bodt-detection',
+    url: '/tech-intro/real-time-pose-estimation',
+  },
 ];
-
-// const slides = [
-//   {
-//     image: chatbot.src,
-//     title: 'Chatbot',
-//     subTitle: 'jhfodhohofho hodhsoidhsfidsfh jiojfdi',
-//     intetrval: 1500,
-//   },
-//   {
-//     image: facialRecognation.src,
-//     title: 'Facial Recognation',
-//     subTitle: 'jhfodhohofho hodhsoidhsfidsfh jiojfdi',
-//     intetrval: 1500,
-//   },
-//   {
-//     image: imageClassification.src,
-//     title: 'Image Classification',
-//     subTitle: 'jhfodhohofho hodhsoidhsfidsfh jiojfdi',
-//     intetrval: 1500,
-//   },
-//   {
-//     image: imageSegmation.src,
-//     title: 'Image Segmation',
-//     subTitle: 'jhfodhohofho hodhsoidhsfidsfh jiojfdi',
-//     intetrval: 1500,
-//   },
-//   {
-//     image: postDetection.src,
-//     title: 'Post Detection',
-//     subTitle: 'jhfodhohofho hodhsoidhsfidsfh jiojfdi',
-//     intetrval: 1500,
-//   },
-//   {
-//     image: textToImage.src,
-//     title: 'Text To Image',
-//     subTitle: 'jhfodhohofho hodhsoidhsfidsfh jiojfdi',
-//     intetrval: 1500,
-//   },
-// ];
 
 function HomeSlider() {
   return (
     <div className="container">
-      {/* <h1 className="heading">Flower Gallery</h1> */}
       <Swiper
+        className="swiper_container"
         effect={'coverflow'}
         grabCursor={true}
         centeredSlides={true}
@@ -84,34 +78,37 @@ function HomeSlider() {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         }}
-        modules={[EffectCoverflow, Pagination, Navigation]}
-        className="swiper_container">
-        {slides.map((slide, idx) => {
+        modules={[EffectCoverflow, Pagination, Navigation]}>
+        {slides.map((slide) => {
           return (
-            <div className="flex w-full items-center justify-center" key={idx}>
-              <SwiperSlide className="w-full">
+            <SwiperSlide key={slide.title}>
+              <Link href={slide.url}>
                 <Image
-                  src={slide}
+                  src={slide.image}
                   alt="slide image"
-                  sizes="100vw"
+                  width={0}
+                  height={0}
                   style={{
-                    width: '100%',
-                    height: '550px',
+                    width: '75%',
+                    height: '320px',
+                    objectFit: 'cover',
                   }}
+                  quality={100}
                 />
-              </SwiperSlide>
-            </div>
+              </Link>
+            </SwiperSlide>
           );
         })}
-        {/* <div className="slider-controler">
-        <div className="swiper-button-prev slider-arrow">
-          <ion-icon name="arrow-back-outline"></ion-icon>
+
+        <div className="slider-controler">
+          <div className="swiper-button-prev slider-arrow">
+            <BiSolidLeftArrow className="absolute -top-1/4 mr-3 text-6xl text-gray-300 hover:text-teal-300 active:text-gray-100" />
+          </div>
+          <div className="swiper-button-next slider-arrow">
+            <BiSolidRightArrow className="absolute -top-1/4 ml-3 text-6xl text-gray-300 hover:text-teal-300 active:text-gray-100" />
+          </div>
+          <div className="swiper-pagination"></div>
         </div>
-        <div className="swiper-button-next slider-arrow">
-          <ion-icon name="arrow-forward-outline"></ion-icon>
-        </div>
-        <div className="swiper-pagination"></div>
-      </div> */}
       </Swiper>
     </div>
   );

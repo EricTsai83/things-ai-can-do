@@ -4,7 +4,7 @@ import HomeSlider from '@/components/HomeSlider';
 
 function Page() {
   return (
-    <div className="flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="relative flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
       <PageTitle
         title="Make AI do thing for you"
         content="  
