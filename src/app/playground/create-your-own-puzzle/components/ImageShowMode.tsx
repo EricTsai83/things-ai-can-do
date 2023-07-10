@@ -1,35 +1,15 @@
 import { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
-
-const plans = [
-  {
-    name: '直接顯示圖片',
-    ram: '人生太短',
-    cpus: '我要爭分奪秒',
-    disk: 'by 愛迪生',
-  },
-  {
-    name: '拼圖遊戲(簡單)',
-    ram: '拖拉',
-    cpus: '交換',
-    disk: '拖拉越少次越厲害！',
-  },
-  {
-    name: '拼圖遊戲(困難)',
-    ram: '拖拉',
-    cpus: '放入正確位置',
-    disk: '挑戰你的速度極限！',
-  },
-];
+import { plans } from './plans';
 
 export default function ImageShowMode({
+  selected,
+  setSelected,
   SetShowImage,
   getPuzzle,
   setShowDifficultPuzzle,
   SetShowEasyPuzzle,
 }: any) {
-  const [selected, setSelected] = useState(plans[1]);
-
   return (
     <div className="w-full px-4 py-16">
       <div className="mx-auto w-full">
