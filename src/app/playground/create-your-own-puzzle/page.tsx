@@ -14,6 +14,7 @@ import { MdOutlineTextFields } from 'react-icons/md';
 import { ImArrowRight } from 'react-icons/im';
 import LoadingButton from '@/components/LoadingButton';
 import ImageShowMode from './components/ImageShowMode';
+import { plans } from './components/plans';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
@@ -24,6 +25,7 @@ function Page() {
   const [showDifficultPuzzle, setShowDifficultPuzzle] =
     useState<boolean>(false);
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState(plans[1]);
 
   async function getStableDiffusionImage() {
     try {
@@ -39,6 +41,11 @@ function Page() {
         const imgUrl = URL.createObjectURL(myBlob);
         setImageUrl(imgUrl);
         SetShowEasyPuzzle(true);
+        // 隱藏其他兩個模式，只顯示簡單拼圖模式
+        setShowDifficultPuzzle(false);
+        SetShowImage(false);
+        setSelected(plans[1]);
+
         setLoading(false);
       }
     } catch (err) {
@@ -100,6 +107,8 @@ function Page() {
         </div>
       </div>
       <ImageShowMode
+        selected={selected}
+        setSelected={setSelected}
         SetShowImage={SetShowImage}
         getPuzzle={getPuzzle}
         setShowDifficultPuzzle={setShowDifficultPuzzle}
