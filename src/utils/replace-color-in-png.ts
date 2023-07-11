@@ -1,4 +1,4 @@
-import type { ColorMappingItem } from '../app/tech-intro/(image-segmentation)/detr-resnet-50-panoptic/components/ColorMask';
+import type { ColorMappingItem } from '../app/playground/image-segmentation/image-segmentation-with-color/components/ColorMask';
 function replaceColorsInPNG(
   pngString: string,
   colorMappings: ColorMappingItem[],

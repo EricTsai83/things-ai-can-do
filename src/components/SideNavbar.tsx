@@ -72,7 +72,7 @@ function SideNavbar() {
       '/playground/chat-gpt',
       '/playground/create-your-own-puzzle',
       '/tech-intro/real-time-pose-estimation',
-      '/playground/human-image-matting',
+      '/playground/image-segmentation',
       '/playground/sketch',
     ];
 

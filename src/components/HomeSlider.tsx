@@ -2,21 +2,21 @@
 // slider image
 import chatbot from '@/assets/home-carousel/GPT-3.webp';
 import facialRecognation from '@/assets/home-carousel/facial-recognition.jpg';
-import imagesegmentation from '@/assets/home-carousel/image-seg.png';
+import imageSegmentation from '@/assets/home-carousel/image-segmentation.png';
 import textToImage from '@/assets/home-carousel/stable-diffusion.png';
-import avatar from '@/assets/home-carousel/avatar.png';
+import avatar from '@/assets/home-carousel/avatar.jpeg';
 import bodyDetection from '@/assets/home-carousel/body-detection.png';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { EffectCoverflow, Pagination, Navigation } from 'swiper';
+import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 import Image from 'next/image';
 import Link from 'next/link';
 import './HomeSlider.Style.css';
-import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 
 const slides = [
   {
@@ -33,9 +33,9 @@ const slides = [
   },
   {
     id: 2,
-    image: imagesegmentation,
+    image: imageSegmentation,
     title: 'Image-Segmation-Slides',
-    url: '/playground/human-image-matting',
+    url: '/playground/image-segmentation',
   },
   {
     id: 3,
