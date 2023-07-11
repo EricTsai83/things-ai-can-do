@@ -144,7 +144,7 @@ function SideNavbar() {
             className={
               open
                 ? `
-                absolute right-0 top-0 z-40 h-screen w-screen
+                fixed right-0 top-0 z-40 h-screen w-screen
               bg-black opacity-50
                 transition delay-150 duration-300 ease-out
                 xl:hidden`
@@ -160,13 +160,13 @@ function SideNavbar() {
             // When you need to style an element based on the state of a sibling
             // element, mark the sibling with the peer class, and use peer-* modifiers
             // like peer-invalid to style the target element:
-            className="
+            className={`
               group peer
               fixed left-6 top-2.5 z-50
               inline-flex items-center justify-center
               rounded-md p-2 text-gray-500
               hover:rounded-full hover:bg-gray-100
-              focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+              focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white`}>
             <GiHamburgerMenu
               className="block h-6 w-6 xl:hidden"
               aria-hidden="true"
