@@ -2,7 +2,7 @@ import MyDropzone from './components/MyDropzone';
 
 function Page() {
   return (
-    <div className="pt-16">
+    <div className="mt-3">
       <MyDropzone />
     </div>
   );

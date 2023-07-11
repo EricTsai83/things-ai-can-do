@@ -4,7 +4,7 @@ import type { DragEvent, ChangeEvent } from 'react';
 import { useImmer } from 'use-immer';
 import Image from 'next/image'; // the img element will automatically be assigned the position: "absolute" style.
 import ColorMask from './components/ColorMask';
-import Mask from './components/Mask';
+// import Mask from './components/Mask';
 import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
@@ -114,7 +114,7 @@ function Page() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative mt-3">
       <div
         className="
           relative mx-auto mb-6 flex h-[360px] w-full
@@ -164,7 +164,7 @@ function Page() {
           />
         ))}
       </div>
-      <div className="absolute bottom-5 right-5">
+      <div className="absolute right-0 top-0">
         <LoadingButton
           loading={loading}
           executeFunction={() =>
