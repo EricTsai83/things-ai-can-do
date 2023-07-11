@@ -162,7 +162,7 @@ function SideNavbar() {
             // like peer-invalid to style the target element:
             className="
               group peer
-              absolute left-6 top-2.5 z-50
+              fixed left-6 top-2.5 z-50
               inline-flex items-center justify-center
               rounded-md p-2 text-gray-500
               hover:rounded-full hover:bg-gray-100

@@ -27,20 +27,25 @@ function Page() {
   // 1. 取得照片的 blob
   // 2. 建立照片 reference URL
   // 3. 建構一個 state 可以儲存 {reference url: image blob}
-  // 4.
   const [imageBlob, setImageBlob] = useImmer<ImageBlob>({});
   const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
   const [droppedImages, setDroppedImages] = useState<string[]>([]); // 用來記錄dropzone 下方小圖展示的圖片有哪些
   const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊up load file
   const [masks, setMasks] = useImmer<Masks>({}); // set api data
-  const [maskUniqueColors, setMaskUniqueColors] = useState<UniqueColorsInPng>();
+  const [maskUniqueColors, setMaskUniqueColors] =
+    useState<UniqueColorsInPng | null>(null);
 
   async function getImageSegmentation(data: File) {
     const respond = await huggingFaceApi.getImageSegmentation(data);
     console.log(respond);
+    await storeMaskData(respond);
+    await setUniqueColorsInPNG(respond);
+  }
+
+  async function storeMaskData(apiRespond: any) {
     setMasks((draft: Masks) => {
       if (imageSrc) {
-        draft[imageSrc] = respond;
+        draft[imageSrc] = apiRespond;
       }
       return draft;
     });
@@ -65,6 +70,7 @@ function Page() {
   }
 
   function handleSmallImageClick(imageUrl: string) {
+    setMasks({});
     setImageSrc(imageUrl);
   }
 
@@ -82,18 +88,22 @@ function Page() {
     }
   }
 
-  async function setUniqueColorsInPNG() {
+  async function setUniqueColorsInPNG(respond: any) {
     if (imageSrc) {
-      const uniqueColors = await getUniqueColorsInPNG(masks[imageSrc][0].mask);
+      const uniqueColors = await getUniqueColorsInPNG(respond[0].mask);
       setMaskUniqueColors(uniqueColors as UniqueColorsInPng);
       console.log('set color completed');
     }
   }
 
   return (
-    <div className="pt-16">
+    <div>
       <div
-        className="relative flex h-[600px] w-[900px] items-center justify-center border-2 border-dashed border-black object-contain"
+        className="
+          relative mb-6 flex h-[360px] w-full 
+          min-w-[360px] items-center 
+          justify-center border-2 border-dashed
+        border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
@@ -106,7 +116,13 @@ function Page() {
                 maskUniqueColors={maskUniqueColors as UniqueColorsInPng}
               />
             )}
-            <Image src={imageSrc} alt="Image" width={600} height={600} />
+            <Image
+              src={imageSrc}
+              alt="Image"
+              width={600}
+              height={600}
+              className="max-h-[360px] w-auto"
+            />
           </div>
         )}
         {!imageSrc && 'Drop image or click here to uploag image'}
@@ -133,17 +149,20 @@ function Page() {
       </div>
       <button
         className="h-[100px] w-[100px] border border-gray-500"
-        onClick={() => {
-          imageSrc && getImageSegmentation(imageBlob[imageSrc]);
+        onClick={async () => {
+          if (imageSrc) {
+            // setMaskUniqueColors(null);
+            await getImageSegmentation(imageBlob[imageSrc]);
+          }
         }}>
         點我幹大事
       </button>
 
-      <div
+      {/* <div
         className="h-[40px] w-[80px] bg-cyan-300"
         onClick={setUniqueColorsInPNG}>
         點我上色彩
-      </div>
+      </div> */}
 
       <Mask // @ts-ignore
         segmentations={masks[imageSrc] as Respond}
