@@ -1,7 +1,6 @@
 import PageTitle from '@/components/PageTitle';
 import { IoCutSharp } from 'react-icons/io5';
 import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
-import ImageSegmentationWithColorNew from './image-segmentation-with-color/ImageSegmentationWithColorNew';
 
 function Page() {
   return (
@@ -27,7 +26,6 @@ function Page() {
       <h2 className="mb-3 text-2xl font-semibold text-teal-700">
         步驟二：選擇特定分割出來的圖層進行遮罩來實現去背的效果
       </h2>
-      <ImageSegmentationWithColorNew />
     </div>
   );
 }

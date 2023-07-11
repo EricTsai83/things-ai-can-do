@@ -78,13 +78,13 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
           // console.log(pngStr);
           return (
             <Image
-              className="absolute"
+              className="absolute max-h-[360px] w-auto"
               key={id}
               src={pngStr}
               alt="Decoded Image"
               style={{ opacity: '0.5' }} // Adjust the opacity value as desired (0.0 to 1.0)
-              width={600}
-              height={600}
+              width={0}
+              height={0}
             />
           );
         })}

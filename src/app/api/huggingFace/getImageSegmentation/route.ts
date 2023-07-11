@@ -1,3 +1,4 @@
+import { JSONFormat } from '@/app/playground/chat-gpt/components/prompt/StructureFormat';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { HOSTNAME, HEADER } from '../apiConfig';

@@ -8,6 +8,7 @@ import Mask from './components/Mask';
 import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
+import LoadingButton from '@/components/LoadingButton';
 
 interface ImageBlob {
   [key: string]: File;
@@ -34,12 +35,20 @@ function Page() {
   const [masks, setMasks] = useImmer<Masks>({}); // set api data
   const [maskUniqueColors, setMaskUniqueColors] =
     useState<UniqueColorsInPng | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function getImageSegmentation(data: File) {
-    const respond = await huggingFaceApi.getImageSegmentation(data);
-    console.log(respond);
-    await storeMaskData(respond);
-    await setUniqueColorsInPNG(respond);
+    try {
+      setLoading(true);
+      const respond = await huggingFaceApi.getImageSegmentation(data);
+      console.log(respond);
+      await storeMaskData(respond);
+      await setUniqueColorsInPNG(respond);
+    } catch (e) {
+      window.alert('模型 API 被佔用中，請稍後再試');
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function storeMaskData(apiRespond: any) {
@@ -53,15 +62,19 @@ function Page() {
 
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
-    const imageFile = event.dataTransfer.files[0];
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      setImageBlob((draft: ImageBlob) => {
-        draft[imageUrl] = imageFile;
-        return draft;
-      });
-      setImageSrc(imageUrl);
-      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+    if (Object.keys(imageBlob).length < 6) {
+      const imageFile = event.dataTransfer.files[0];
+      if (imageFile) {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setImageBlob((draft: ImageBlob) => {
+          draft[imageUrl] = imageFile;
+          return draft;
+        });
+        setImageSrc(imageUrl);
+        setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+      }
+    } else {
+      window.alert('最多上傳 6 張圖片喔！');
     }
   }
 
@@ -79,12 +92,16 @@ function Page() {
   }
 
   function handleUpload(event: ChangeEvent<HTMLInputElement>) {
-    const imageFile = event.target.files?.[0];
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      setImageSrc(imageUrl);
-      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
-      event.target.value = ''; // Reset the file input field
+    if (Object.keys(imageBlob).length < 6) {
+      const imageFile = event.target.files?.[0];
+      if (imageFile) {
+        const imageUrl = URL.createObjectURL(imageFile);
+        setImageSrc(imageUrl);
+        setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+        event.target.value = ''; // Reset the file input field
+      }
+    } else {
+      window.alert('最多上傳 6 張圖片喔！');
     }
   }
 
@@ -97,11 +114,11 @@ function Page() {
   }
 
   return (
-    <div>
+    <div className="relative">
       <div
         className="
-          relative mb-6 flex h-[360px] w-full 
-          min-w-[360px] items-center 
+          relative mx-auto mb-6 flex h-[360px] w-full
+          min-w-[360px] max-w-4xl items-center
           justify-center border-2 border-dashed
         border-black object-contain"
         onDrop={handleDrop}
@@ -119,13 +136,13 @@ function Page() {
             <Image
               src={imageSrc}
               alt="Image"
-              width={600}
-              height={600}
+              width={0}
+              height={0}
               className="max-h-[360px] w-auto"
             />
           </div>
         )}
-        {!imageSrc && 'Drop image or click here to uploag image'}
+        {!imageSrc && '點我或拖照片到此區域來上傳圖片'}
         <input
           type="file"
           accept="image/*"
@@ -134,7 +151,7 @@ function Page() {
           className="absolute -left-full"
         />
       </div>
-      <div className="flex h-20 w-[900px] items-center justify-center border-black">
+      <div className="flex h-20 items-center justify-center border-black">
         {droppedImages.map((imageUrl, index) => (
           <Image
             key={index}
@@ -147,16 +164,22 @@ function Page() {
           />
         ))}
       </div>
-      <button
+      <div className="absolute bottom-5 right-5">
+        <LoadingButton
+          loading={loading}
+          executeFunction={() =>
+            imageSrc && getImageSegmentation(imageBlob[imageSrc])
+          }
+        />
+      </div>
+
+      {/* <button
         className="h-[100px] w-[100px] border border-gray-500"
         onClick={async () => {
-          if (imageSrc) {
-            // setMaskUniqueColors(null);
-            await getImageSegmentation(imageBlob[imageSrc]);
-          }
+          imageSrc && getImageSegmentation(imageBlob[imageSrc]);
         }}>
         點我幹大事
-      </button>
+      </button> */}
 
       {/* <div
         className="h-[40px] w-[80px] bg-cyan-300"
@@ -164,9 +187,9 @@ function Page() {
         點我上色彩
       </div> */}
 
-      <Mask // @ts-ignore
+      {/* <Mask // @ts-ignore
         segmentations={masks[imageSrc] as Respond}
-      />
+      /> */}
     </div>
   );
 }
