@@ -1,5 +1,3 @@
-// 'use client';
-
 import { signIn } from 'next-auth/react';
 export default function LoginButton() {
   return (
@@ -7,8 +5,8 @@ export default function LoginButton() {
       onClick={() => {
         signIn();
       }}
-      className="mt-4 bg-slate-800 text-white 
-      px-6 py-3 rounded-lg">
+      className="mt-4 rounded-lg bg-slate-800 
+      px-6 py-3 text-white">
       Sign in
     </button>
   );

@@ -1,4 +1,4 @@
-import type { ColorMappingItem } from '../app/tech-intro/(image-segmentation)/detr-resnet-50-panoptic/components/ColorMask';
+import type { ColorMappingItem } from '../app/playground/image-segmentation/image-segmentation-with-color/components/ColorMask';
 function replaceColorsInPNG(
   pngString: string,
   colorMappings: ColorMappingItem[],
@@ -25,16 +25,18 @@ function replaceColorsInPNG(
         const alpha = pixels[i + 3];
 
         for (const { targetColor, replacementColor } of colorMappings) {
-          if (
-            red === targetColor.r &&
-            green === targetColor.g &&
-            blue === targetColor.b &&
-            alpha === targetColor.a
-          ) {
-            pixels[i] = replacementColor.r;
-            pixels[i + 1] = replacementColor.g;
-            pixels[i + 2] = replacementColor.b;
-            pixels[i + 3] = replacementColor.a;
+          if (targetColor) {
+            if (
+              red === targetColor.r &&
+              green === targetColor.g &&
+              blue === targetColor.b &&
+              alpha === targetColor.a
+            ) {
+              pixels[i] = replacementColor.r;
+              pixels[i + 1] = replacementColor.g;
+              pixels[i + 2] = replacementColor.b;
+              pixels[i + 3] = replacementColor.a;
+            }
           }
         }
       }

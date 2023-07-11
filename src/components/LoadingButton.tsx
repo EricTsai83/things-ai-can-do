@@ -9,7 +9,7 @@ function LoadingButton({ loading, executeFunction }: any) {
       bg-red-500 text-lg text-white transition-all
       hover:bg-red-400 active:bg-red-300
       `}
-      onClick={() => {
+      onClick={(event: any) => {
         executeFunction();
       }}>
       <div

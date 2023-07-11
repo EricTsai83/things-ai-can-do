@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { Respond } from '../page';
+import { Respond } from '../ImageSegmentationWithColor';
 
 function Mask({ segmentations }: { segmentations: Respond[] }) {
   return (

@@ -147,7 +147,7 @@ export const SplitPaneBottom = () => {
     }
   }
 
-  return <div className="overflow-y-auto">{pageContent()}</div>;
+  return <div className="no-scrollbar overflow-y-auto">{pageContent()}</div>;
 };
 
 interface SplitPaneLeftProps {
