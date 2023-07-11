@@ -7,6 +7,7 @@ import replaceColorsInPNG from '@/utils/replace-color-in-png';
 import LoadingButton from '@/components/LoadingButton';
 import MirrorReflectionBtn from '@/components/MirrorReflectionButton';
 import { useImmer } from 'use-immer';
+import { FaUpload } from 'react-icons/fa';
 
 interface Respond {
   label: string;
@@ -19,10 +20,6 @@ function MyDropzone() {
   const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
   const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊up load file
   const [apiData, setApiData] = useState<Respond[] | null>(null); // set api data
-  // const [mask, setMask] = useState<string | null>(null);
-  // const [pngStrAfterColorChange, setPngStrAfterColorChange] = useState<
-  //   string[]
-  // >([]);
   const [loading, setLoading] = useState(false);
   const [cover, setCover] = useImmer<{ [key: string]: string }>({});
   const [coverStatus, setCoverStatus] = useImmer<{ [key: string]: boolean }>(
@@ -36,9 +33,9 @@ function MyDropzone() {
       const imageUrl = URL.createObjectURL(imageFile);
       setImageBlob(imageFile);
       setImageSrc(imageUrl);
-      // setMask(null);
-      // setPngStrAfterColorChange([]);
       setApiData(null);
+      setCoverStatus({});
+      setCover({});
     }
   };
 
@@ -46,7 +43,7 @@ function MyDropzone() {
     event.preventDefault();
   };
 
-  const handleBoxClick = () => {
+  const handleBoxClick = (event: { preventDefault: () => void }) => {
     fileInputRef.current?.click();
   };
 
@@ -57,9 +54,9 @@ function MyDropzone() {
       setImageBlob(imageFile);
       setImageSrc(imageUrl);
       event.target.value = '';
-      // setMask(null);
-      // setPngStrAfterColorChange([]);
       setApiData(null);
+      setCoverStatus({});
+      setCover({});
     }
   };
 
@@ -102,8 +99,6 @@ function MyDropzone() {
 
     await replaceColorsInPNG(apiMask, colorMappings)
       .then((modifiedPNGString) => {
-        // setPngStrAfterColorChange((prev) => [...prev, `${modifiedPNGString}`]);
-
         setCover((draft: any) => {
           draft[apiMask] = modifiedPNGString;
           return draft;
@@ -125,17 +120,10 @@ function MyDropzone() {
     } else {
       return 'cover';
     }
-
-    // if (pngStrAfterColorChange.includes(apiMask)) {
-    //   arry = arry.filter((item) => item !== pngStr);
-    //   setPngStrAfterColorChange(arry);
-    // } else {
-    //   setPngStrAfterColorChange((prev) => [...prev, `${pngStr}`]);
-    // }
   }
 
   return (
-    <div className="relative">
+    <div>
       <div // dropzone
         className="
           relative mx-auto mb-6 flex h-[360px] w-full
@@ -144,7 +132,8 @@ function MyDropzone() {
         border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        onClick={handleBoxClick}>
+        // onClick={handleBoxClick}
+      >
         {imageSrc && (
           <div className="absolute">
             <Image
@@ -157,19 +146,6 @@ function MyDropzone() {
           </div>
         )}
         {!imageSrc && '點我或拖照片到此區域來上傳圖片'}
-        {/* {pngStrAfterColorChange &&
-          pngStrAfterColorChange.map((pngStr: string, id: number) => {
-            return (
-              <Image
-                className="absolute max-h-[360px] w-auto"
-                key={id}
-                src={pngStr}
-                alt="Decoded Image"
-                width={0}
-                height={0}
-              />
-            );
-          })} */}
 
         {Object.values(cover).length > 0 &&
           Object.values(cover).map((pngStr: string, id: number) => {
@@ -186,12 +162,24 @@ function MyDropzone() {
           })}
 
         <input
+          ref={fileInputRef}
           type="file"
           accept="image/*"
-          ref={fileInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
         />
+        <div onClick={handleBoxClick}>
+          <FaUpload className="absolute right-0 top-0 m-3 cursor-pointer text-3xl text-gray-400 active:text-gray-200" />
+        </div>
+
+        <div className="absolute bottom-0 right-0">
+          <LoadingButton
+            loading={loading}
+            executeFunction={() =>
+              imageBlob && imageSrc && getImageSegmentation(imageBlob)
+            }
+          />
+        </div>
       </div>
       <div // small image preview
         className="mt-10 flex h-20 items-center justify-center border-black">
@@ -202,10 +190,6 @@ function MyDropzone() {
                 key={idx}
                 className="flex flex-col items-center justify-center gap-2">
                 <Image
-                  // onClick={() => {
-                  //   setMask(apiData[idx].mask);
-                  //   console.log(idx);
-                  // }}
                   src={`data:image/png;base64,${data.mask}`} // next js required
                   alt=""
                   className="mr-2 cursor-pointer border border-black"
@@ -234,31 +218,6 @@ function MyDropzone() {
               </div>
             );
           })}
-      </div>
-
-      {/* <button
-        className="h-[40px] w-[200px] border bg-zinc-300"
-        onClick={(): void => {
-          imageBlob && getImageSegmentation(imageBlob);
-        }}>
-        1. 打API
-      </button> */}
-      <div className="absolute right-0 top-0 flex flex-col gap-2">
-        <LoadingButton
-          loading={loading}
-          executeFunction={() =>
-            imageBlob && imageSrc && getImageSegmentation(imageBlob)
-          }
-        />
-
-        {/* <button
-          className="h-12 w-40 rounded-md border bg-zinc-300"
-          onClick={
-            //將 mask 白色部分變成透明，黑色變成完全透明，然後蓋上圖片
-            addBackgroundMaskToImage
-          }>
-          執行遮罩
-        </button> */}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import LoadingButton from '@/components/LoadingButton';
+import { FaUpload } from 'react-icons/fa';
 
 interface ImageBlob {
   [key: string]: File;
@@ -42,8 +43,12 @@ function Page() {
       setLoading(true);
       const respond = await huggingFaceApi.getImageSegmentation(data);
       console.log(respond);
-      await storeMaskData(respond);
-      await setUniqueColorsInPNG(respond);
+      if (respond.error) {
+        window.alert('模型 API 被佔用中，請稍後再試');
+      } else {
+        await storeMaskData(respond);
+        await setUniqueColorsInPNG(respond);
+      }
     } catch (e) {
       window.alert('模型 API 被佔用中，請稍後再試');
     } finally {
@@ -114,7 +119,7 @@ function Page() {
   }
 
   return (
-    <div className="relative mt-3">
+    <div className="mt-3">
       <div
         className="
           relative mx-auto mb-6 flex h-[360px] w-full
@@ -123,7 +128,8 @@ function Page() {
         border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        onClick={handleBoxClick}>
+        // onClick={handleBoxClick}
+      >
         {imageSrc && (
           <div className="absolute">
             {masks[imageSrc] && (
@@ -150,13 +156,26 @@ function Page() {
           onChange={handleUpload}
           className="absolute -left-full"
         />
+
+        <div onClick={handleBoxClick}>
+          <FaUpload className="absolute right-0 top-0 m-3 cursor-pointer text-3xl text-gray-400 active:text-gray-200" />
+        </div>
+
+        <div className="absolute bottom-0 right-0">
+          <LoadingButton
+            loading={loading}
+            executeFunction={() =>
+              imageSrc && getImageSegmentation(imageBlob[imageSrc])
+            }
+          />
+        </div>
       </div>
       <div className="flex h-20 items-center justify-center border-black">
         {droppedImages.map((imageUrl, index) => (
           <Image
             key={index}
-            src={imageUrl} // next js required
-            alt={`Small Image ${index + 1}`} // next js required
+            src={imageUrl}
+            alt={`Small Image ${index + 1}`}
             className="mr-2 cursor-pointer border border-black"
             width={80}
             height={80}
@@ -164,32 +183,6 @@ function Page() {
           />
         ))}
       </div>
-      <div className="absolute right-0 top-0">
-        <LoadingButton
-          loading={loading}
-          executeFunction={() =>
-            imageSrc && getImageSegmentation(imageBlob[imageSrc])
-          }
-        />
-      </div>
-
-      {/* <button
-        className="h-[100px] w-[100px] border border-gray-500"
-        onClick={async () => {
-          imageSrc && getImageSegmentation(imageBlob[imageSrc]);
-        }}>
-        點我幹大事
-      </button> */}
-
-      {/* <div
-        className="h-[40px] w-[80px] bg-cyan-300"
-        onClick={setUniqueColorsInPNG}>
-        點我上色彩
-      </div> */}
-
-      {/* <Mask // @ts-ignore
-        segmentations={masks[imageSrc] as Respond}
-      /> */}
     </div>
   );
 }
