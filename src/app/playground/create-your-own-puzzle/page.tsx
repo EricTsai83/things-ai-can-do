@@ -37,16 +37,20 @@ function Page() {
             wait_for_model: true,
           },
         };
-        const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
-        const imgUrl = URL.createObjectURL(myBlob);
-        setImageUrl(imgUrl);
-        SetShowEasyPuzzle(true);
-        // 隱藏其他兩個模式，只顯示簡單拼圖模式
-        setShowDifficultPuzzle(false);
-        SetShowImage(false);
-        setSelected(plans[1]);
-
-        setLoading(false);
+        try {
+          const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
+          const imgUrl = URL.createObjectURL(myBlob);
+          setImageUrl(imgUrl);
+          SetShowEasyPuzzle(true);
+          // 隱藏其他兩個模式，只顯示簡單拼圖模式
+          setShowDifficultPuzzle(false);
+          SetShowImage(false);
+          setSelected(plans[1]);
+        } catch (e) {
+          window.alert('模型 API 被佔用中，請稍後再試');
+        } finally {
+          setLoading(false);
+        }
       }
     } catch (err) {
       console.log(err);

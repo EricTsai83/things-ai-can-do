@@ -63,6 +63,8 @@ function SideNavbar() {
       setSelected('資料科學');
     } else if (lastElement === 'data-visualization') {
       setSelected('資料視覺化');
+    } else if (lastElement === 'news-letter') {
+      setSelected('訂閱電子報');
     }
   }, [pathname]); // 讓重新整理有作用就行
 
@@ -277,13 +279,20 @@ function SideNavbar() {
               </div>
 
               <div className="my-4">
-                <Link href="/contact-us" prefetch={false}>
+                <Link href="/news-letter" prefetch={false}>
                   <div
-                    className="
+                    onClick={() => {
+                      setSelected('訂閱電子報');
+                    }}
+                    className={`${
+                      selected === '訂閱電子報'
+                        ? 'bg-gradient-to-r from-emerald-200 to-lime-200 '
+                        : ''
+                    }
                       group m-auto mb-2 flex cursor-pointer items-center justify-start
                       gap-4 rounded-md border border-gray-200 p-2 pl-5
                       hover:bg-gradient-to-r hover:from-emerald-200  hover:to-lime-200 hover:shadow-lg
-                    ">
+                    `}>
                     <HiOutlineMail className="text-2xl text-gray-600 group-hover:text-gray-800" />
                     <h3 className="text-base font-semibold text-gray-600 group-hover:text-gray-800">
                       訂閱電子報
