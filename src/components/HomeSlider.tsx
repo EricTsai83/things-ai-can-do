@@ -70,7 +70,7 @@ function HomeSlider() {
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
-          depth: 100,
+          depth: 200,
           modifier: 2.5,
         }}
         pagination={{ el: '.swiper-pagination', clickable: true }}
@@ -89,8 +89,8 @@ function HomeSlider() {
                   width={0}
                   height={0}
                   style={{
-                    width: '75%',
-                    height: '320px',
+                    width: '80%',
+                    height: '380px',
                     objectFit: 'cover',
                   }}
                   quality={100}

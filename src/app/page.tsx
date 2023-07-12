@@ -2,6 +2,11 @@ import PageTitle from '@/components/PageTitle';
 import { BsFillRocketTakeoffFill } from 'react-icons/bs';
 import HomeSlider from '@/components/HomeSlider';
 
+import dynamic from 'next/dynamic';
+const DynamicNewsletter = dynamic(() => import('@/components/Newsletter'), {
+  loading: () => <p>Loading...</p>,
+});
+
 function Page() {
   return (
     <div className="relative flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
@@ -15,6 +20,7 @@ function Page() {
         <BsFillRocketTakeoffFill className="flex items-center justify-center text-5xl text-teal-700" />
       </PageTitle>
       <HomeSlider />
+      <DynamicNewsletter />
     </div>
   );
 }

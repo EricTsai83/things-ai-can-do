@@ -277,14 +277,19 @@ function SideNavbar() {
               </div>
 
               <div className="my-4">
-                <div
-                  className="
-                    group m-auto mb-2 flex cursor-pointer items-center justify-start gap-4 rounded-md border border-gray-200 p-2 pl-5 hover:bg-sky-900 hover:shadow-lg">
-                  <HiOutlineMail className="text-2xl text-gray-600 group-hover:text-white" />
-                  <h3 className="text-base font-semibold text-gray-800 group-hover:text-white">
-                    與我聯繫
-                  </h3>
-                </div>
+                <Link href="/contact-us" prefetch={false}>
+                  <div
+                    className="
+                      group m-auto mb-2 flex cursor-pointer items-center justify-start
+                      gap-4 rounded-md border border-gray-200 p-2 pl-5
+                      hover:bg-gradient-to-r hover:from-emerald-200  hover:to-lime-200 hover:shadow-lg
+                    ">
+                    <HiOutlineMail className="text-2xl text-gray-600 group-hover:text-gray-800" />
+                    <h3 className="text-base font-semibold text-gray-600 group-hover:text-gray-800">
+                      訂閱電子報
+                    </h3>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
