@@ -1,12 +1,15 @@
 'use client';
+import { Fragment } from 'react';
 // 不是很懂，細讀一下
 import { useState, useRef } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { MdCleaningServices } from 'react-icons/md';
+import { BsFiletypeJson } from 'react-icons/bs';
 
 function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [response, setResponse] = useState('');
+  const [reformatToggle, setReformatToggle] = useState(false);
 
   async function getChatGPTResponse(data: string) {
     const response = await fetch(`/api/chatGPT`, {
@@ -21,11 +24,9 @@ function ChatGPT() {
     async function handleWords(words: string[]) {
       for (const word of words) {
         if (word === '') continue;
-
         wordBuffer += word + ' ';
         setResponse((prevResponse) => prevResponse + wordBuffer); // Update response state
         await delay(100); // Delay for 0.1 second
-
         wordBuffer = '';
       }
     }
@@ -33,10 +34,8 @@ function ChatGPT() {
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
       const chunk = decoder.decode(value, { stream: true });
       const words = chunk.split(' ');
-
       await handleWords(words);
     }
   }
@@ -47,6 +46,7 @@ function ChatGPT() {
 
   async function handleSendClick() {
     if (inputRef.current?.value) {
+      setReformatToggle(false);
       setResponse(''); // Clear previous response
       await getChatGPTResponse(inputRef.current.value);
     }
@@ -57,26 +57,48 @@ function ChatGPT() {
     event.target.style.height = `${event.target.scrollHeight}px`;
   };
 
+  function formatString(inputString: string) {
+    let res;
+    res = inputString
+      .slice(1)
+      .slice(0, -2)
+      .replace(/\\n/g, '\n')
+      .replace(/\\/g, '');
+    return res;
+  }
+
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <div className="relative w-full">
         <div
           className="
           absolute left-0 top-0 w-full rounded-lg bg-gray-700
-          p-2 text-center text-lg text-gray-200">
+          p-2 text-center text-2xl text-gray-200">
           ChatGPT
         </div>
+        <BsFiletypeJson
+          onClick={() => {
+            console.log(response);
+            setReformatToggle(true);
+          }}
+          className="absolute right-16 top-3 cursor-pointer text-2xl text-gray-200 active:text-white"
+        />
         <MdCleaningServices
           onClick={() => {
+            setReformatToggle(false);
             setResponse('');
           }}
-          className="absolute right-5 top-3 cursor-pointer text-xl text-gray-200 active:text-white"
+          className="absolute right-5 top-3 cursor-pointer text-2xl text-gray-200 active:text-white"
         />
       </div>
       <div className="w-full">
         {response && (
           <div className="mx-4 mt-14 text-gray-200">
-            {response.slice(1).slice(0, -2)}
+            {reformatToggle ? (
+              <pre>{formatString(response)}</pre>
+            ) : (
+              response.slice(1).slice(0, -2)
+            )}
           </div>
         )}
       </div>
