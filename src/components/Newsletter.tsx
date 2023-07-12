@@ -1,8 +1,10 @@
 'use client';
 import { GiRobotGolem } from 'react-icons/gi';
 import { GiArtificialHive } from 'react-icons/gi';
+import { useRef } from 'react';
 
 function Newsletter() {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <div className="mt-32 flex w-full">
       <section className="relative w-full py-20">
@@ -47,13 +49,19 @@ function Newsletter() {
                   />
                 </svg>
                 <input
+                  ref={inputRef}
                   type="email"
                   required
                   placeholder="輸入信箱"
                   className="w-full rounded-lg border bg-white py-2 pl-12 pr-3 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
                 />
               </div>
-              <button className="block w-auto rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white shadow hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
+              <button
+                onClick={() => {
+                  const currRef = inputRef.current as HTMLInputElement;
+                  currRef.value = '';
+                }}
+                className="block w-auto rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white shadow hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
                 Subscribe
               </button>
             </form>
