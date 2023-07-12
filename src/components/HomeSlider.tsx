@@ -61,7 +61,7 @@ function HomeSlider() {
   return (
     <div className="container">
       <Swiper
-        className="swiper_container"
+        className="relative"
         effect={'coverflow'}
         grabCursor={true}
         centeredSlides={true}
@@ -70,7 +70,7 @@ function HomeSlider() {
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
-          depth: 200,
+          depth: 150,
           modifier: 2.5,
         }}
         pagination={{ el: '.swiper-pagination', clickable: true }}
@@ -81,18 +81,14 @@ function HomeSlider() {
         modules={[EffectCoverflow, Pagination, Navigation]}>
         {slides.map((slide) => {
           return (
-            <SwiperSlide key={slide.title}>
+            <SwiperSlide key={slide.title} className="w-3/5">
               <Link href={slide.url}>
                 <Image
+                  className="max-h-96 w-full rounded-3xl object-cover "
                   src={slide.image}
                   alt="slide image"
                   width={0}
                   height={0}
-                  style={{
-                    width: '80%',
-                    height: '380px',
-                    objectFit: 'cover',
-                  }}
                   quality={100}
                 />
               </Link>
@@ -104,7 +100,7 @@ function HomeSlider() {
           <div className="swiper-button-prev slider-arrow">
             <BiSolidLeftArrow className="absolute -top-1/4 mr-3 text-6xl text-gray-300 hover:text-teal-300 active:text-gray-100" />
           </div>
-          <div className="swiper-button-next slider-arrow">
+          <div className="swiper-button-next slider-arrow w-6">
             <BiSolidRightArrow className="absolute -top-1/4 ml-3 text-6xl text-gray-300 hover:text-teal-300 active:text-gray-100" />
           </div>
           <div className="swiper-pagination"></div>

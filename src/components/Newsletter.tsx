@@ -1,11 +1,13 @@
 'use client';
 import { GiRobotGolem } from 'react-icons/gi';
+import { GiArtificialHive } from 'react-icons/gi';
 
 function Newsletter() {
   return (
     <div className="mt-32 flex w-full">
       <section className="relative w-full py-20">
-        <div className="relative z-10 items-center justify-between gap-12 px-4 md:flex md:px-8">
+        <GiArtificialHive className="absolute left-5 top-5 z-10 text-6xl text-teal-700" />
+        <div className="relative z-10 mt-5 items-center justify-between gap-12 px-4 md:flex md:px-8">
           <div className="max-w-lg flex-1">
             <h3 className="text-3xl font-bold">
               <div className="text-3xl text-gray-700">
