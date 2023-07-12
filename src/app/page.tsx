@@ -11,7 +11,7 @@ function Page() {
   return (
     <div className="relative flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
       <PageTitle
-        title="Make AI do thing for you"
+        title="Make AI do things for you"
         content="  
           探索AI魔法世界！網站提供臉部識別、聊天機器人、文字轉圖像、肢體偵測、
           圖像分割和分類等令人興奮的AI應用。
