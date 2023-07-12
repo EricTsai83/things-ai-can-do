@@ -85,75 +85,76 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     const canvasElement = document.getElementById(
       'output_canvas',
     ) as HTMLCanvasElement;
+    if (canvasElement.getContext('2d')) {
+      const canvasCtx = canvasElement.getContext('2d')!;
 
-    const canvasCtx = canvasElement.getContext('2d')!;
+      // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
 
-    // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
+      const radio = video.videoHeight / video.videoWidth;
+      video.style.width = videoWidth + 'px';
+      video.style.height = videoWidth * radio + 'px';
+      canvasElement.style.width = videoWidth + 'px';
+      canvasElement.style.height = videoWidth * radio + 'px';
+      canvasElement.width = video.videoWidth;
+      canvasElement.height = video.videoHeight;
 
-    const radio = video.videoHeight / video.videoWidth;
-    video.style.width = videoWidth + 'px';
-    video.style.height = videoWidth * radio + 'px';
-    canvasElement.style.width = videoWidth + 'px';
-    canvasElement.style.height = videoWidth * radio + 'px';
-    canvasElement.width = video.videoWidth;
-    canvasElement.height = video.videoHeight;
-
-    // Now let's start detecting the stream.
-    let nowInMs = Date.now();
-    let results = undefined;
-    let lastVideoTime = -1;
-    const drawingUtils = new DrawingUtils(canvasCtx);
-    if (lastVideoTime !== video.currentTime) {
-      lastVideoTime = video.currentTime;
-      results = faceLandmarker.detectForVideo(video, nowInMs);
-    }
-    if (results?.faceLandmarks) {
-      for (const landmarks of results.faceLandmarks) {
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-          { color: '#73be73', lineWidth: 1 },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE,
-          { color: '#4d944d' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
-          { color: '#D3D3D3' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_LEFT_EYE,
-          { color: '#4d944d' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_LEFT_EYEBROW,
-          { color: '#D3D3D3' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
-          { color: '#73be73' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_LIPS,
-          { color: '#ffcccb' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_RIGHT_IRIS,
-          { color: '#90ee90' },
-        );
-        drawingUtils.drawConnectors(
-          landmarks,
-          FaceLandmarker.FACE_LANDMARKS_LEFT_IRIS,
-          { color: '#90ee90' },
-        );
+      // Now let's start detecting the stream.
+      let nowInMs = Date.now();
+      let results = undefined;
+      let lastVideoTime = -1;
+      const drawingUtils = new DrawingUtils(canvasCtx);
+      if (lastVideoTime !== video.currentTime) {
+        lastVideoTime = video.currentTime;
+        results = faceLandmarker.detectForVideo(video, nowInMs);
+      }
+      if (results?.faceLandmarks) {
+        for (const landmarks of results.faceLandmarks) {
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_TESSELATION,
+            { color: '#73be73', lineWidth: 1 },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_RIGHT_EYE,
+            { color: '#4d944d' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_RIGHT_EYEBROW,
+            { color: '#D3D3D3' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_LEFT_EYE,
+            { color: '#4d944d' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_LEFT_EYEBROW,
+            { color: '#D3D3D3' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
+            { color: '#73be73' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_LIPS,
+            { color: '#ffcccb' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_RIGHT_IRIS,
+            { color: '#90ee90' },
+          );
+          drawingUtils.drawConnectors(
+            landmarks,
+            FaceLandmarker.FACE_LANDMARKS_LEFT_IRIS,
+            { color: '#90ee90' },
+          );
+        }
       }
     }
   }
