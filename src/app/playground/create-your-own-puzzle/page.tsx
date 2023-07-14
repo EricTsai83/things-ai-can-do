@@ -15,6 +15,7 @@ import { ImArrowRight } from 'react-icons/im';
 import LoadingButton from '@/components/LoadingButton';
 import ImageShowMode from './components/ImageShowMode';
 import { plans } from './components/plans';
+import { StlyedToastContainer, notify } from '@/components/ReactToast';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
@@ -47,7 +48,7 @@ function Page() {
           SetShowImage(false);
           setSelected(plans[1]);
         } catch (e) {
-          window.alert('模型 API 被佔用中，請稍後再試');
+          notify();
         } finally {
           setLoading(false);
         }
@@ -118,25 +119,6 @@ function Page() {
         setShowDifficultPuzzle={setShowDifficultPuzzle}
         SetShowEasyPuzzle={SetShowEasyPuzzle}
       />
-      {/* <button
-        onClick={async () => {
-          if (imageUrl) {
-            await getSplitImage(imageUrl);
-            setShowCut(true);
-          }
-          console.log('Cut completed.');
-        }}>
-        切割請求
-      </button> */}
-
-      {/* <button
-        onClick={() => {
-          console.log(imgBlobs);
-          setShowDifficultPuzzle(true);
-        }}>
-        查看切割
-      </button> */}
-
       <div className="flex min-h-[700px] w-full items-center justify-center">
         {imageUrl && (
           <Image
@@ -156,6 +138,7 @@ function Page() {
           {imageUrl && showEasyPuzzle && <PuzzleLayout imageUrl={imageUrl} />}
         </div>
       </div>
+      <StlyedToastContainer />
     </main>
   );
 }

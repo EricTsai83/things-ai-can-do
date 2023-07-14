@@ -8,6 +8,7 @@ import LoadingButton from '@/components/LoadingButton';
 import MirrorReflectionBtn from '@/components/MirrorReflectionButton';
 import { useImmer } from 'use-immer';
 import { FaUpload } from 'react-icons/fa';
+import { StlyedToastContainer, notify } from '@/components/ReactToast';
 
 interface Respond {
   label: string;
@@ -67,12 +68,12 @@ function MyDropzone() {
       const respond = await huggingFaceApi.getImageSegmentation(data);
       console.log(respond);
       if (respond.error) {
-        window.alert('模型 API 被佔用中，請稍後再試');
+        notify();
       } else {
         setApiData(respond);
       }
     } catch (e) {
-      window.alert('模型 API 被佔用中，請稍後再試');
+      notify();
     } finally {
       setLoading(false);
     }
@@ -219,6 +220,7 @@ function MyDropzone() {
             );
           })}
       </div>
+      <StlyedToastContainer />
     </div>
   );
 }

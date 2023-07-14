@@ -62,14 +62,14 @@ export default function ModelReport({
                 hover:bg-teal-100 focus:outline-none
                   focus-visible:ring focus-visible:ring-teal-200
                   focus-visible:ring-opacity-75 ">
-                <span className="flex items-center">
+                <span className="flex items-center text-xl">
                   顯示臉部偵測點在圖片上
                   <IoIosRefreshCircle
                     onClick={(event) => {
                       event.stopPropagation();
                       faceDetails && asyncDrawFacialResultOnImg(faceDetails);
                     }}
-                    className="z-10 ml-3 cursor-pointer text-3xl text-green-600"
+                    className="z-10 ml-3 cursor-pointer text-2xl text-green-600 hover:text-3xl"
                   />
                 </span>
                 <ChevronUpIcon
@@ -84,9 +84,9 @@ export default function ModelReport({
                     <div className="group relative">
                       <div
                         className="
-                        absolute -left-8 top-8 hidden w-32 border border-gray-300
-                      bg-white p-2 text-center
-                        group-hover:block">
+                          absolute -left-8 top-8 hidden w-32 border border-gray-300
+                        bg-white p-2 text-center
+                          group-hover:block">
                         刷新臉部偵測點
                       </div>
                     </div>
@@ -133,7 +133,7 @@ export default function ModelReport({
                 px-4 py-2 text-left text-lg font-medium text-teal-600
                 hover:bg-teal-100 focus:outline-none focus-visible:ring
                 focus-visible:ring-teal-200 focus-visible:ring-opacity-75">
-                <span className="flex items-center">
+                <span className="flex items-center text-xl">
                   臉部分析模型推論結果
                   <IoIosRefreshCircle
                     onClick={(event) => {
@@ -148,7 +148,7 @@ export default function ModelReport({
                           Promise.resolve(),
                         );
                     }}
-                    className="z-10 ml-3 cursor-pointer text-3xl text-green-600"
+                    className="z-10 ml-3 cursor-pointer text-2xl text-green-600 hover:text-3xl"
                   />
                 </span>
                 <ChevronUpIcon

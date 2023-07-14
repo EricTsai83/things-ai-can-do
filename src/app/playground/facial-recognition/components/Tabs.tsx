@@ -2,10 +2,7 @@
 import { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import Link from 'next/link';
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import classNames from '@/utils/tailwind-class-name-formatter';
 
 interface Category {
   id: number;
@@ -93,7 +90,7 @@ export default function Tabs({
               key={category}
               className={({ selected }) =>
                 classNames(
-                  'w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-teal-600',
+                  'w-full rounded-lg py-2.5 text-2xl font-medium leading-5 text-teal-600',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-teal-200 focus:outline-none focus:ring-2',
                   selected
                     ? 'bg-teal-50 shadow'
@@ -119,11 +116,11 @@ export default function Tabs({
                     key={post.id}
                     className="
                       relative rounded-md p-3 hover:bg-gray-100">
-                    <h3 className="text-sm font-medium leading-5">
+                    <h3 className="text-lg font-medium leading-5">
                       {post.title}
                     </h3>
 
-                    <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
+                    <ul className="mt-3 flex space-x-1 text-base font-normal leading-4 text-gray-500">
                       <li>{post.desc}</li>
                       <li>&middot;</li>
                       <li>{post.subject}</li>

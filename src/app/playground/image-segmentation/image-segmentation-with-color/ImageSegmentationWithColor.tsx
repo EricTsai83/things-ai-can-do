@@ -10,6 +10,7 @@ import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import LoadingButton from '@/components/LoadingButton';
 import { FaUpload } from 'react-icons/fa';
+import { StlyedToastContainer, notify } from '@/components/ReactToast';
 
 interface ImageBlob {
   [key: string]: File;
@@ -44,13 +45,13 @@ function Page() {
       const respond = await huggingFaceApi.getImageSegmentation(data);
       console.log(respond);
       if (respond.error) {
-        window.alert('模型 API 被佔用中，請稍後再試');
+        notify();
       } else {
         await storeMaskData(respond);
         await setUniqueColorsInPNG(respond);
       }
     } catch (e) {
-      window.alert('模型 API 被佔用中，請稍後再試');
+      notify();
     } finally {
       setLoading(false);
     }
@@ -148,7 +149,7 @@ function Page() {
             />
           </div>
         )}
-        {!imageSrc && '點我或拖照片到此區域來上傳圖片'}
+        {!imageSrc && '拖照片到此區域來上傳圖片'}
         <input
           type="file"
           accept="image/*"
@@ -183,6 +184,7 @@ function Page() {
           />
         ))}
       </div>
+      <StlyedToastContainer />
     </div>
   );
 }
