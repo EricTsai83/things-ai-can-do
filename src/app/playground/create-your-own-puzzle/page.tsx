@@ -79,7 +79,7 @@ function Page() {
   return (
     <main className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
       <PageTitle
-        title="文字轉圖像"
+        title="圖像生成"
         content="
           文字轉圖像是一種魔法筆！這項神奇的AI技術可以將文字描述變成真實的圖像。
           只要你用文字描述想像的場景或物品，魔法筆就會把它們變成色彩繽紛、生動有趣的圖片，

@@ -1,10 +1,36 @@
 'use client';
 import { GiRobotGolem } from 'react-icons/gi';
 import { GiArtificialHive } from 'react-icons/gi';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import {
+  newsletterSubscribeSuccess,
+  newsletterSubscribeFailure,
+  StyledToastContainer,
+  BounceToastContainer,
+} from '@/components/ReactToast';
 
 function Newsletter() {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [emailStatus, setEmailStatus] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>('');
+
+  function validateEmail(email: string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
+  useEffect(() => {
+    const currRef = inputRef.current!;
+    if (currRef.value) {
+      if (emailStatus) {
+        newsletterSubscribeSuccess();
+        currRef.value = '';
+      } else {
+        newsletterSubscribeFailure();
+      }
+    }
+  }, [email]);
+
   return (
     <div className="mt-32 flex w-full">
       <section className="relative w-full py-20">
@@ -50,7 +76,6 @@ function Newsletter() {
                 </svg>
                 <input
                   ref={inputRef}
-                  type="email"
                   required
                   placeholder="輸入信箱"
                   className="w-full rounded-lg border bg-white py-2 pl-12 pr-3 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
@@ -59,10 +84,12 @@ function Newsletter() {
               <button
                 onClick={() => {
                   const currRef = inputRef.current as HTMLInputElement;
-                  currRef.value = '';
+                  const isValid = validateEmail(currRef.value);
+                  setEmailStatus(isValid);
+                  setEmail(currRef.value);
                 }}
                 className="block w-auto rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white shadow hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
-                Subscribe
+                訂閱
               </button>
             </form>
           </div>
@@ -74,6 +101,7 @@ function Newsletter() {
               'linear-gradient(to left, rgb(153, 246, 228), rgb(217, 249, 157))',
           }}></div>
       </section>
+      {emailStatus ? <StyledToastContainer /> : <BounceToastContainer />}
     </div>
   );
 }
