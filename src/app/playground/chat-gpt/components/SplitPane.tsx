@@ -93,6 +93,7 @@ export const SplitPaneTop = () => {
       setClientHeight(topRef.current.clientHeight);
       return;
     }
+
     if (topRef.current) {
       topRef.current.style.minHeight = clientHeight + 'px';
       topRef.current.style.maxHeight = clientHeight + 'px';
@@ -100,21 +101,17 @@ export const SplitPaneTop = () => {
   }, [clientHeight]);
 
   return (
-    <div
-      className="min-h-[300px] flex-1 overflow-hidden text-left"
-      ref={topRef}>
-      <h1 className="text-2xl text-gray-800 underline decoration-teal-400 underline-offset-4">
-        ChatGPT Prompts 模板:
-      </h1>
-      <ul className="m-0.5 mt-3 flex list-inside list-disc flex-col gap-2">
+    <div className="flex items-center justify-center" ref={topRef}>
+      <ul className="m-0.5 mt-3 grid list-inside list-disc grid-flow-col grid-rows-2 gap-5">
         {contents.map((element) => {
           return (
-            <li key={element.id}>
+            <li key={element.id} className="w-[340px]">
               <Link
-                className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
+                className="w-full text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
                 href=""
                 onClick={() => setCurrContent(element.id)}>
                 {element.subject}
+
                 {currContent === element.id && (
                   <div className="inline-block align-middle">
                     <TbTargetArrow className="ml-2 text-2xl text-red-600" />
@@ -147,7 +144,9 @@ export const SplitPaneBottom = () => {
     }
   }
 
-  return <div className="no-scrollbar overflow-y-auto">{pageContent()}</div>;
+  return (
+    <div className="no-scrollbar h-full overflow-y-scroll">{pageContent()}</div>
+  );
 };
 
 interface SplitPaneLeftProps {

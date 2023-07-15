@@ -29,21 +29,26 @@ function Page() {
           <BsRobot className="flex items-center justify-center text-5xl text-teal-700" />
         </PageTitle>
 
-        <SplitPane className="flex h-full w-full flex-row">
-          <SplitPaneLeft>
-            <SplitPane className="flex h-full w-full flex-col">
-              <SplitPaneTop />
-              <Divider className="cursor-row-resize border border-gray-800 hover:border-4 active:border-4" />
+        <SplitPane className="flex h-full w-full flex-col">
+          <h2 className="mt-10 flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
+            ChatGPT Prompts 主題:
+          </h2>
+          <SplitPaneTop />
+          <h2 className="mb-10 mt-10 flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
+            聊天機器人模板說明與練習場:
+          </h2>
+          <SplitPane className="flex h-full w-full flex-row">
+            <SplitPaneLeft>
               <SplitPaneBottom />
-            </SplitPane>
-          </SplitPaneLeft>
-          <Divider className="cursor-col-resize border border-gray-800 hover:border-4 active:border-4" />
+            </SplitPaneLeft>
+            <Divider className="cursor-col-resize border border-gray-800 hover:border-4 active:border-4" />
 
-          <SplitPaneRight>
-            <div className="h-full rounded-t-lg bg-gray-500">
-              <ChatGPT />
-            </div>
-          </SplitPaneRight>
+            <SplitPaneRight>
+              <div className="h-full min-h-[70%] rounded-t-lg bg-gray-500">
+                <ChatGPT />
+              </div>
+            </SplitPaneRight>
+          </SplitPane>
         </SplitPane>
       </ContentContext.Provider>
     </div>
