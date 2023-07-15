@@ -11,7 +11,7 @@ export default function ImageShowMode({
   SetShowEasyPuzzle,
 }: any) {
   return (
-    <div className="w-full px-4 py-16">
+    <div className="w-full px-4">
       <div className="mx-auto w-full">
         <RadioGroup value={selected} onChange={setSelected}>
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>

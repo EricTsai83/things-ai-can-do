@@ -11,6 +11,11 @@ import { WritableDraft } from 'immer/dist/internal';
 import { SearchParams } from '../../types';
 import { SelectOption } from './Select';
 import LoadingButton from '@/components/LoadingButton';
+import {
+  apiNotify,
+  imgSizeNotify,
+  StyledToastContainer,
+} from '@/components/ReactToast';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -28,11 +33,9 @@ interface ImageBase64String {
 }
 
 function MyDropzone({
-  // faceDetails,
   setFaceDetails,
   imageSrc,
   setImageSrc,
-  // selectOption,
   searchParams,
   canvasUrls,
   setCanvasUrls,
@@ -45,18 +48,21 @@ function MyDropzone({
 
   const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const imageFile = event.dataTransfer.files[0];
-
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      const base64String = (await convertImageToBase64(imageFile)) as string;
-      setImageBase64String((draft) => {
-        draft[imageUrl] = base64String;
-      });
-      setFaceDetails(null);
-      setCanvasUrls(null);
-      setImageSrc(imageUrl);
+    const imageFile = event.dataTransfer.files[0]!;
+    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+    if (imageFile.size > maxSize) {
+      imgSizeNotify();
+      return;
     }
+
+    const imageUrl = URL.createObjectURL(imageFile);
+    const base64String = (await convertImageToBase64(imageFile)) as string;
+    setImageBase64String((draft) => {
+      draft[imageUrl] = base64String;
+    });
+    setFaceDetails(null);
+    setCanvasUrls(null);
+    setImageSrc(imageUrl);
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -68,33 +74,38 @@ function MyDropzone({
   };
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files?.[0];
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-      const base64String = await convertImageToBase64(imageFile);
-      setImageBase64String((draft: any) => {
-        draft[imageUrl] = base64String;
-      });
-      setImageSrc(imageUrl);
-      event.target.value = '';
+    const imageFile = event.target.files?.[0]!;
+    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+    if (imageFile.size > maxSize) {
+      imgSizeNotify();
+      return;
     }
+
+    const imageUrl = URL.createObjectURL(imageFile);
+    const base64String = await convertImageToBase64(imageFile);
+    setImageBase64String((draft: any) => {
+      draft[imageUrl] = base64String;
+    });
+    setImageSrc(imageUrl);
+    event.target.value = '';
   };
 
   async function getFacialRecognition() {
     if (imageSrc) {
-      setLoading(true);
-      const res = await fetch('/api/aws', {
-        method: 'POST',
-        body: JSON.stringify({ image_base64: imageBase64String[imageSrc] }),
-      });
-      const facialRecoRes = await res.json();
-      console.log(facialRecoRes);
-      setFaceDetails(facialRecoRes.Tags.FaceDetails);
-
-      const marks = await facialRecoRes.Tags.FaceDetails[0].Landmarks.map(
-        (landmark: any) => landmark.Type,
-      );
-      setLoading(false);
+      try {
+        setLoading(true);
+        const res = await fetch('/api/aws', {
+          method: 'POST',
+          body: JSON.stringify({ image_base64: imageBase64String[imageSrc] }),
+        });
+        const facialRecoRes = await res.json();
+        console.log(facialRecoRes);
+        setFaceDetails(facialRecoRes.Tags.FaceDetails);
+      } catch (e) {
+        apiNotify();
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -157,17 +168,20 @@ function MyDropzone({
             height={0}
           />
         )}
-        {!imageSrc && 'Drop image or click here to uploag image'}
+        {!imageSrc && (
+          <p className="text-gray-500">點我或托照片到此區域來上傳圖片</p>
+        )}
 
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/png"
           ref={fileInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
         />
       </div>
       <LoadingButton loading={loading} executeFunction={getFacialRecognition} />
+      <StyledToastContainer />
     </div>
   );
 }

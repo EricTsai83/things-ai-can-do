@@ -1,9 +1,35 @@
 'use client';
-import { useRef } from 'react';
+import {
+  BounceToastContainer,
+  newsletterSubscribeFailure,
+  newsletterSubscribeSuccess,
+  StyledToastContainer,
+} from '@/components/ReactToast';
+import { useEffect, useRef, useState } from 'react';
 import { GiArtificialHive, GiRobotGolem } from 'react-icons/gi';
 
 function Page() {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [emailStatus, setEmailStatus] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>('');
+
+  function validateEmail(email: string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
+  useEffect(() => {
+    const currRef = inputRef.current!;
+    if (currRef.value) {
+      if (emailStatus) {
+        newsletterSubscribeSuccess();
+        currRef.value = '';
+      } else {
+        newsletterSubscribeFailure();
+      }
+    }
+  }, [email]);
+
   return (
     <div className="flex h-[calc(100vh-64px)] w-screen flex-col items-center justify-center px-16 pt-24 xl:w-[calc(100vw-240px)]">
       <section className="relative py-28">
@@ -58,10 +84,12 @@ function Page() {
               <button
                 onClick={() => {
                   const currRef = inputRef.current as HTMLInputElement;
-                  currRef.value = '';
+                  const isValid = validateEmail(currRef.value);
+                  setEmailStatus(isValid);
+                  setEmail(currRef.value);
                 }}
                 className="block w-auto rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white shadow hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
-                Subscribe
+                訂閱
               </button>
             </form>
           </div>
@@ -73,6 +101,7 @@ function Page() {
               'linear-gradient(to right, rgb(153, 246, 228), rgb(217, 249, 157))',
           }}></div>
       </section>
+      {emailStatus ? <StyledToastContainer /> : <BounceToastContainer />}
     </div>
   );
 }

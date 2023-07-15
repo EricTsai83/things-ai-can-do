@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useCallback } from 'react';
-import PuzzleLayout from './components/PuzzleLayout';
-import ImagePuzzle from './components/ImagePuzzle';
+import EasyPuzzle from './components/EasyPuzzle';
+import DifficultPuzzle from './components/DifficultPuzzle';
 import Image from 'next/image';
 import splitImage from '@/utils/split-image';
 import type { TileObject } from '@/utils/split-image';
@@ -15,6 +15,7 @@ import { ImArrowRight } from 'react-icons/im';
 import LoadingButton from '@/components/LoadingButton';
 import ImageShowMode from './components/ImageShowMode';
 import { plans } from './components/plans';
+import { apiNotify, StyledToastContainer } from '@/components/ReactToast';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
@@ -47,7 +48,7 @@ function Page() {
           SetShowImage(false);
           setSelected(plans[1]);
         } catch (e) {
-          window.alert('模型 API 被佔用中，請稍後再試');
+          apiNotify();
         } finally {
           setLoading(false);
         }
@@ -78,7 +79,7 @@ function Page() {
   return (
     <main className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
       <PageTitle
-        title="文字轉圖像"
+        title="圖像生成"
         content="
           文字轉圖像是一種魔法筆！這項神奇的AI技術可以將文字描述變成真實的圖像。
           只要你用文字描述想像的場景或物品，魔法筆就會把它們變成色彩繽紛、生動有趣的圖片，
@@ -91,16 +92,20 @@ function Page() {
         </div>
       </PageTitle>
 
-      <div className="flex w-full justify-end">
-        <div className="w-3/4">
-          <PromptSearchBox />
-        </div>
+      <div className="w-3/4 flex-col">
+        <h2 className="mb-8 text-2xl font-semibold text-teal-700">
+          步驟一：提示詞參考
+        </h2>
+        <PromptSearchBox />
       </div>
 
       <div className="flex flex-col pt-14">
+        <h2 className="mb-8 text-2xl font-semibold text-teal-700">
+          步驟二：填入想要的場景和人事物
+        </h2>
         <textarea
           ref={textForDiffusion}
-          placeholder="填入想要的場景和人事物"
+          placeholder="請用英文描述，建議參考上方提示詞的寫法"
           className="mb-6 min-h-[100px] w-full border placeholder:p-10"
         />
         <div className="flex justify-end">
@@ -110,6 +115,9 @@ function Page() {
           />
         </div>
       </div>
+      <h2 className="my-8 text-2xl font-semibold text-teal-700">
+        步驟三：選擇呈現圖片的方式
+      </h2>
       <ImageShowMode
         selected={selected}
         setSelected={setSelected}
@@ -118,24 +126,6 @@ function Page() {
         setShowDifficultPuzzle={setShowDifficultPuzzle}
         SetShowEasyPuzzle={SetShowEasyPuzzle}
       />
-      {/* <button
-        onClick={async () => {
-          if (imageUrl) {
-            await getSplitImage(imageUrl);
-            setShowCut(true);
-          }
-          console.log('Cut completed.');
-        }}>
-        切割請求
-      </button> */}
-
-      {/* <button
-        onClick={() => {
-          console.log(imgBlobs);
-          setShowDifficultPuzzle(true);
-        }}>
-        查看切割
-      </button> */}
 
       <div className="flex min-h-[700px] w-full items-center justify-center">
         {imageUrl && (
@@ -149,13 +139,14 @@ function Page() {
         )}
         <div>
           {imageUrl && showDifficultPuzzle && (
-            <ImagePuzzle imgBlobs={imgBlobs} />
+            <DifficultPuzzle imgBlobs={imgBlobs} />
           )}
         </div>
         <div>
-          {imageUrl && showEasyPuzzle && <PuzzleLayout imageUrl={imageUrl} />}
+          {imageUrl && showEasyPuzzle && <EasyPuzzle imageUrl={imageUrl} />}
         </div>
       </div>
+      <StyledToastContainer />
     </main>
   );
 }

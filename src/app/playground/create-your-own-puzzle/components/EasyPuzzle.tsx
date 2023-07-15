@@ -7,13 +7,14 @@ import {
   useCallback,
 } from 'react';
 import { useImmer } from 'use-immer';
+import GlowingBtn from '@/components/GlowingBtn';
 
 interface InitialStates {
   dataId: number;
   style: string;
 }
 
-function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
+function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
   let initialStates: InitialStates[] = [
     { dataId: 1, style: '-200px 0px' },
     { dataId: 0, style: '0px 0px' }, // 跟上面一行調換位置，避免初始化的時候拼圖就完成了
@@ -115,7 +116,10 @@ function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
   };
 
   return (
-    <div className="grid w-[602px] grid-cols-3 gap-px">
+    <div className="relative grid w-[602px] grid-cols-3 gap-px">
+      <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-2/3">
+        <GlowingBtn executeMethod={shuffleArray} text={'打散圖片'} />
+      </div>
       {imageArrangement.map((element, idx) => {
         return (
           <div
@@ -145,10 +149,8 @@ function PuzzleLayout({ imageUrl }: { imageUrl: string }) {
           </div>
         );
       })}
-      <button onClick={shuffleArray}>shuffle</button>
-      <div>{score}</div>
     </div>
   );
 }
 
-export default PuzzleLayout;
+export default EasyPuzzle;

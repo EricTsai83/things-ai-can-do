@@ -1,6 +1,5 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-
 import { HOSTNAME, HEADER } from '../apiConfig';
 
 export async function POST(request: NextRequest) {

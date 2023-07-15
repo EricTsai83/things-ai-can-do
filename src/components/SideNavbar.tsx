@@ -52,7 +52,7 @@ function SideNavbar() {
     } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
     } else if (lastElement === 'create-your-own-puzzle') {
-      setSelected('文字轉圖像');
+      setSelected('圖像生成');
     } else if (lastElement === 'real-time-pose-estimation') {
       setSelected('肢體偵測');
     } else if (lastElement === 'human-image-matting') {
@@ -81,7 +81,7 @@ function SideNavbar() {
     const selectOption = [
       '臉部識別',
       '聊天機器人',
-      '文字轉圖像',
+      '圖像生成',
       '肢體偵測',
       '圖像分割',
       '圖片分類',
@@ -96,7 +96,7 @@ function SideNavbar() {
           icons.push(<MdOutlineTagFaces className={className} />);
         } else if (selectOption[i] === '聊天機器人') {
           icons.push(<RiRobotFill className={className} />);
-        } else if (selectOption[i] === '文字轉圖像') {
+        } else if (selectOption[i] === '圖像生成') {
           icons.push(<TbTextSize className={className} />);
         } else if (selectOption[i] === '肢體偵測') {
           icons.push(<IoBodySharp className={className} />);

@@ -1,15 +1,16 @@
 'use client';
-import { Fragment } from 'react';
 // 不是很懂，細讀一下
 import { useState, useRef } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { MdCleaningServices } from 'react-icons/md';
 import { BsFiletypeJson } from 'react-icons/bs';
+import LoadingAnimation from '@/components/LoadingAnimation';
 
 function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [response, setResponse] = useState('');
   const [reformatToggle, setReformatToggle] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getChatGPTResponse(data: string) {
     const response = await fetch(`/api/chatGPT`, {
@@ -45,11 +46,15 @@ function ChatGPT() {
   }
 
   async function handleSendClick() {
+    setIsLoading(true);
     if (inputRef.current?.value) {
+      setReformatToggle(false);
       setReformatToggle(false);
       setResponse(''); // Clear previous response
       await getChatGPTResponse(inputRef.current.value);
     }
+
+    setIsLoading(false);
   }
 
   const resizeTextarea = (event: any) => {
@@ -68,7 +73,7 @@ function ChatGPT() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center justify-center">
+    <div className="flex w-full flex-col items-center justify-center bg-gray-500">
       <div className="relative w-full">
         <div
           className="
@@ -79,7 +84,7 @@ function ChatGPT() {
         <BsFiletypeJson
           onClick={() => {
             console.log(response);
-            setReformatToggle(true);
+            setReformatToggle((prev) => !prev);
           }}
           className="absolute right-16 top-3 cursor-pointer text-2xl text-gray-200 active:text-white"
         />
@@ -93,7 +98,7 @@ function ChatGPT() {
       </div>
       <div className="w-full">
         {response && (
-          <div className="mx-4 mt-14 text-gray-200">
+          <div className="mx-4 mt-14 overflow-x-hidden text-gray-200">
             {reformatToggle ? (
               <pre>{formatString(response)}</pre>
             ) : (
@@ -114,10 +119,15 @@ function ChatGPT() {
             focus:border-gray-500"
             ref={inputRef}
           />
-          <AiOutlineSend
-            onClick={handleSendClick}
-            className="absolute bottom-8 right-4 cursor-pointer text-xl active:text-gray-200"
-          />
+          {!isLoading && (
+            <AiOutlineSend
+              onClick={handleSendClick}
+              className="absolute bottom-8 right-4 cursor-pointer text-xl active:text-gray-200"
+            />
+          )}
+          <div className="absolute bottom-8 right-4">
+            {isLoading && <LoadingAnimation />}
+          </div>
         </div>
         <p className="mt-1.5 px-10 text-xs text-gray-200">
           Free Research Preview. ChatGPT may produce inaccurate information
