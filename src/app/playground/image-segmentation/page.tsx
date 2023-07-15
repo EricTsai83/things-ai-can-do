@@ -3,6 +3,7 @@ import PageTitle from '@/components/PageTitle';
 import { IoCutSharp } from 'react-icons/io5';
 import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
 import HumanImageMatting from './human-image-matting/HumanImageMatting';
+import { StyledToastContainer } from '@/components/ReactToast';
 
 function Page() {
   return (
@@ -30,6 +31,7 @@ function Page() {
         (白色：遮罩區域、黑色：保留區域)
       </h2>
       <HumanImageMatting />
+      <StyledToastContainer />
     </div>
   );
 }

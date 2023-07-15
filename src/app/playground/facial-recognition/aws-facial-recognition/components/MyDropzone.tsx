@@ -11,7 +11,11 @@ import { WritableDraft } from 'immer/dist/internal';
 import { SearchParams } from '../../types';
 import { SelectOption } from './Select';
 import LoadingButton from '@/components/LoadingButton';
-import { StlyedToastContainer, notify } from '@/components/ReactToast';
+import {
+  apiNotify,
+  imgSizeNotify,
+  StyledToastContainer,
+} from '@/components/ReactToast';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -45,11 +49,12 @@ function MyDropzone({
   const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const imageFile = event.dataTransfer.files[0]!;
-
     const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
     if (imageFile.size > maxSize) {
+      imgSizeNotify();
       return;
     }
+
     const imageUrl = URL.createObjectURL(imageFile);
     const base64String = (await convertImageToBase64(imageFile)) as string;
     setImageBase64String((draft) => {
@@ -72,6 +77,7 @@ function MyDropzone({
     const imageFile = event.target.files?.[0]!;
     const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
     if (imageFile.size > maxSize) {
+      imgSizeNotify();
       return;
     }
 
@@ -96,7 +102,7 @@ function MyDropzone({
         console.log(facialRecoRes);
         setFaceDetails(facialRecoRes.Tags.FaceDetails);
       } catch (e) {
-        notify();
+        apiNotify();
       } finally {
         setLoading(false);
       }
@@ -175,8 +181,7 @@ function MyDropzone({
         />
       </div>
       <LoadingButton loading={loading} executeFunction={getFacialRecognition} />
-      {/* <button onClick={notify}>Notify</button> */}
-      <StlyedToastContainer />
+      <StyledToastContainer />
     </div>
   );
 }

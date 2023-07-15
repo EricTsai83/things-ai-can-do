@@ -3,7 +3,7 @@ import useDragger from '@/hook/useDragger';
 import Image from 'next/image';
 import type { TileObject } from '@/utils/split-image';
 
-function ImagePuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
+function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
   const zIndexCounter = useRef(1);
   const imgWidth = 200;
   const imgHeight = 200;
@@ -155,4 +155,4 @@ function ImagePuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
   );
 }
 
-export default ImagePuzzle;
+export default DifficultPuzzle;

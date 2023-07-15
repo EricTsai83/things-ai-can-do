@@ -8,7 +8,7 @@ import LoadingButton from '@/components/LoadingButton';
 import MirrorReflectionBtn from '@/components/MirrorReflectionButton';
 import { useImmer } from 'use-immer';
 import { FaUpload } from 'react-icons/fa';
-import { StlyedToastContainer, notify } from '@/components/ReactToast';
+import { apiNotify, imgSizeNotify } from '@/components/ReactToast';
 
 interface Respond {
   label: string;
@@ -31,6 +31,12 @@ function MyDropzone() {
     event.preventDefault();
     const imageFile = event.dataTransfer.files[0];
     if (imageFile) {
+      const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+      if (imageFile.size > maxSize) {
+        imgSizeNotify();
+        return;
+      }
+
       const imageUrl = URL.createObjectURL(imageFile);
       setImageBlob(imageFile);
       setImageSrc(imageUrl);
@@ -51,6 +57,12 @@ function MyDropzone() {
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0];
     if (imageFile) {
+      const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+      if (imageFile.size > maxSize) {
+        imgSizeNotify();
+        return;
+      }
+
       const imageUrl = URL.createObjectURL(imageFile);
       setImageBlob(imageFile);
       setImageSrc(imageUrl);
@@ -68,12 +80,12 @@ function MyDropzone() {
       const respond = await huggingFaceApi.getImageSegmentation(data);
       console.log(respond);
       if (respond.error) {
-        notify();
+        apiNotify();
       } else {
         setApiData(respond);
       }
     } catch (e) {
-      notify();
+      apiNotify();
     } finally {
       setLoading(false);
     }
@@ -146,7 +158,7 @@ function MyDropzone() {
             />
           </div>
         )}
-        {!imageSrc && '點我或拖照片到此區域來上傳圖片'}
+        {!imageSrc && '拖照片到此區域來上傳圖片'}
 
         {Object.values(cover).length > 0 &&
           Object.values(cover).map((pngStr: string, id: number) => {
@@ -165,7 +177,7 @@ function MyDropzone() {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/png"
           onChange={handleUpload}
           className="absolute -left-full"
         />
@@ -220,7 +232,6 @@ function MyDropzone() {
             );
           })}
       </div>
-      <StlyedToastContainer />
     </div>
   );
 }

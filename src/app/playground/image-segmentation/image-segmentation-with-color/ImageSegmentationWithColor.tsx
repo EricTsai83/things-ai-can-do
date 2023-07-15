@@ -2,15 +2,14 @@
 import { useState, useRef } from 'react';
 import type { DragEvent, ChangeEvent } from 'react';
 import { useImmer } from 'use-immer';
-import Image from 'next/image'; // the img element will automatically be assigned the position: "absolute" style.
+import Image from 'next/image';
 import ColorMask from './components/ColorMask';
-// import Mask from './components/Mask';
 import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import LoadingButton from '@/components/LoadingButton';
 import { FaUpload } from 'react-icons/fa';
-import { StlyedToastContainer, notify } from '@/components/ReactToast';
+import { apiNotify, imgSizeNotify } from '@/components/ReactToast';
 
 interface ImageBlob {
   [key: string]: File;
@@ -27,9 +26,6 @@ interface Masks {
 }
 
 function Page() {
-  // 1. 取得照片的 blob
-  // 2. 建立照片 reference URL
-  // 3. 建構一個 state 可以儲存 {reference url: image blob}
   const [imageBlob, setImageBlob] = useImmer<ImageBlob>({});
   const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
   const [droppedImages, setDroppedImages] = useState<string[]>([]); // 用來記錄dropzone 下方小圖展示的圖片有哪些
@@ -45,13 +41,13 @@ function Page() {
       const respond = await huggingFaceApi.getImageSegmentation(data);
       console.log(respond);
       if (respond.error) {
-        notify();
+        apiNotify();
       } else {
         await storeMaskData(respond);
         await setUniqueColorsInPNG(respond);
       }
     } catch (e) {
-      notify();
+      apiNotify();
     } finally {
       setLoading(false);
     }
@@ -68,8 +64,15 @@ function Page() {
 
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
+    const imageFile = event.dataTransfer.files[0];
+    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+    if (imageFile.size > maxSize) {
+      console.log('handleDrop');
+      imgSizeNotify();
+      return;
+    }
+
     if (Object.keys(imageBlob).length < 6) {
-      const imageFile = event.dataTransfer.files[0];
       if (imageFile) {
         const imageUrl = URL.createObjectURL(imageFile);
         setImageBlob((draft: ImageBlob) => {
@@ -78,6 +81,27 @@ function Page() {
         });
         setImageSrc(imageUrl);
         setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+      }
+    } else {
+      window.alert('最多上傳 6 張圖片喔！');
+    }
+  }
+
+  function handleUpload(event: ChangeEvent<HTMLInputElement>) {
+    console.log('handleUpload');
+    if (Object.keys(imageBlob).length < 6) {
+      const imageFile = event.target.files?.[0];
+      if (imageFile) {
+        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+        if (imageFile.size > maxSize) {
+          imgSizeNotify();
+          return;
+        }
+
+        const imageUrl = URL.createObjectURL(imageFile);
+        setImageSrc(imageUrl);
+        setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+        event.target.value = ''; // Reset the file input field
       }
     } else {
       window.alert('最多上傳 6 張圖片喔！');
@@ -93,22 +117,8 @@ function Page() {
     setImageSrc(imageUrl);
   }
 
-  function handleBoxClick() {
+  function handleUploadIconClick() {
     fileInputRef.current?.click();
-  }
-
-  function handleUpload(event: ChangeEvent<HTMLInputElement>) {
-    if (Object.keys(imageBlob).length < 6) {
-      const imageFile = event.target.files?.[0];
-      if (imageFile) {
-        const imageUrl = URL.createObjectURL(imageFile);
-        setImageSrc(imageUrl);
-        setDroppedImages((prevImages) => [...prevImages, imageUrl]);
-        event.target.value = ''; // Reset the file input field
-      }
-    } else {
-      window.alert('最多上傳 6 張圖片喔！');
-    }
   }
 
   async function setUniqueColorsInPNG(respond: any) {
@@ -128,9 +138,7 @@ function Page() {
           justify-center border-2 border-dashed
         border-black object-contain"
         onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        // onClick={handleBoxClick}
-      >
+        onDragOver={handleDragOver}>
         {imageSrc && (
           <div className="absolute">
             {masks[imageSrc] && (
@@ -152,13 +160,13 @@ function Page() {
         {!imageSrc && '拖照片到此區域來上傳圖片'}
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/png"
           ref={fileInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
         />
 
-        <div onClick={handleBoxClick}>
+        <div onClick={handleUploadIconClick}>
           <FaUpload className="absolute right-0 top-0 m-3 cursor-pointer text-3xl text-gray-400 active:text-gray-200" />
         </div>
 
@@ -184,7 +192,6 @@ function Page() {
           />
         ))}
       </div>
-      <StlyedToastContainer />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useCallback } from 'react';
-import PuzzleLayout from './components/PuzzleLayout';
-import ImagePuzzle from './components/ImagePuzzle';
+import EasyPuzzle from './components/EasyPuzzle';
+import DifficultPuzzle from './components/DifficultPuzzle';
 import Image from 'next/image';
 import splitImage from '@/utils/split-image';
 import type { TileObject } from '@/utils/split-image';
@@ -15,7 +15,7 @@ import { ImArrowRight } from 'react-icons/im';
 import LoadingButton from '@/components/LoadingButton';
 import ImageShowMode from './components/ImageShowMode';
 import { plans } from './components/plans';
-import { StlyedToastContainer, notify } from '@/components/ReactToast';
+import { apiNotify, StyledToastContainer } from '@/components/ReactToast';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
@@ -48,7 +48,7 @@ function Page() {
           SetShowImage(false);
           setSelected(plans[1]);
         } catch (e) {
-          notify();
+          apiNotify();
         } finally {
           setLoading(false);
         }
@@ -92,13 +92,17 @@ function Page() {
         </div>
       </PageTitle>
 
-      <div className="flex w-full justify-end">
-        <div className="w-3/4">
-          <PromptSearchBox />
-        </div>
+      <div className="w-3/4 flex-col">
+        <h2 className="mb-8 text-2xl font-semibold text-teal-700">
+          步驟一：提示詞參考
+        </h2>
+        <PromptSearchBox />
       </div>
 
       <div className="flex flex-col pt-14">
+        <h2 className="mb-8 text-2xl font-semibold text-teal-700">
+          步驟二：填入想要的場景和人事物
+        </h2>
         <textarea
           ref={textForDiffusion}
           placeholder="填入想要的場景和人事物"
@@ -111,6 +115,9 @@ function Page() {
           />
         </div>
       </div>
+      <h2 className="my-8 text-2xl font-semibold text-teal-700">
+        步驟三：選擇呈現圖片的方式
+      </h2>
       <ImageShowMode
         selected={selected}
         setSelected={setSelected}
@@ -119,6 +126,7 @@ function Page() {
         setShowDifficultPuzzle={setShowDifficultPuzzle}
         SetShowEasyPuzzle={SetShowEasyPuzzle}
       />
+
       <div className="flex min-h-[700px] w-full items-center justify-center">
         {imageUrl && (
           <Image
@@ -131,14 +139,14 @@ function Page() {
         )}
         <div>
           {imageUrl && showDifficultPuzzle && (
-            <ImagePuzzle imgBlobs={imgBlobs} />
+            <DifficultPuzzle imgBlobs={imgBlobs} />
           )}
         </div>
         <div>
-          {imageUrl && showEasyPuzzle && <PuzzleLayout imageUrl={imageUrl} />}
+          {imageUrl && showEasyPuzzle && <EasyPuzzle imageUrl={imageUrl} />}
         </div>
       </div>
-      <StlyedToastContainer />
+      <StyledToastContainer />
     </main>
   );
 }
