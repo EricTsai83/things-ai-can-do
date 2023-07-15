@@ -16,15 +16,20 @@ export default function ProfileIcon() {
         />
 
         <button
+          className="text-base text-gray-600"
           onClick={() => {
             // @ts-ignore
             signOut();
           }}>
-          Sign Out
+          登出
         </button>
       </div>
     );
   }
 
-  return <button onClick={() => signIn()}>Sign In</button>;
+  return (
+    <button className="text-base text-gray-600" onClick={() => signIn()}>
+      登入
+    </button>
+  );
 }

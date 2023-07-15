@@ -7,6 +7,8 @@ import {
 } from '@/components/ReactToast';
 import { useEffect, useRef, useState } from 'react';
 import { GiArtificialHive, GiRobotGolem } from 'react-icons/gi';
+import robotPeek from './robot-peek.png';
+import Image from 'next/image';
 
 function Page() {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -31,17 +33,20 @@ function Page() {
   }, [email]);
 
   return (
-    <div className="flex h-[calc(100vh-64px)] w-screen flex-col items-center justify-center px-16 pt-24 xl:w-[calc(100vw-240px)]">
+    <div
+      className="
+      flex h-[calc(100vh-64px)] w-screen flex-col items-start justify-center
+      px-12 pt-24 xl:w-[calc(100vw-240px)]">
       <section className="relative py-28">
         <GiArtificialHive className="absolute left-5 top-5 z-10 text-6xl text-teal-700" />
-        <div className="relative z-10 mx-auto mt-5 max-w-screen-xl items-center justify-between gap-12 px-4 md:flex md:px-8">
+        <div className="relative z-10 mx-auto mt-5 max-w-screen-2xl items-center justify-between gap-10 px-4 md:flex md:px-8">
           <div className="max-w-lg flex-1">
             <h3 className="text-3xl font-bold">
-              <div className="text-3xl text-gray-700">
+              <div className="w-96 text-2xl text-gray-700">
                 現在訂閱電子報，即時獲取 AI 應用的第一手資訊。
               </div>
               <br />
-              <div className="ml-4 text-3xl text-gray-700">
+              <div className="w-full text-3xl text-gray-700">
                 一起讓 AI 成為你人生的助力吧！
               </div>
               <br />
@@ -55,7 +60,7 @@ function Page() {
               </div>
             </h3>
           </div>
-          <div className="mt-6 flex-1 md:mt-0">
+          <div className="mt-6 md:mt-0">
             <form
               onSubmit={(e) => e.preventDefault()}
               className="flex items-center gap-x-3 md:justify-end">
@@ -100,7 +105,15 @@ function Page() {
             background:
               'linear-gradient(to right, rgb(153, 246, 228), rgb(217, 249, 157))',
           }}></div>
+        <Image
+          className="absolute right-0 top-0 translate-x-52"
+          src={robotPeek}
+          width={300}
+          height={300}
+          alt=""
+        />
       </section>
+
       {emailStatus ? <StyledToastContainer /> : <BounceToastContainer />}
     </div>
   );
