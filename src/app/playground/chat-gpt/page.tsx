@@ -30,7 +30,7 @@ function Page() {
         </PageTitle>
 
         <SplitPane className="flex h-full w-full flex-col">
-          <h2 className="mt-10 flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
+          <h2 className="flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
             ChatGPT Prompts 主題:
           </h2>
           <SplitPaneTop />
