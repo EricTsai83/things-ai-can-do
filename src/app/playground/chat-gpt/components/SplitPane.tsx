@@ -177,10 +177,7 @@ interface SplitPaneRightProps {
 }
 
 export const SplitPaneRight = ({ children }: SplitPaneRightProps) => {
-  // const { contents, currQuote } = useContext(QuoteContext);
-  // const quote = contents.find((element) => element.id === currQuote);
-
-  return <div className="flex-1 overflow-hidden">{children}</div>;
+  return <div className="flex-1 overflow-auto">{children}</div>;
 };
 
 export default SplitPane;
