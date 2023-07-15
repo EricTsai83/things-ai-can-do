@@ -49,9 +49,11 @@ function ChatGPT() {
     setIsLoading(true);
     if (inputRef.current?.value) {
       setReformatToggle(false);
+      setReformatToggle(false);
       setResponse(''); // Clear previous response
       await getChatGPTResponse(inputRef.current.value);
     }
+
     setIsLoading(false);
   }
 
@@ -82,7 +84,7 @@ function ChatGPT() {
         <BsFiletypeJson
           onClick={() => {
             console.log(response);
-            setReformatToggle(true);
+            setReformatToggle((prev) => !prev);
           }}
           className="absolute right-16 top-3 cursor-pointer text-2xl text-gray-200 active:text-white"
         />
@@ -96,7 +98,7 @@ function ChatGPT() {
       </div>
       <div className="w-full">
         {response && (
-          <div className="mx-4 mt-14 text-gray-200">
+          <div className="mx-4 mt-14 overflow-x-hidden text-gray-200">
             {reformatToggle ? (
               <pre>{formatString(response)}</pre>
             ) : (
