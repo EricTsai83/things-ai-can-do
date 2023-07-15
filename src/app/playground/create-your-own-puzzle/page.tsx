@@ -105,7 +105,7 @@ function Page() {
         </h2>
         <textarea
           ref={textForDiffusion}
-          placeholder="填入想要的場景和人事物"
+          placeholder="請用英文描述，建議參考上方提示詞的寫法"
           className="mb-6 min-h-[100px] w-full border placeholder:p-10"
         />
         <div className="flex justify-end">
