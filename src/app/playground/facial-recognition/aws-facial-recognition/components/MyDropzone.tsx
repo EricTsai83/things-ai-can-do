@@ -119,9 +119,12 @@ function MyDropzone({
     setImageSrc(imageUrl);
   }
 
-  const handleSampleImgCallback = useCallback((blob: Blob) => {
-    handleSampleImg(blob);
-  }, []);
+  const handleSampleImgCallback = useCallback(
+    (blob: Blob) => {
+      handleSampleImg(blob);
+    },
+    [handleSampleImg],
+  );
 
   useEffect(() => {
     if (searchParams.img === 'sample-img-1') {

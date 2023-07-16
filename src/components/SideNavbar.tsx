@@ -6,7 +6,7 @@ import { TbTextSize } from 'react-icons/tb';
 import { IoBodySharp } from 'react-icons/io5';
 import { BsImageFill } from 'react-icons/bs';
 import { FaDochub } from 'react-icons/fa';
-import { BiLogoVenmo } from 'react-icons/bi';
+// import { BiLogoVenmo } from 'react-icons/bi';
 import { HiOutlineMail } from 'react-icons/hi';
 import { Disclosure } from '@headlessui/react';
 import {
@@ -53,8 +53,8 @@ function SideNavbar() {
       setSelected('聊天機器人');
     } else if (lastElement === 'create-your-own-puzzle') {
       setSelected('文字生成圖片');
-    } else if (lastElement === 'real-time-pose-estimation') {
-      setSelected('肢體偵測');
+      // } else if (lastElement === 'real-time-pose-estimation') {
+      //   setSelected('肢體偵測');
     } else if (lastElement === 'human-image-matting') {
       setSelected('圖像分割');
     } else if (lastElement === 'sketch') {
@@ -73,7 +73,7 @@ function SideNavbar() {
       '/playground/facial-recognition',
       '/playground/chat-gpt',
       '/playground/create-your-own-puzzle',
-      '/tech-intro/real-time-pose-estimation',
+      // '/tech-intro/real-time-pose-estimation',
       '/playground/image-segmentation',
       '/playground/sketch',
     ];
@@ -82,7 +82,7 @@ function SideNavbar() {
       '臉部識別',
       '聊天機器人',
       '文字生成圖片',
-      '肢體偵測',
+      // '肢體偵測',
       '圖像分割',
       '圖片分類',
     ];
@@ -98,8 +98,8 @@ function SideNavbar() {
           icons.push(<RiRobotFill className={className} />);
         } else if (selectOption[i] === '文字生成圖片') {
           icons.push(<TbTextSize className={className} />);
-        } else if (selectOption[i] === '肢體偵測') {
-          icons.push(<IoBodySharp className={className} />);
+          // } else if (selectOption[i] === '肢體偵測') {
+          //   icons.push(<IoBodySharp className={className} />);
         } else if (selectOption[i] === '圖像分割') {
           icons.push(<MdOutlineSpaceDashboard className={className} />);
         } else if (selectOption[i] === '圖片分類') {
@@ -228,7 +228,7 @@ function SideNavbar() {
 
               <div className={blockStyle}>
                 <h2 className={titleStyle}>AI 圖書館</h2>
-                <Link href={'/'} prefetch={false}>
+                <Link href={'/library'} prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('資料科學');
@@ -251,7 +251,7 @@ function SideNavbar() {
                     </h3>
                   </div>
                 </Link>
-                <Link href={'/'} prefetch={false}>
+                {/* <Link href={'/'} prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('資料視覺化');
@@ -277,7 +277,7 @@ function SideNavbar() {
                       資料視覺化
                     </h3>
                   </div>
-                </Link>
+                </Link> */}
               </div>
 
               <div className="my-4">
