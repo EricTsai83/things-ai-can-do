@@ -281,7 +281,7 @@ function SideNavbar() {
               </div>
 
               <div className="my-4">
-                <Link href="/news-letter" prefetch={false}>
+                <Link href="/newsletter" prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('訂閱電子報');
