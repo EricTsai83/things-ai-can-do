@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageTitle from '@/components/PageTitle';
 import { ImMakeGroup } from 'react-icons/im';
 import ArrowIconButton from '@/components/ArrowIconButton';
@@ -22,11 +22,22 @@ export default function TestsPage() {
   const [tool, setTool] = useState('pen');
   const [subject, setSubject] = useState<string | null>(null);
   const [apiResponse, setApiResponse] = useState<ApiResponse[] | null>(null);
+  const [rightAnwser, setRightAnwser] = useState<boolean>(false);
 
   function getRandomLabel() {
     const random = Math.floor(Math.random() * Object.keys(label).length);
     setSubject(Object.keys(label)[random] as string);
   }
+
+  useEffect(() => {
+    if (apiResponse !== null && subject !== null) {
+      const res = apiResponse.some((obj) => {
+        return obj.label === label[subject];
+      });
+
+      setRightAnwser(res);
+    }
+  }, [apiResponse]);
 
   return (
     <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
@@ -72,23 +83,34 @@ export default function TestsPage() {
                 <Animated3dFlipCard subject={subject} />
               </div>
             ) : (
-              <div className="flex h-[200px] w-[200px] items-center justify-center border text-2xl font-medium text-teal-600">
+              <div className="flex h-[200px] w-[220px] items-center justify-center border text-2xl font-medium text-teal-600">
                 題目板
               </div>
             )}
           </div>
-          <div className="mt-5 text-xl text-gray-700 underline decoration-teal-600 decoration-4 underline-offset-4">
-            AI 五大猜測結果
+          <div className="mt-5 h-[200px] w-[220px] border">
+            <div className="mt-3 flex justify-center text-xl text-gray-700 underline decoration-teal-600 decoration-4 underline-offset-4">
+              AI 五大猜測結果
+            </div>
+            <ul className="ml-3 mt-3 list-inside list-disc">
+              {apiResponse &&
+                apiResponse.map((response, index) => (
+                  <li key={index} className="text-gray-600">
+                    <span
+                      className={
+                        subject &&
+                        rightAnwser &&
+                        label[subject] === response.label
+                          ? 'bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 bg-clip-text font-bold text-transparent'
+                          : ''
+                      }>
+                      {response.label}
+                    </span>
+                    : <span>{`${response.score.toFixed(2)}`}</span>
+                  </li>
+                ))}
+            </ul>
           </div>
-          <ul className="mt-3 list-inside list-disc">
-            {apiResponse &&
-              apiResponse.map((response, index) => (
-                <li key={index} className="text-gray-600">
-                  <span>{response.label}</span>:{' '}
-                  <span>{`${response.score.toFixed(2)}`}</span>
-                </li>
-              ))}
-          </ul>
         </div>
       </div>
     </div>
