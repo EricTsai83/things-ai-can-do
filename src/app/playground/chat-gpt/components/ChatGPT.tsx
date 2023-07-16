@@ -98,7 +98,7 @@ function ChatGPT() {
       </div>
       <div className="w-full">
         {response && (
-          <div className="mx-4 mt-14 overflow-x-hidden text-gray-200">
+          <div className="mx-4 mt-14 overflow-x-hidden pb-48 text-gray-200">
             {reformatToggle ? (
               <pre>{formatString(response)}</pre>
             ) : (
