@@ -7,7 +7,9 @@ import {
   newsletterSubscribeFailure,
   StyledToastContainer,
   BounceToastContainer,
-} from '@/components/ReactToast';
+} from './ReactToast';
+import smallRobot from '@/components/small-robot.png';
+import Image from 'next/image';
 
 function Newsletter() {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -38,7 +40,7 @@ function Newsletter() {
         <div className="relative z-10 mt-5 items-center justify-between gap-12 px-4 md:flex md:px-8">
           <div className="max-w-lg flex-1">
             <h3 className="text-3xl font-bold">
-              <div className="text-3xl text-gray-700">
+              <div className="text-2xl text-gray-700">
                 現在訂閱電子報，獲取最新 AI 智能應用的第一手資訊吧。
               </div>
               <br />
@@ -100,6 +102,14 @@ function Newsletter() {
             background:
               'linear-gradient(to left, rgb(153, 246, 228), rgb(217, 249, 157))',
           }}></div>
+
+        <Image
+          className="absolute right-10 top-5"
+          src={smallRobot}
+          width={200}
+          height={200}
+          alt=""
+        />
       </section>
       {emailStatus ? <StyledToastContainer /> : <BounceToastContainer />}
     </div>

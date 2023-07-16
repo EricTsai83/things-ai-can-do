@@ -15,6 +15,7 @@ import type { SearchParams } from '../types';
 import Image from 'next/image';
 import readyPlayerMe from './img/ready-player-me.png';
 import Link from 'next/link';
+import ToolTip from '@/components/ToolTip';
 
 let video: HTMLVideoElement;
 let faceLandmarker: FaceLandmarker;
@@ -280,16 +281,22 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
           )}
         </Canvas>
       </div>
+
       <Link href="https://demo.readyplayer.me/avatar" target="_blank">
-        <div className="absolute bottom-0 right-0 rounded-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
-          <Image
-            className="rounded-2xl"
-            src={readyPlayerMe}
-            alt="ready player me logo"
-            width={0}
-            height={0}
-            style={{ width: '120px', height: 'auto' }}
-          />
+        <div className="absolute bottom-0 right-0 flex rounded-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
+          <ToolTip tooltip="點我創建屬於自己的虛擬人像">
+            <Image
+              className="rounded-2xl"
+              src={readyPlayerMe}
+              alt="ready player me logo"
+              width={0}
+              height={0}
+              style={{
+                width: '120px',
+                height: 'auto',
+              }}
+            />
+          </ToolTip>
         </div>
       </Link>
     </div>

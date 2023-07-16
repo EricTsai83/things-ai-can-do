@@ -23,7 +23,7 @@ const navItemStyle = `
   gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 hover:bg-zinc-100`;
 const iconStyle = `text-2xl text-gray-600 group-hover:text-gray-800`;
 const nameStyle = `text-base font-medium text-gray-600 group-hover:text-gray-800`;
-const titleStyle = `pb-4 text-base font-semibold text-gray-800`;
+const titleStyle = `pb-4 text-xl font-semibold text-gray-600 underline underline-offset-4 decoration-teal-500`;
 const blockStyle = `my-4 border-b border-gray-100 pb-4`;
 
 const selectedNavItemStyle = `
@@ -52,7 +52,7 @@ function SideNavbar() {
     } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
     } else if (lastElement === 'create-your-own-puzzle') {
-      setSelected('圖像生成');
+      setSelected('文字生成圖片');
     } else if (lastElement === 'real-time-pose-estimation') {
       setSelected('肢體偵測');
     } else if (lastElement === 'human-image-matting') {
@@ -81,7 +81,7 @@ function SideNavbar() {
     const selectOption = [
       '臉部識別',
       '聊天機器人',
-      '圖像生成',
+      '文字生成圖片',
       '肢體偵測',
       '圖像分割',
       '圖片分類',
@@ -96,7 +96,7 @@ function SideNavbar() {
           icons.push(<MdOutlineTagFaces className={className} />);
         } else if (selectOption[i] === '聊天機器人') {
           icons.push(<RiRobotFill className={className} />);
-        } else if (selectOption[i] === '圖像生成') {
+        } else if (selectOption[i] === '文字生成圖片') {
           icons.push(<TbTextSize className={className} />);
         } else if (selectOption[i] === '肢體偵測') {
           icons.push(<IoBodySharp className={className} />);
@@ -195,37 +195,39 @@ function SideNavbar() {
                   ssm:-left-60 ssm:w-60 xl:left-0`
             }>
             <div className={blockStyle}>
-              <Link href={'/'} prefetch={false}>
-                <div
-                  onClick={() => {
-                    setSelected('首頁');
-                  }}
-                  className={
-                    (selected === '首頁'
-                      ? selectedNavItemStyle
-                      : navItemStyle) + ' border-b border-gray-100'
-                  }>
-                  <MdOutlineHome
+              <div className={blockStyle}>
+                <Link href={'/'} prefetch={false}>
+                  <div
+                    onClick={() => {
+                      setSelected('首頁');
+                    }}
                     className={
-                      selected === '首頁' ? selectedIconStyle : iconStyle
-                    }
-                  />
-                  <h1
-                    className={
-                      selected === '首頁' ? selectedNameStyle : nameStyle
+                      (selected === '首頁'
+                        ? selectedNavItemStyle
+                        : navItemStyle) + ' border-b border-gray-100'
                     }>
-                    首頁
-                  </h1>
-                </div>
-              </Link>
+                    <MdOutlineHome
+                      className={
+                        selected === '首頁' ? selectedIconStyle : iconStyle
+                      }
+                    />
+                    <h1
+                      className={
+                        selected === '首頁' ? selectedNameStyle : nameStyle
+                      }>
+                      首頁
+                    </h1>
+                  </div>
+                </Link>
+              </div>
 
               <div className={blockStyle}>
-                <h2 className={titleStyle}>Playground</h2>
+                <h2 className={titleStyle}>遊樂場</h2>
                 {renderPlaygroundItem()}
               </div>
 
               <div className={blockStyle}>
-                <h2 className={titleStyle}>Knowledge</h2>
+                <h2 className={titleStyle}>AI 圖書館</h2>
                 <Link href={'/'} prefetch={false}>
                   <div
                     onClick={() => {
@@ -279,7 +281,7 @@ function SideNavbar() {
               </div>
 
               <div className="my-4">
-                <Link href="/news-letter" prefetch={false}>
+                <Link href="/newsletter" prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('訂閱電子報');

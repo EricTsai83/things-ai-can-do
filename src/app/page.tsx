@@ -1,7 +1,6 @@
 import PageTitle from '@/components/PageTitle';
 import { BsFillRocketTakeoffFill } from 'react-icons/bs';
 import HomeSlider from '@/components/HomeSlider';
-
 import dynamic from 'next/dynamic';
 const DynamicNewsletter = dynamic(() => import('@/components/Newsletter'), {
   loading: () => <p>Loading...</p>,
