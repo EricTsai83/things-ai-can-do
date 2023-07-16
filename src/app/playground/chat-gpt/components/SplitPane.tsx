@@ -98,7 +98,7 @@ export const SplitPaneTop = () => {
       topRef.current.style.minHeight = clientHeight + 'px';
       topRef.current.style.maxHeight = clientHeight + 'px';
     }
-  }, [clientHeight]);
+  }, [clientHeight, setClientHeight]);
 
   return (
     <div className="flex items-center justify-center" ref={topRef}>

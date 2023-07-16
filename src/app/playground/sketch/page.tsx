@@ -37,7 +37,7 @@ export default function TestsPage() {
 
       setRightAnwser(res);
     }
-  }, [apiResponse]);
+  }, [apiResponse, subject]);
 
   return (
     <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">

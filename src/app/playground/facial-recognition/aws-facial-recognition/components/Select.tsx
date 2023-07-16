@@ -77,12 +77,13 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
           break;
       }
     };
-    containerRef.current?.addEventListener('keydown', handler);
+    const currRef = containerRef.current;
+    currRef?.addEventListener('keydown', handler);
 
     return () => {
-      containerRef.current?.removeEventListener('keydown', handler);
+      currRef?.removeEventListener('keydown', handler);
     };
-  }, [isOpen, highlightedIndex, options, containerRef.current]);
+  }, [isOpen, highlightedIndex, options, containerRef.current, selectOption]);
 
   return (
     <div

@@ -76,9 +76,11 @@ function CardWithSliderInfoCover() {
         </div>
       </PageTitle>
       <div className="flex flex-wrap items-center justify-center gap-10">
-        {articles.map((article) => {
+        {articles.map((article, idx) => {
           return (
-            <div className="group relative h-80 w-[500px] overflow-hidden rounded-3xl border-4 border-teal-600">
+            <div
+              key={idx}
+              className="group relative h-80 w-[500px] overflow-hidden rounded-3xl border-4 border-teal-600">
               <Image
                 className="h-full w-full rounded-2xl object-cover"
                 src={article.img}

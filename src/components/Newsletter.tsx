@@ -31,7 +31,7 @@ function Newsletter() {
         newsletterSubscribeFailure();
       }
     }
-  }, [email]);
+  }, [email, emailStatus]);
 
   return (
     <div className="mt-32 flex w-full">
