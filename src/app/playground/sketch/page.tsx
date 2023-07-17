@@ -79,7 +79,7 @@ export default function TestsPage() {
         <div className="flex flex-col">
           <div className="flex flex-col">
             {subject ? (
-              <div className="flex flex-col">
+              <div className="flex h-[200px] w-[220px] flex-col">
                 <Animated3dFlipCard subject={subject} />
               </div>
             ) : (

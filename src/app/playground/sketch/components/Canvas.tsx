@@ -98,13 +98,19 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     document.body.removeChild(link);
   }
 
-  // We cant set the h & w on Stage to 100% it only takes px values so we have to
+  // We can't set the h & w on Stage to 100% it only takes px values so we have to
   // find the parent container's w and h and then manually set those !
   useEffect(() => {
     if (divRef.current?.offsetWidth) {
-      setDimensions({
-        width: divRef.current.offsetWidth,
-      });
+      if (divRef.current?.offsetWidth >= 1280) {
+        setDimensions({
+          width: divRef.current.offsetWidth - 240 - 220,
+        });
+      } else if (divRef.current?.offsetWidth < 1280) {
+        setDimensions({
+          width: divRef.current.offsetWidth,
+        });
+      }
     }
   }, []);
 
@@ -113,7 +119,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
   };
 
   return (
-    <div ref={divRef} className="relative">
+    <div ref={divRef} className="relative w-full">
       <button
         onClick={handleClearCanvas}
         className="absolute right-4 top-4 z-50">
@@ -145,7 +151,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
           ))}
         </Layer>
       </Stage>
-      <div className="flex justify-between">
+      <div className="mt-5 flex justify-between">
         <button
           onClick={handleExport}
           className="

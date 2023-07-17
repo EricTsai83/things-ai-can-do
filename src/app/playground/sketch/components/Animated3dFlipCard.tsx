@@ -8,7 +8,7 @@ interface Props {
 
 function Animated3dFlipCard({ subject }: Props) {
   return (
-    <div className="group h-[200px] w-[200px] cursor-pointer bg-transparent perspective">
+    <div className="group h-full w-full cursor-pointer bg-transparent perspective">
       <div className="relative h-full w-full duration-700 preserve-3d group-hover:my-rotate-y-180">
         <div className="absolute h-full w-full border-2 backface-hidden">
           {subject && (
