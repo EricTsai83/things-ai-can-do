@@ -134,7 +134,7 @@ function Page() {
       <div
         className="
           relative mx-auto mb-6 flex h-[360px] w-full
-          min-w-[360px] max-w-4xl items-center
+          min-w-[300px] max-w-4xl items-center
           justify-center border-2 border-dashed
         border-black object-contain"
         onDrop={handleDrop}
@@ -170,7 +170,7 @@ function Page() {
           <FaUpload className="absolute right-0 top-0 m-3 cursor-pointer text-3xl text-gray-400 active:text-gray-200" />
         </div>
 
-        <div className="absolute bottom-0 right-0">
+        <div className="absolute bottom-0 right-0 z-10">
           <LoadingButton
             loading={loading}
             executeFunction={() =>
