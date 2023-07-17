@@ -109,19 +109,29 @@ function MyDropzone({
     }
   }
 
-  async function handleSampleImg(blob: Blob) {
-    const imageUrl = URL.createObjectURL(blob);
-    setImageSrc(imageUrl);
-    const base64String = await convertImageToBase64(blob);
-    setImageBase64String((draft: any) => {
-      draft[imageUrl] = base64String;
-    });
-    setImageSrc(imageUrl);
-  }
+  // async function handleSampleImg(blob: Blob) {
+  //   const imageUrl = URL.createObjectURL(blob);
+  //   setImageSrc(imageUrl);
+  //   const base64String = await convertImageToBase64(blob);
+  //   setImageBase64String((draft: any) => {
+  //     draft[imageUrl] = base64String;
+  //   });
+  //   setImageSrc(imageUrl);
+  // }
 
-  const handleSampleImgCallback = useCallback((blob: Blob) => {
-    handleSampleImg(blob);
-  }, []);
+  const handleSampleImgCallback = useCallback(
+    async (blob: Blob) => {
+      const imageUrl = URL.createObjectURL(blob);
+      setImageSrc(imageUrl);
+      const base64String = await convertImageToBase64(blob);
+      setImageBase64String((draft: any) => {
+        draft[imageUrl] = base64String;
+      });
+      setImageSrc(imageUrl);
+      // handleSampleImg(blob);
+    },
+    [setImageSrc, convertImageToBase64, setImageBase64String, setImageSrc],
+  );
 
   useEffect(() => {
     if (searchParams.img === 'sample-img-1') {

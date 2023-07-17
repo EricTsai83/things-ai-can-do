@@ -166,7 +166,7 @@ export const SplitPaneLeft = (children: SplitPaneLeftProps) => {
       topRef.current.style.minWidth = clientWidth + 'px';
       topRef.current.style.maxWidth = clientWidth + 'px';
     }
-  }, [clientWidth]);
+  }, [clientWidth, setClientWidth]);
 
   return <div {...children} className="flex-1 overflow-hidden" ref={topRef} />;
 };

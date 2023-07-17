@@ -30,7 +30,7 @@ function Page() {
         newsletterSubscribeFailure();
       }
     }
-  }, [email]);
+  }, [email, emailStatus]);
 
   return (
     <div

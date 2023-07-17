@@ -110,9 +110,9 @@ function HomeSlider() {
       </div>
 
       <div className="mobile-container flex flex-col gap-7">
-        {slides.map((slide) => {
+        {slides.map((slide, idx) => {
           return (
-            <Link href={slide.url}>
+            <Link href={slide.url} key={idx}>
               <div key={slide.title} className="w-full">
                 <Image
                   className="max-h-96 w-full rounded-3xl object-cover "
