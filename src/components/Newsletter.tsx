@@ -35,7 +35,7 @@ function Newsletter() {
 
   return (
     <div className="mt-32 flex w-full">
-      <section className="relative w-full py-20">
+      <section className="relative w-full pb-10 pt-20 md:pb-20">
         <GiArtificialHive className="absolute left-5 top-5 z-10 text-6xl text-teal-700" />
         <div className="relative z-10 mt-5 items-center justify-between gap-12 px-4 md:flex md:px-8">
           <div className="max-w-lg flex-1">
@@ -48,8 +48,8 @@ function Newsletter() {
                 一起讓 AI 成為你人生的助力吧！
               </div>
               <br />
-              <div className="absolute right-8 text-lg text-gray-500">
-                <div className="flex">
+              <div className="text-lg text-gray-500 md:absolute md:right-8">
+                <div className="my-3 flex">
                   <GiRobotGolem className="text-6xl text-indigo-700" />
                   <div className="ml-5 flex items-end">
                     Know what AI can do, and make AI do things for you.
@@ -104,7 +104,7 @@ function Newsletter() {
           }}></div>
 
         <Image
-          className="absolute right-10 top-5"
+          className="absolute bottom-5 right-10 md:bottom-16"
           src={smallRobot}
           width={200}
           height={200}

@@ -60,3 +60,16 @@
 .swiper-pagination .swiper-pagination-bullet-active {
   background: #6a59ff;
 }
+
+.mobile-container {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    display: none;
+  }
+  .mobile-container {
+    display: flex;
+  }
+}

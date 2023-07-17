@@ -12,7 +12,7 @@ export const theme = {
     ssm: '480px',
     sm: '640px',
     // => @media (min-width: 640px) { ... }
-    md: '768px',
+    md: '865px', // 768px
     // => @media (min-width: 768px) { ... }
     lg: '1024px',
     // => @media (min-width: 1024px) { ... }
@@ -47,5 +47,3 @@ const Myclass = plugin(function ({ addUtilities }) {
   });
 });
 export const plugins = [Myclass, require('@tailwindcss/typography')];
-
-

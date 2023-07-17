@@ -46,7 +46,7 @@ export default function ModelReport({
   }
 
   return (
-    <div className="w-full pt-10">
+    <div className="flex min-h-[800px] w-full pt-10">
       <div className="mx-auto w-full min-w-[85%] rounded-2xl bg-white p-2">
         <Disclosure>
           {({ open }) => (
@@ -182,6 +182,7 @@ export default function ModelReport({
           )}
         </Disclosure>
       </div>
+      <div className="flex-1"></div>
     </div>
   );
 }

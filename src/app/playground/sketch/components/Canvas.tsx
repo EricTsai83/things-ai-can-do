@@ -122,7 +122,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     <div ref={divRef} className="relative w-full">
       <button
         onClick={handleClearCanvas}
-        className="absolute right-4 top-4 z-50">
+        className="absolute right-4 top-4 z-10">
         <IoIosRefreshCircle className="text-3xl text-teal-500" />
       </button>
       <Stage
