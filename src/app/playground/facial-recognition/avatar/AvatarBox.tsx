@@ -13,7 +13,7 @@ import { Canvas } from '@react-three/fiber';
 import Avatar from './components/Avatar';
 import type { SearchParams } from '../types';
 import Image from 'next/image';
-import readyPlayerMe from './img/ready-player-me.png';
+import readyPlayerMe from './img/ready-player-me-banner.png';
 import Link from 'next/link';
 import ToolTip from '@/components/ToolTip';
 
@@ -238,67 +238,83 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   }, [searchParams.gender, searchParams.age, searchParams, setUrl]);
 
   return (
-    <div className="relative">
-      <div className="mx-auto my-0 flex h-[600px] w-[500px] flex-col items-center justify-center rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500">
-        {/* <div {...getRootProps({ className: 'dropzone' })}>
-        <p>Drag & drop RPM avatar GLB file here</p>
-      </div> */}
-        <input
-          ref={inputRef}
-          className="mt-4 flex h-8 w-4/5 items-center justify-center rounded-xl bg-stone-100 px-[16px]"
-          type="text"
-          placeholder="Paste RPM avatar URL"
-          onKeyDown={handleKeyDown}
-        />
-        <div className="relative mt-4 h-[80px] w-full">
-          <video
-            id="video"
-            className="absolute right-3 top-0 h-full rounded-3xl"
-            autoPlay
-            playsInline></video>
-          <canvas
-            className="absolute right-3 top-0"
-            id="output_canvas"></canvas>
-        </div>
-
-        <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
-          <ambientLight intensity={0.5} />
-          <pointLight
-            position={[10, 10, 10]}
-            color={new Color(1, 1, 0)}
-            intensity={0.5}
-            castShadow
+    <div className="flex flex-col items-center justify-center rounded-xl border-cyan-600">
+      <div className="h-7 min-w-[380px] rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 md:w-full"></div>
+      <div className="min-w-[380px] rounded-t-xl">
+        <div
+          className="
+            relative flex h-[600px] w-[380px] flex-col
+            items-center justify-center  bg-gradient-to-r
+          from-cyan-500 to-blue-500 md:w-[500px]">
+          <input
+            ref={inputRef}
+            className="mt-4 flex h-8 w-4/5 items-center justify-center rounded-xl bg-stone-100 px-[16px]"
+            type="text"
+            placeholder="Paste RPM avatar URL"
+            onKeyDown={handleKeyDown}
           />
-          <pointLight
-            position={[-10, 0, 10]}
-            color={new Color(1, 0, 0)}
-            intensity={0.5}
-            castShadow
-          />
-          <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
-          {rotation && url && (
-            <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
-          )}
-        </Canvas>
-      </div>
+          <div className="relative mt-4 h-[80px] w-full">
+            <video
+              id="video"
+              className="absolute right-3 top-0 h-full rounded-3xl"
+              autoPlay
+              playsInline></video>
+            <canvas
+              className="absolute right-3 top-0"
+              id="output_canvas"></canvas>
+          </div>
 
-      <Link href="https://demo.readyplayer.me/avatar" target="_blank">
-        <div className="absolute bottom-0 right-0 flex rounded-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
-          <ToolTip tooltip="點我創建屬於自己的虛擬人像">
-            <Image
-              className="rounded-2xl"
-              src={readyPlayerMe}
-              alt="ready player me logo"
-              width={0}
-              height={0}
-              style={{
-                width: '120px',
-                height: 'auto',
-              }}
+          <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
+            <ambientLight intensity={0.5} />
+            <pointLight
+              position={[10, 10, 10]}
+              color={new Color(1, 1, 0)}
+              intensity={0.5}
+              castShadow
             />
-          </ToolTip>
+            <pointLight
+              position={[-10, 0, 10]}
+              color={new Color(1, 0, 0)}
+              intensity={0.5}
+              castShadow
+            />
+            <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
+            {rotation && url && (
+              <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
+            )}
+          </Canvas>
         </div>
-      </Link>
+
+        <div
+          className="
+          flex w-[380px] rounded-b-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+          p-1 md:w-[500px]">
+          <Link
+            className="flex items-center"
+            href="https://demo.readyplayer.me/avatar"
+            target="_blank">
+            <ToolTip tooltip="點我創建屬於自己的虛擬人像">
+              <div className="rounded-b-2xl ">
+                <Image
+                  className="rounded-2xl"
+                  src={readyPlayerMe}
+                  alt="ready player me logo"
+                  width={0}
+                  height={0}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                  }}
+                />
+              </div>
+            </ToolTip>
+
+            {/* <h2 className="ml-10 text-xl text-white ">
+              點我創建屬於自己的虛擬人像
+            </h2> */}
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
