@@ -60,7 +60,7 @@ export default function TestsPage() {
         <ArrowIconButton text={'產生題目'} />
       </div>
 
-      <div className="mt-5 flex w-full items-start gap-5">
+      <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row md:items-start">
         <div className="flex flex-1 flex-col">
           <select
             className="text-xl"
@@ -76,7 +76,7 @@ export default function TestsPage() {
           </div>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center">
           <div className="flex flex-col">
             {subject ? (
               <div className="flex h-[200px] w-[220px] flex-col">
