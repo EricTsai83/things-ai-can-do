@@ -159,15 +159,19 @@ export default function ModelReport({
               </Disclosure.Button>
               <Disclosure.Panel className="flex flex-col items-start px-6 pb-2 pt-4 text-sm text-gray-500">
                 {faceDetails ? (
-                  <div>
+                  <div className="w-full">
                     <div className="flex">
                       <GiClick className="text-2xl text-cyan-600" />
                       <p className="mb-4 ml-1 flex items-center justify-center">
                         點擊頭像取得進一步的結果
                       </p>
                     </div>
-
-                    <ImageMask faceDetails={faceDetails} faceUrls={faceUrls} />
+                    <div>
+                      <ImageMask
+                        faceDetails={faceDetails}
+                        faceUrls={faceUrls}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <div className="flex">

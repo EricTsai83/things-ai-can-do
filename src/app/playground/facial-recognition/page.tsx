@@ -35,7 +35,7 @@ function Page({ searchParams }: { searchParams: SearchParams }) {
         底下功能能夠深度帶你了解 AI 是如何對你的臉進行分析的，動手玩看看吧！">
         <LuScanFace className="flex items-center justify-center text-5xl text-teal-700" />
       </PageTitle>
-      <div className="flex w-full gap-6">
+      <div className="flex w-full flex-col-reverse gap-6 md:flex-row ">
         {tabClass === 'picture' ? (
           <AwsFacialRecognition
             searchParams={searchParams}
