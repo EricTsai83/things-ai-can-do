@@ -73,7 +73,7 @@ function ChatGPT() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center justify-center bg-gray-500">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-start bg-gray-500">
       <div className="relative w-full">
         <div
           className="
@@ -107,7 +107,8 @@ function ChatGPT() {
           </div>
         )}
       </div>
-      <div className="fixed bottom-6 px-12">
+      <div className="flex-1"></div>
+      <div className="absolute bottom-0 px-12">
         <div className="relative">
           <textarea
             onInput={resizeTextarea}

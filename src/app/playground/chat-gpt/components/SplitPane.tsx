@@ -101,14 +101,22 @@ export const SplitPaneTop = () => {
   }, [clientHeight, setClientHeight]);
 
   return (
-    <div className="flex items-center justify-center" ref={topRef}>
-      <ul className="m-0.5 mt-3 grid list-inside list-disc grid-flow-col grid-rows-2 gap-5">
+    <div
+      className="flex flex-col items-center justify-center gap-5"
+      ref={topRef}>
+      <h2 className="flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
+        ChatGPT Prompts 主題:
+      </h2>
+      <ul
+        className="
+          grid cursor-pointer grid-flow-row grid-cols-1
+          gap-5 md:grid-flow-col md:grid-rows-2">
         {contents.map((element) => {
           return (
-            <li key={element.id} className="w-[340px]">
-              <Link
-                className="w-full text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
-                href=""
+            <li key={element.id} className="md:w-[320px]">
+              <div
+                className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
+                // href=""
                 onClick={() => setCurrContent(element.id)}>
                 {element.subject}
 
@@ -117,7 +125,7 @@ export const SplitPaneTop = () => {
                     <TbTargetArrow className="ml-2 text-2xl text-red-600" />
                   </div>
                 )}
-              </Link>
+              </div>
             </li>
           );
         })}
@@ -145,7 +153,14 @@ export const SplitPaneBottom = () => {
   }
 
   return (
-    <div className="no-scrollbar h-full overflow-y-scroll">{pageContent()}</div>
+    <div className="flex flex-col items-center justify-center gap-5">
+      <h2 className="flex w-full items-center justify-center text-2xl font-semibold text-teal-700 md:mt-10">
+        聊天機器人模板說明與練習場:
+      </h2>
+      <div className="no-scrollbar h-full overflow-y-scroll">
+        {pageContent()}
+      </div>
+    </div>
   );
 };
 

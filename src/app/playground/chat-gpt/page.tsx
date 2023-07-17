@@ -29,22 +29,25 @@ function Page() {
           <BsRobot className="flex items-center justify-center text-5xl text-teal-700" />
         </PageTitle>
 
-        <SplitPane className="flex h-full w-full flex-col">
-          <h2 className="flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
-            ChatGPT Prompts 主題:
-          </h2>
+        <SplitPane className="flex h-full w-full flex-col gap-20">
           <SplitPaneTop />
-          <h2 className="mb-10 mt-10 flex w-full items-center justify-center text-2xl font-semibold text-teal-700">
-            聊天機器人模板說明與練習場:
-          </h2>
-          <SplitPane className="flex h-full w-full flex-row">
+
+          <div className="md:hidden">
+            <SplitPaneBottom />
+
+            <div className="mt-10 h-full rounded-t-lg bg-gray-500">
+              <ChatGPT />
+            </div>
+          </div>
+
+          <SplitPane className="hidden h-full w-full flex-row md:flex">
             <SplitPaneLeft>
               <SplitPaneBottom />
             </SplitPaneLeft>
             <Divider className="cursor-col-resize border border-gray-800 hover:border-4 active:border-4" />
 
             <SplitPaneRight>
-              <div className="h-full min-h-[70%] rounded-t-lg bg-gray-500">
+              <div className="h-full rounded-t-lg bg-gray-500">
                 <ChatGPT />
               </div>
             </SplitPaneRight>
