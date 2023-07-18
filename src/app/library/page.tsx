@@ -47,8 +47,7 @@ function CardWithSliderInfoCover() {
       desc: `
       I think the direct reason is we can use computational resources sufficiently on our
       machines. It is meant to reduce the overall processing time. But not every task is
-      suitable for parallel processing. Even it is feasible, ways of parallel processing
-      have different timing to apply...`,
+      suitable for parallel processing...`,
     },
 
     {
