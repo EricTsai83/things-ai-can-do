@@ -75,12 +75,12 @@ function CardWithSliderInfoCover() {
           <SiAlwaysdata className="flex items-center justify-center text-4xl text-teal-700" />
         </div>
       </PageTitle>
-      <div className="flex flex-wrap items-center justify-center gap-10">
+      <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-10">
         {articles.map((article, idx) => {
           return (
             <div
               key={idx}
-              className="group relative h-80 w-[500px] overflow-hidden rounded-3xl border-4 border-teal-600">
+              className="group relative h-80 w-[485px] overflow-hidden rounded-3xl border-4 border-teal-600">
               <Image
                 className="h-full w-full rounded-2xl object-cover"
                 src={article.img}
@@ -90,10 +90,10 @@ function CardWithSliderInfoCover() {
               />
               <div
                 className="
-            absolute -right-full top-0 flex h-full w-full
-            flex-col justify-center rounded-2xl bg-sky-900/60 p-7
-          text-white backdrop-blur-md backdrop-sepia-0 duration-1000 ease-in-out
-            group-hover:right-0">
+                  absolute -right-full top-0 flex h-full w-full
+                  flex-col justify-center rounded-2xl bg-sky-900/60 p-7
+                text-white backdrop-blur-md backdrop-sepia-0 duration-1000 ease-in-out
+                  group-hover:right-0">
                 <h1 className="text-3xl font-bold">{article.title}</h1>
                 <p className="text-sm">{article.hashTag}</p>
                 <p className="my-5 leading-7">{article.desc}</p>

@@ -38,27 +38,16 @@ function Newsletter() {
       <section className="relative w-full pb-10 pt-20 md:pb-20">
         <GiArtificialHive className="absolute left-5 top-5 z-10 text-6xl text-teal-700" />
         <div className="relative z-10 mt-5 items-center justify-between gap-12 px-4 md:flex md:px-8">
-          <div className="max-w-lg flex-1">
-            <h3 className="text-3xl font-bold">
-              <div className="text-2xl text-gray-700">
-                現在訂閱電子報，獲取最新 AI 智能應用的第一手資訊吧。
-              </div>
-              <br />
-              <div className="text-3xl text-gray-700">
-                一起讓 AI 成為你人生的助力吧！
-              </div>
-              <br />
-              <div className="text-lg text-gray-500 md:absolute md:right-8">
-                <div className="my-3 flex">
-                  <GiRobotGolem className="text-6xl text-indigo-700" />
-                  <div className="ml-5 flex items-end">
-                    Know what AI can do, and make AI do things for you.
-                  </div>
-                </div>
-              </div>
-            </h3>
-          </div>
-          <div className="mt-6 flex-1 md:mt-0">
+          <h3 className="max-w-[60%] font-bold md:max-w-[80%]">
+            <div className="text-xl text-gray-700 md:text-2xl">
+              現在訂閱電子報，獲取最新 AI 智能應用的第一手資訊吧。
+            </div>
+            <div className="mt-7 text-2xl text-gray-700 md:text-3xl">
+              一起讓 AI 成為你人生的助力吧！
+            </div>
+          </h3>
+
+          <div className="mt-6 md:mt-0">
             <form
               onSubmit={(e) => e.preventDefault()}
               className="flex items-center gap-x-3 md:justify-end">
@@ -80,7 +69,9 @@ function Newsletter() {
                   ref={inputRef}
                   required
                   placeholder="輸入信箱"
-                  className="w-full rounded-lg border bg-white py-2 pl-12 pr-3 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
+                  className="
+                    w-full rounded-lg border bg-white py-2 pl-12 pr-3 
+                  text-gray-500 shadow-sm outline-none focus:border-indigo-600"
                 />
               </div>
               <button
@@ -90,7 +81,10 @@ function Newsletter() {
                   setEmailStatus(isValid);
                   setEmail(currRef.value);
                 }}
-                className="block w-auto rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white shadow hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
+                className="
+                  block w-auto rounded-lg bg-indigo-600 px-4 py-3
+                  text-center text-sm font-medium text-white shadow
+                hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
                 訂閱
               </button>
             </form>
@@ -101,10 +95,17 @@ function Newsletter() {
           style={{
             background:
               'linear-gradient(to left, rgb(153, 246, 228), rgb(217, 249, 157))',
-          }}></div>
+          }}>
+          <div className="mb-3 hidden text-lg text-gray-500 md:absolute md:bottom-0 md:right-8 md:flex">
+            <GiRobotGolem className="text-6xl text-indigo-700" />
+            <div className="ml-5 flex items-end">
+              Know what AI can do, and make AI do things for you.
+            </div>
+          </div>
+        </div>
 
         <Image
-          className="absolute bottom-5 right-10 md:bottom-16"
+          className="absolute bottom-3 right-10 md:bottom-16"
           src={smallRobot}
           width={200}
           height={200}
