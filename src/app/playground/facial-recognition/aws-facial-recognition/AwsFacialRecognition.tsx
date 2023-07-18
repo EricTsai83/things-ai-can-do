@@ -12,7 +12,7 @@ interface Props {
   setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
   imageSrc: string | null;
   setImageSrc: Dispatch<SetStateAction<string | null>>;
-  canvasUrls: string;
+  canvasUrls: string | null;
   setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 

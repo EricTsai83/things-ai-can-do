@@ -24,7 +24,7 @@ interface Props {
   setImageSrc: Dispatch<SetStateAction<string | null>>;
   selectOption: SelectOption[];
   searchParams: SearchParams;
-  canvasUrls: string;
+  canvasUrls: string | null;
   setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 
