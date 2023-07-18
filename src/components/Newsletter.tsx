@@ -67,7 +67,6 @@ function Newsletter() {
                 </svg>
                 <input
                   ref={inputRef}
-                  required
                   placeholder="輸入信箱"
                   className="
                     w-full rounded-lg border bg-white py-2 pl-12 pr-3 
@@ -82,7 +81,7 @@ function Newsletter() {
                   setEmail(currRef.value);
                 }}
                 className="
-                  block w-auto rounded-lg bg-indigo-600 px-4 py-3
+                  block min-w-[64px] rounded-lg bg-indigo-600 px-4 py-3
                   text-center text-sm font-medium text-white shadow
                 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
                 訂閱

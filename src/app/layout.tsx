@@ -43,7 +43,7 @@ export default function RootLayout({
               <Header />
               <div className="flex">
                 <SideNavbar />
-                <div className="xl:ml-60"> {children}</div>
+                <div className="mb-20 xl:ml-60 "> {children}</div>
               </div>
             </div>
           </NextAuthProvider>
