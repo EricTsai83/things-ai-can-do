@@ -5,7 +5,6 @@ import SplitPaneContext from '../context/SplitPaneContext';
 import Delimiter from './prompt/Delimiter';
 import StructureFormat from './prompt/StructureFormat';
 import Condition from './prompt/Condition';
-import Link from 'next/link';
 import Imitate from './prompt/Imitate';
 import { TbTargetArrow } from 'react-icons/tb';
 
@@ -157,9 +156,7 @@ export const SplitPaneBottom = () => {
       <h2 className="flex w-full items-center justify-center text-2xl font-semibold text-teal-700 md:mt-10">
         聊天機器人模板說明與練習場:
       </h2>
-      <div className="no-scrollbar h-full overflow-y-scroll">
-        {pageContent()}
-      </div>
+      <div className="no-scrollbar overflow-y-auto">{pageContent()}</div>
     </div>
   );
 };
@@ -183,7 +180,9 @@ export const SplitPaneLeft = (children: SplitPaneLeftProps) => {
     }
   }, [clientWidth, setClientWidth]);
 
-  return <div {...children} className="flex-1 overflow-hidden" ref={topRef} />;
+  return (
+    <div {...children} className="no-scrollbar overflow-auto" ref={topRef} />
+  );
 };
 
 interface SplitPaneRightProps {
