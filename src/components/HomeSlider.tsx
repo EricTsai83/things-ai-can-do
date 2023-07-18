@@ -21,15 +21,15 @@ import './HomeSlider.Style.css';
 const slides = [
   {
     id: 0,
-    image: chatbot,
-    title: 'Chatbot-Slides',
-    url: '/playground/chat-gpt',
-  },
-  {
-    id: 1,
     image: facialRecognation,
     title: 'Facial-Recognation-Slides',
     url: '/playground/facial-recognition',
+  },
+  {
+    id: 1,
+    image: chatbot,
+    title: 'Chatbot-Slides',
+    url: '/playground/chat-gpt',
   },
   {
     id: 2,
