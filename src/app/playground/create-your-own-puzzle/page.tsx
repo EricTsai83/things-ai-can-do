@@ -16,6 +16,7 @@ import LoadingButton from '@/components/LoadingButton';
 import ImageShowMode from './components/ImageShowMode';
 import { plans } from './components/plans';
 import { apiNotify, StyledToastContainer } from '@/components/ReactToast';
+import { Selected } from './types.d';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
@@ -25,8 +26,8 @@ function Page() {
   const [showEasyPuzzle, SetShowEasyPuzzle] = useState<boolean>(false);
   const [showDifficultPuzzle, setShowDifficultPuzzle] =
     useState<boolean>(false);
-  const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState(plans[1]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selected, setSelected] = useState<Selected>(plans[1]);
 
   async function getStableDiffusionImage() {
     try {

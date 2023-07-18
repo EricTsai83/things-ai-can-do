@@ -1,6 +1,6 @@
 'use client';
 // 不是很懂，細讀一下
-import { useState, useRef } from 'react';
+import { useState, useRef, FormEventHandler, ChangeEvent } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { MdCleaningServices } from 'react-icons/md';
 import { BsFiletypeJson } from 'react-icons/bs';
@@ -57,7 +57,7 @@ function ChatGPT() {
     setIsLoading(false);
   }
 
-  const resizeTextarea = (event: any) => {
+  const resizeTextarea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = 'auto';
     event.target.style.height = `${event.target.scrollHeight}px`;
   };
@@ -77,8 +77,8 @@ function ChatGPT() {
       <div className="relative w-full">
         <div
           className="
-          absolute left-0 top-0 w-full rounded-lg bg-gray-700
-          p-2 text-center text-2xl text-gray-200">
+            absolute left-0 top-0 w-full rounded-lg bg-gray-700
+            p-2 text-center text-2xl text-gray-200">
           ChatGPT
         </div>
         <BsFiletypeJson

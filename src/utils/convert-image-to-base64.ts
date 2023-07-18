@@ -1,4 +1,4 @@
-function convertImageToBase64(file: any) {
+function convertImageToBase64(file: Blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {

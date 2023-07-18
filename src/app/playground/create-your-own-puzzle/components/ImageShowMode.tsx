@@ -1,6 +1,16 @@
-import { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import { plans } from './plans';
+import { Selected } from '../types.d';
+import type { Dispatch, SetStateAction } from 'react';
+
+interface Props {
+  selected: Selected;
+  setSelected: Dispatch<SetStateAction<Selected>>;
+  SetShowImage: Dispatch<SetStateAction<boolean>>;
+  getPuzzle: any;
+  setShowDifficultPuzzle: Dispatch<SetStateAction<boolean>>;
+  SetShowEasyPuzzle: Dispatch<SetStateAction<boolean>>;
+}
 
 export default function ImageShowMode({
   selected,
@@ -9,11 +19,11 @@ export default function ImageShowMode({
   getPuzzle,
   setShowDifficultPuzzle,
   SetShowEasyPuzzle,
-}: any) {
+}: Props) {
   return (
     <div className="w-full px-4">
       <div className="mx-auto w-full">
-        <RadioGroup value={selected} onChange={setSelected}>
+        <RadioGroup value={selected}>
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
           <div className="flex flex-col justify-center gap-3 space-y-2 md:flex-row md:gap-10">
             {plans.map((plan) => (

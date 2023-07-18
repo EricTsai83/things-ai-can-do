@@ -1,5 +1,5 @@
 import { Disclosure } from '@headlessui/react';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { FaceDetail } from '../types';
 import { SelectOption } from './Select';
 import ImageMask from './ImageMask';
@@ -14,7 +14,7 @@ interface Props {
   faceDetails: FaceDetail[] | null;
   imageSrc: string | null;
   selectOption: SelectOption[];
-  setCanvasUrls: any;
+  setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 
 export default function ModelReport({

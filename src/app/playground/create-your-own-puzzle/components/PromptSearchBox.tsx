@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { copyTextToClipboard } from '@/utils/copy-to-clipboard';
@@ -31,7 +31,6 @@ const people = [
 function PromptSearchBox() {
   const [selected, setSelected] = useState(people[0]);
   const [query, setQuery] = useState('');
-  // const inputPromptRef = useRef<HTMLInputElement | null>(null);
 
   const filteredPeople =
     query === ''

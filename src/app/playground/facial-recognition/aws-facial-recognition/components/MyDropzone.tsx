@@ -24,8 +24,8 @@ interface Props {
   setImageSrc: Dispatch<SetStateAction<string | null>>;
   selectOption: SelectOption[];
   searchParams: SearchParams;
-  canvasUrls: any;
-  setCanvasUrls: any;
+  canvasUrls: string;
+  setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 
 interface ImageBase64String {
@@ -82,8 +82,8 @@ function MyDropzone({
     }
 
     const imageUrl = URL.createObjectURL(imageFile);
-    const base64String = await convertImageToBase64(imageFile);
-    setImageBase64String((draft: any) => {
+    const base64String = (await convertImageToBase64(imageFile)) as string;
+    setImageBase64String((draft) => {
       draft[imageUrl] = base64String;
     });
     setImageSrc(imageUrl);

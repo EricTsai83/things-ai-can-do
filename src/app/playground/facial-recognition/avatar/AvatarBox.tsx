@@ -49,21 +49,11 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     return pattern.test(url);
   }
 
-  // const { getRootProps } = useDropzone({
-  //   onDrop: (files) => {
-  //     const file = files[0];
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setUrl(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   },
-  // });
-
   async function setup() {
     const filesetResolver = await FilesetResolver.forVisionTasks(
       'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
     );
+
     faceLandmarker = await FaceLandmarker.createFromOptions(
       filesetResolver,
       options,

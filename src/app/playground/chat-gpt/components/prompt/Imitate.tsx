@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { RefObject, useRef } from 'react';
 import { RiFileCopyFill } from 'react-icons/ri';
 import { copyRefToClipboard } from '@/utils/copy-to-clipboard';
 
@@ -23,7 +23,7 @@ export function ImitateTactic1() {
 
 function Imitate() {
   const tactic1Ref = useRef<HTMLDivElement | null>(null);
-  function renderPromptHeader(tacticRef: any) {
+  function renderPromptHeader(tacticRef: RefObject<HTMLDivElement>) {
     return (
       <div className="absolute -top-5 w-full rounded-2xl bg-gray-700 p-2 text-gray-200">
         <div className="pl-3">prompt</div>

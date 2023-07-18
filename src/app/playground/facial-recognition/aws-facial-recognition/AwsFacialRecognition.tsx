@@ -3,16 +3,17 @@ import MyDropzone from './components/MyDropzone';
 import type { FaceDetail } from './types';
 import type { SearchParams } from '../types';
 import { SelectOption } from './components/Select';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
   selectOption: SelectOption[];
   searchParams: SearchParams;
   faceDetails: FaceDetail[] | null;
-  setFaceDetails: any;
+  setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
   imageSrc: string | null;
-  setImageSrc: any;
-  canvasUrls: any;
-  setCanvasUrls: any;
+  setImageSrc: Dispatch<SetStateAction<string | null>>;
+  canvasUrls: string;
+  setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 
 // searchParams: next default 用來引入 query string 的參數，只能在 page 使用
