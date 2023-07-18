@@ -23,7 +23,7 @@ export default function ImageShowMode({
   return (
     <div className="w-full px-4">
       <div className="mx-auto w-full">
-        <RadioGroup value={selected}>
+        <RadioGroup value={selected} onChange={setSelected}>
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
           <div className="flex flex-col justify-center gap-3 space-y-2 md:flex-row md:gap-10">
             {plans.map((plan) => (
