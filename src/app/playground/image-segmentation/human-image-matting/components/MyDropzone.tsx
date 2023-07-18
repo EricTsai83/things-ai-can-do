@@ -140,7 +140,7 @@ function MyDropzone() {
       <div // dropzone
         className="
           relative mx-auto mb-6 flex h-[360px] w-full
-          min-w-[360px] max-w-4xl items-center
+          min-w-[300px] max-w-4xl items-center
           justify-center border-2 border-dashed
         border-black object-contain"
         onDrop={handleDrop}

@@ -15,7 +15,7 @@ export default function ImageShowMode({
       <div className="mx-auto w-full">
         <RadioGroup value={selected} onChange={setSelected}>
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
-          <div className="flex justify-center gap-10 space-y-2">
+          <div className="flex flex-col justify-center gap-3 space-y-2 md:flex-row md:gap-10">
             {plans.map((plan) => (
               <RadioGroup.Option
                 onClick={() => {

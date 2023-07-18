@@ -19,7 +19,7 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
   }
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <div className="flex w-full flex-col">
         <div className="flex gap-2">
           {faceUrls &&
@@ -39,7 +39,7 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
         </div>
         {faceAnalysis && <FacialRecognition faceAnalysis={faceAnalysis} />}
       </div>
-      <div className="flex grow items-center justify-center">
+      <div className="flex w-full justify-center">
         <MoodPieChart faceAnalysis={faceAnalysis} />
       </div>
     </div>

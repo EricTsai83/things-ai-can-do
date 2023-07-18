@@ -30,7 +30,7 @@ function Page() {
         newsletterSubscribeFailure();
       }
     }
-  }, [email]);
+  }, [email, emailStatus]);
 
   return (
     <div
@@ -38,30 +38,22 @@ function Page() {
       flex h-[calc(100vh-64px)] w-screen flex-col items-center justify-center
       px-12 pt-24 xl:w-[calc(100vw-240px)]">
       <div className="w-full max-w-3xl">
-        <section className="relative py-28">
+        <section className="relative py-24">
           <GiArtificialHive className="absolute left-5 top-5 z-10 text-6xl text-teal-700" />
-          <div className="relative z-10 mx-auto mt-5 max-w-screen-2xl items-center justify-between gap-10 px-4 md:flex md:px-8">
-            <div className="max-w-lg flex-1">
-              <h3 className="text-3xl font-bold">
-                <div className="w-96 text-2xl text-gray-700">
+          <div className="relative z-10 mx-auto mt-5 max-w-screen-2xl items-center justify-between gap-10 px-8 md:flex">
+            <div className="max-w-[75%] md:max-w-none">
+              <h3 className="text-3xl font-bold ">
+                <div className="text-xl text-gray-700 md:text-2xl">
                   現在訂閱電子報，即時獲取 AI 應用的第一手資訊。
                 </div>
                 <br />
-                <div className="w-full text-3xl text-gray-700">
+                <div className="text-2xl text-gray-700 md:text-3xl">
                   一起讓 AI 成為你人生的助力吧！
                 </div>
                 <br />
-                <div className="absolute right-8 text-lg text-gray-500">
-                  <div className="flex">
-                    <GiRobotGolem className="text-6xl text-indigo-700" />
-                    <div className="ml-5 flex items-end">
-                      Know what AI can do, and make AI do things for you.
-                    </div>
-                  </div>
-                </div>
               </h3>
             </div>
-            <div className="mt-6 md:mt-0">
+            <div className="min-w-[45%] md:mt-0">
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="flex items-center gap-x-3 md:justify-end">
@@ -81,10 +73,11 @@ function Page() {
                   </svg>
                   <input
                     ref={inputRef}
-                    type="email"
                     required
                     placeholder="輸入信箱"
-                    className="w-full rounded-lg border bg-white py-2 pl-12 pr-3 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
+                    className="
+                      w-full rounded-lg border bg-white py-2 pl-12 pr-3
+                    text-gray-500 shadow-sm outline-none focus:border-indigo-600"
                   />
                 </div>
                 <button
@@ -94,7 +87,10 @@ function Page() {
                     setEmailStatus(isValid);
                     setEmail(currRef.value);
                   }}
-                  className="block w-auto rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-medium text-white shadow hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
+                  className="
+                    block w-auto rounded-lg bg-indigo-600 px-4 py-3
+                    text-center text-sm font-medium text-white shadow
+                  hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none">
                   訂閱
                 </button>
               </form>
@@ -105,7 +101,16 @@ function Page() {
             style={{
               background:
                 'linear-gradient(to right, rgb(153, 246, 228), rgb(217, 249, 157))',
-            }}></div>
+            }}>
+            <div className="absolute bottom-1 right-0 px-5 text-lg text-gray-500">
+              <div className="my-3 flex">
+                <GiRobotGolem className="text-6xl text-indigo-700" />
+                <div className="ml-5 flex items-end">
+                  Know what AI can do, and make AI do things for you.
+                </div>
+              </div>
+            </div>
+          </div>
           <Image
             className="absolute right-0 top-0 translate-x-52"
             src={robotPeek}

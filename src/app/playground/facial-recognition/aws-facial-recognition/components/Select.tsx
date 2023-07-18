@@ -83,7 +83,7 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
     return () => {
       currRef?.removeEventListener('keydown', handler);
     };
-  }, [isOpen, highlightedIndex, options, containerRef.current, selectOption]);
+  }, [isOpen, highlightedIndex, options, selectOption]);
 
   return (
     <div
