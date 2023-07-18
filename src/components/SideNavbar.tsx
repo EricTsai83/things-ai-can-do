@@ -42,9 +42,6 @@ function SideNavbar() {
     const pathElements = pathname.split('/');
     const lastElement = pathElements[pathElements.length - 1];
 
-    console.log(pathname);
-    console.log(lastElement);
-
     if (lastElement === '') {
       setSelected('首頁');
     } else if (lastElement === 'facial-recognition') {
@@ -155,7 +152,6 @@ function SideNavbar() {
                 transition delay-150 duration-300 ease-out`
             }
             onClick={() => {
-              console.log('e04麻把我關掉!');
               close();
             }}></div>
           <Disclosure.Button
@@ -178,21 +174,22 @@ function SideNavbar() {
             // peer-focus:left-0 可以讓點其他element，將 side navbar 收回，
             className={
               open
-                ? `peer:transition fixed left-0 top-16 z-50
-                  h-screen w-1/2
-                  overflow-y-auto 
+                ? `
+                peer:transition fixed left-0 top-16 z-50
+                h-screen w-1/2
+                overflow-y-auto 
                 border-r-2 border-gray-100 bg-white 
-                  p-6 pt-0 delay-150
-                  duration-300
-                  ease-out ssm:w-60
-                  `
-                : `peer:transition fixed -left-1/2 top-16 z-50
-                  h-screen w-1/2
-                  overflow-y-auto 
+                p-6 pt-0 
+                delay-150 duration-300 ease-out
+                ssm:w-60`
+                : `
+                peer:transition fixed -left-1/2 top-16 z-50
+                h-screen w-1/2
+                overflow-y-auto 
                 border-r-2 border-gray-100 bg-white 
-                  p-6 pt-0 delay-150
-                  duration-300 ease-out
-                  ssm:-left-60 ssm:w-60 xl:left-0`
+                p-6 pt-0
+                delay-150 duration-300 ease-out
+                ssm:-left-60 ssm:w-60 xl:left-0`
             }>
             <div className={blockStyle}>
               <div className={blockStyle}>
@@ -202,9 +199,7 @@ function SideNavbar() {
                       setSelected('首頁');
                     }}
                     className={
-                      (selected === '首頁'
-                        ? selectedNavItemStyle
-                        : navItemStyle) + ' border-b border-gray-100'
+                      selected === '首頁' ? selectedNavItemStyle : navItemStyle
                     }>
                     <MdOutlineHome
                       className={
