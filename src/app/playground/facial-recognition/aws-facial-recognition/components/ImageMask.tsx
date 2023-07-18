@@ -4,6 +4,7 @@ import Image from 'next/image';
 import type { FaceDetail } from '../types';
 import FacialRecognition from './FacialRecognition';
 import MoodPieChart from './MoodPieChart';
+import { div } from '@tensorflow/tfjs';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -39,7 +40,11 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
         </div>
         {faceAnalysis && <FacialRecognition faceAnalysis={faceAnalysis} />}
       </div>
-      <div className="flex justify-center">
+
+      <div
+        className={`
+          ${faceAnalysis ? '' : 'invisible w-[450px] '}
+          flex justify-center`}>
         <MoodPieChart faceAnalysis={faceAnalysis} />
       </div>
     </div>

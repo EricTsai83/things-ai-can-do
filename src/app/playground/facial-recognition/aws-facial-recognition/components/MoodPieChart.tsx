@@ -67,7 +67,7 @@ function MoodPieChart({ faceAnalysis }: Props) {
   }, [faceAnalysis]);
 
   return (
-    <div className="">
+    <div>
       {pieChartOption && (
         <ReactECharts
           style={{
