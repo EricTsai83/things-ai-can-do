@@ -64,7 +64,7 @@ function MoodPieChart({ faceAnalysis }: Props) {
 
       setPieChartOption(option);
     }
-  }, [faceAnalysis]);
+  }, [faceAnalysis, setPieChartOption]);
 
   return (
     <div>

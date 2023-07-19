@@ -20,7 +20,7 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center md:flex-row">
+    <div className="flex flex-col items-start justify-center md:flex-row">
       <div className="flex w-full max-w-[360px] flex-col ">
         <div className="flex gap-2">
           {faceUrls &&
@@ -43,8 +43,8 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
 
       <div
         className={`
-          ${faceAnalysis ? '' : 'invisible w-[450px] '}
-          flex justify-center`}>
+          ${faceAnalysis ? 'w-[450px]' : 'invisible w-[450px] '}
+          `}>
         <MoodPieChart faceAnalysis={faceAnalysis} />
       </div>
     </div>
