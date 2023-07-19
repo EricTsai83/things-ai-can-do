@@ -63,7 +63,7 @@ export default function TestsPage() {
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row md:items-start">
         <div className="flex flex-1 flex-col">
           <select
-            className="text-xl"
+            className="max-w-[120px] text-xl"
             value={tool}
             onChange={(e) => {
               setTool(e.target.value);
