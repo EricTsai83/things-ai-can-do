@@ -52,22 +52,22 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
     const top = parseInt(style.getPropertyValue('top'));
     const left = parseInt(style.getPropertyValue('left'));
     // console.log(top);
-    const anwserTopStart = parseInt(
-      target.getAttribute('data-anwsertopstart')!,
+    const answerTopStart = parseInt(
+      target.getAttribute('data-answertopstart')!,
     );
-    const anwserTopEnd = parseInt(target.getAttribute('data-anwsertopend')!);
-    const anwserLeftStart = parseInt(
-      target.getAttribute('data-anwserleftstart')!,
+    const answerTopEnd = parseInt(target.getAttribute('data-answertopend')!);
+    const answerLeftStart = parseInt(
+      target.getAttribute('data-answerleftstart')!,
     );
-    const anwserLeftEnd = parseInt(target.getAttribute('data-anwserleftend')!);
-    const tileId = target.getAttribute('data-anwsertile')!;
+    const answerLeftEnd = parseInt(target.getAttribute('data-answerleftend')!);
+    const tileId = target.getAttribute('data-answertile')!;
     const id = target.getAttribute('id')!;
 
     if (
-      anwserTopStart <= top &&
-      top <= anwserTopEnd &&
-      anwserLeftStart <= left &&
-      left <= anwserLeftEnd
+      answerTopStart <= top &&
+      top <= answerTopEnd &&
+      answerLeftStart <= left &&
+      left <= answerLeftEnd
     ) {
       const tile = document.getElementById(tileId);
       if (tile) {
@@ -89,11 +89,11 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
 
         puzzlePieces.push(
           <Image
-            data-anwsertile={`tile_${i}_${j}`}
-            data-anwsertopstart={`${j * imgHeight - imgHeight * 0.15}`}
-            data-anwsertopend={`${j * imgHeight + imgHeight * 0.15}`}
-            data-anwserleftstart={`${i * imgWidth - imgWidth * 0.15}`}
-            data-anwserleftend={`${i * imgWidth + imgWidth * 0.15}`}
+            data-answertile={`tile_${i}_${j}`}
+            data-answertopstart={`${j * imgHeight - imgHeight * 0.15}`}
+            data-answertopend={`${j * imgHeight + imgHeight * 0.15}`}
+            data-answerleftstart={`${i * imgWidth - imgWidth * 0.15}`}
+            data-answerleftend={`${i * imgWidth + imgWidth * 0.15}`}
             id={`piece_${i}_${j}`}
             key={`piece_${i}_${j}`}
             src={puzzlePieceSrc}

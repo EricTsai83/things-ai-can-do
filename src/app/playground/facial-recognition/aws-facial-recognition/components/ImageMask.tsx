@@ -4,7 +4,6 @@ import Image from 'next/image';
 import type { FaceDetail } from '../types';
 import FacialRecognition from './FacialRecognition';
 import MoodPieChart from './MoodPieChart';
-import { div } from '@tensorflow/tfjs';
 
 interface Props {
   faceDetails: FaceDetail[] | null;

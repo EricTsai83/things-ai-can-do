@@ -36,7 +36,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   const [blendshapes, setBlendshapes] = useState<Category[]>([]);
   const [rotation, setRotation] = useState<Euler>();
   const inputRef = useRef<HTMLInputElement | null>(null);
-
+  // const streamRef = useRef<any>(null);
   // https://models.readyplayer.me/648ef0aef2caada0866fd637.glb
   // https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb (男)
   // https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb (女)
@@ -50,6 +50,9 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   }
 
   async function setup() {
+    // Before we can use faceLandmarker class we must wait for it to finish
+    // loading. Machine Learning models can be large and take a moment to
+    // get everything needed to run.
     const filesetResolver = await FilesetResolver.forVisionTasks(
       'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
     );
@@ -195,6 +198,11 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     setup();
     return () => {
+      // streamRef.current
+      //   .getTracks()
+      //   .forEach(function (track: { stop: () => void }) {
+      //     track.stop();
+      //   });
       video.removeEventListener('loadeddata', predict);
       window.cancelAnimationFrame(myReq);
     };
@@ -245,6 +253,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
           />
           <div className="relative mt-4 h-[80px] w-full">
             <video
+              // ref={streamRef}
               id="video"
               className="absolute right-3 top-0 h-full rounded-3xl"
               autoPlay
