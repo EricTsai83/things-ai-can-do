@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import EasyPuzzle from './components/EasyPuzzle';
 import DifficultPuzzle from './components/DifficultPuzzle';
 import Image from 'next/image';
@@ -22,7 +22,7 @@ function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
   const [imageUrl, setImageUrl] = useState<string>(); // 像是圖片的 reference，而不是圖片本身喔
   const [imgBlobs, setImgBlobs] = useImmer<TileObject>({});
-  const [showImage, SetShowImage] = useState<boolean>(false);
+  const [showImage, setShowImage] = useState<boolean>(false);
   const [showEasyPuzzle, SetShowEasyPuzzle] = useState<boolean>(false);
   const [showDifficultPuzzle, setShowDifficultPuzzle] =
     useState<boolean>(false);
@@ -46,7 +46,7 @@ function Page() {
           SetShowEasyPuzzle(true);
           // 隱藏其他兩個模式，只顯示簡單拼圖模式
           setShowDifficultPuzzle(false);
-          SetShowImage(false);
+          setShowImage(false);
           setSelected(plans[1]);
         } catch (e) {
           apiNotify();
@@ -60,14 +60,11 @@ function Page() {
     }
   }
 
-  const getSplitImage = useCallback(
-    async (imageUrl: string) => {
-      const tileObj = await splitImage(imageUrl);
-      console.log(tileObj);
-      setImgBlobs(tileObj);
-    },
-    [setImgBlobs],
-  );
+  const getSplitImage = async (imageUrl: string) => {
+    const tileObj = await splitImage(imageUrl);
+    console.log(tileObj);
+    setImgBlobs(tileObj);
+  };
 
   async function getPuzzle() {
     if (imageUrl) {
@@ -122,7 +119,7 @@ function Page() {
       <ImageShowMode
         selected={selected}
         setSelected={setSelected}
-        SetShowImage={SetShowImage}
+        setShowImage={setShowImage}
         getPuzzle={getPuzzle}
         setShowDifficultPuzzle={setShowDifficultPuzzle}
         SetShowEasyPuzzle={SetShowEasyPuzzle}

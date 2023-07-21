@@ -6,7 +6,7 @@ import type { Dispatch, SetStateAction } from 'react';
 interface Props {
   selected: Selected;
   setSelected: Dispatch<SetStateAction<Selected>>;
-  SetShowImage: Dispatch<SetStateAction<boolean>>;
+  setShowImage: Dispatch<SetStateAction<boolean>>;
   getPuzzle: any;
   setShowDifficultPuzzle: Dispatch<SetStateAction<boolean>>;
   SetShowEasyPuzzle: Dispatch<SetStateAction<boolean>>;
@@ -15,7 +15,7 @@ interface Props {
 export default function ImageShowMode({
   selected,
   setSelected,
-  SetShowImage,
+  setShowImage,
   getPuzzle,
   setShowDifficultPuzzle,
   SetShowEasyPuzzle,
@@ -34,14 +34,14 @@ export default function ImageShowMode({
                     selected.name !== '拼圖遊戲(困難)'
                   ) {
                     SetShowEasyPuzzle(false);
-                    SetShowImage(false);
+                    setShowImage(false);
                     getPuzzle();
                   } else if (
                     plan.name === '拼圖遊戲(簡單)' &&
                     selected.name !== '拼圖遊戲(簡單)'
                   ) {
                     setShowDifficultPuzzle(false);
-                    SetShowImage(false);
+                    setShowImage(false);
                     SetShowEasyPuzzle(true);
                   } else if (
                     plan.name === '直接顯示圖片' &&
@@ -49,7 +49,7 @@ export default function ImageShowMode({
                   ) {
                     setShowDifficultPuzzle(false);
                     SetShowEasyPuzzle(false);
-                    SetShowImage(true);
+                    setShowImage(true);
                   }
                 }}
                 key={plan.name}
