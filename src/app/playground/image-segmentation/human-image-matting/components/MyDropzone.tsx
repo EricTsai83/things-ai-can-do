@@ -1,14 +1,20 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { DragEvent, ChangeEvent } from 'react';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import Image from 'next/image';
 import replaceColorsInPNG from '@/utils/replace-color-in-png';
 import LoadingButton from '@/components/LoadingButton';
+import TooltipContainer from '@/components/TooltipContainer';
 import MirrorReflectionBtn from '@/components/MirrorReflectionButton';
 import { useImmer } from 'use-immer';
 import { FaUpload } from 'react-icons/fa';
-import { apiNotify, imgSizeNotify } from '@/components/ReactToast';
+import {
+  apiNotify,
+  imgSizeNotify,
+  uploadWrongImgFormatNotify,
+} from '@/components/ReactToast';
+import demoImg from '../../img/demo-guys-img.png';
 
 interface Respond {
   label: string;
@@ -17,7 +23,7 @@ interface Respond {
 }
 
 function MyDropzone() {
-  const [imageBlob, setImageBlob] = useState<File>();
+  const [imageBlob, setImageBlob] = useState<File | Blob>();
   const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
   const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊up load file
   const [apiData, setApiData] = useState<Respond[] | null>(null); // set api data
@@ -27,9 +33,34 @@ function MyDropzone() {
     {},
   );
 
+  useEffect(() => {
+    const fetchImage = async () => {
+      console.log(demoImg.src);
+      const response = await fetch(demoImg.src);
+      const imageArrayBuffer = await response.arrayBuffer();
+      const demoImageBlob = new Blob([imageArrayBuffer], {
+        type: 'image/jpeg',
+      });
+      console.log(demoImageBlob);
+      const imageUrl = URL.createObjectURL(demoImageBlob);
+      setImageBlob(demoImageBlob);
+      console.log(imageUrl);
+      setImageSrc(imageUrl);
+    };
+
+    fetchImage();
+  }, [setImageBlob, setImageSrc]);
+
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const imageFile = event.dataTransfer.files[0];
+
+    const allowedFormats = ['image/jpeg', 'image/png'];
+    if (!allowedFormats.includes(imageFile.type)) {
+      uploadWrongImgFormatNotify();
+      return;
+    }
+
     if (imageFile) {
       const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
       if (imageFile.size > maxSize) {
@@ -73,7 +104,7 @@ function MyDropzone() {
     }
   };
 
-  async function getImageSegmentation(data: File) {
+  async function getImageSegmentation(data: File | Blob) {
     try {
       setLoading(true);
       console.log(data);
@@ -186,17 +217,23 @@ function MyDropzone() {
         </div>
 
         <div className="absolute bottom-0 right-0">
-          <LoadingButton
-            loading={loading}
-            executeFunction={() =>
-              imageBlob && imageSrc && getImageSegmentation(imageBlob)
-            }
-            text="模型推論"
-          />
+          <TooltipContainer
+            tooltips="
+             在一段時間後，首次做模型推論，
+             模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。"
+            tailwindSettingFromTop="40">
+            <LoadingButton
+              loading={loading}
+              executeFunction={() =>
+                imageBlob && imageSrc && getImageSegmentation(imageBlob)
+              }
+              text="模型推論"
+            />
+          </TooltipContainer>
         </div>
       </div>
       <div // small image preview
-        className="mt-10 flex h-20 items-center justify-center border-black">
+        className="mt-10 flex h-20 flex-wrap items-center justify-center gap-2 border-black">
         {apiData &&
           apiData.map((data: Respond, idx: number) => {
             return (

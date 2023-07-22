@@ -105,8 +105,34 @@ export function BounceToastContainer() {
   );
 }
 
-export function PuzzleCompletedNotify() {
+export function puzzleCompletedNotify() {
   toast.error('完成拼圖', {
+    position: 'top-center',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
+}
+
+export function limitedImgNumNotify() {
+  toast.error('照片最多上傳 6 張 😰', {
+    position: 'top-center',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
+}
+
+export function uploadWrongImgFormatNotify() {
+  toast.error('只能上傳 jpeg 和 png 的檔案喔!', {
     position: 'top-center',
     autoClose: 3000,
     hideProgressBar: false,

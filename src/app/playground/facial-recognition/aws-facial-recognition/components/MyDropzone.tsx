@@ -11,6 +11,7 @@ import { WritableDraft } from 'immer/dist/internal';
 import { SearchParams } from '../../types';
 import { SelectOption } from './Select';
 import LoadingButton from '@/components/LoadingButton';
+import TooltipContainer from '@/components/TooltipContainer';
 import {
   apiNotify,
   imgSizeNotify,
@@ -179,11 +180,20 @@ function MyDropzone({
           className="absolute -left-full"
         />
       </div>
-      <LoadingButton
-        loading={loading}
-        executeFunction={getFacialRecognition}
-        text="模型推論"
-      />
+      <div className="flex justify-center">
+        <TooltipContainer
+          tooltips="
+            在一段時間後，首次做模型推論，
+            模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。"
+          tailwindSettingFromTop="40">
+          <LoadingButton
+            loading={loading}
+            executeFunction={getFacialRecognition}
+            text="模型推論"
+          />
+        </TooltipContainer>
+      </div>
+
       <StyledToastContainer />
     </div>
   );

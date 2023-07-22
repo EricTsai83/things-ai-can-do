@@ -9,7 +9,7 @@ import {
 import { useImmer } from 'use-immer';
 import GlowingBtn from '@/components/GlowingBtn';
 import {
-  PuzzleCompletedNotify,
+  puzzleCompletedNotify,
   StyledToastContainer,
 } from '@/components/ReactToast';
 
@@ -64,7 +64,7 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
       }
     }
     setScore(scoreCt);
-    scoreCt === 9 && PuzzleCompletedNotify();
+    scoreCt === 9 && puzzleCompletedNotify();
   }, [imageArrangement]);
 
   const dragStart: DragEventHandler<HTMLDivElement> = (event) => {

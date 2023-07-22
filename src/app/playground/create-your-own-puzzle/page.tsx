@@ -13,6 +13,7 @@ import { IoImages } from 'react-icons/io5';
 import { MdOutlineTextFields } from 'react-icons/md';
 import { ImArrowRight } from 'react-icons/im';
 import LoadingButton from '@/components/LoadingButton';
+import TooltipContainer from '@/components/TooltipContainer';
 import ImageShowMode from './components/ImageShowMode';
 import { plans } from './components/plans';
 import { apiNotify, StyledToastContainer } from '@/components/ReactToast';
@@ -77,7 +78,7 @@ function Page() {
   return (
     <main className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
       <PageTitle
-        title="圖像生成"
+        title="文字生成圖片"
         content="
           文字轉圖像是一種魔法筆！這項神奇的AI技術可以將文字描述變成真實的圖像。
           只要你用文字描述想像的場景或物品，魔法筆就會把它們變成色彩繽紛、生動有趣的圖片，
@@ -107,11 +108,17 @@ function Page() {
           className="mb-6 min-h-[100px] w-full border placeholder:p-10"
         />
         <div className="flex justify-end">
-          <LoadingButton
-            loading={loading}
-            executeFunction={getStableDiffusionImage}
-            text="模型推論"
-          />
+          <TooltipContainer
+            tooltips="
+              在一段時間後，首次做模型推論，
+              模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。"
+            tailwindSettingFromTop="40">
+            <LoadingButton
+              loading={loading}
+              executeFunction={getStableDiffusionImage}
+              text="模型推論"
+            />
+          </TooltipContainer>
         </div>
       </div>
       <h2 className="my-8 text-2xl font-semibold text-teal-700">
