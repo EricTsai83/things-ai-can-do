@@ -1,4 +1,9 @@
-const cutFaceOnImage = (imageSrc: string, faceDetail: any): Promise<string> => {
+import { FaceDetail } from '../types';
+
+const cutFaceOnImage = (
+  imageSrc: string,
+  faceDetail: FaceDetail,
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     const image = new Image();
     const canvas = document.createElement('canvas');

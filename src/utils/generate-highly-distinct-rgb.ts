@@ -1,4 +1,4 @@
-function generateHighlyDistinctRGB(n: any) {
+function generateHighlyDistinctRGB(n: number) {
   const results = [];
 
   for (let i = 0; i < n; i++) {

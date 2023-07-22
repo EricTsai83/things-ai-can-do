@@ -112,8 +112,8 @@ function MyDropzone() {
 
     await replaceColorsInPNG(apiMask, colorMappings)
       .then((modifiedPNGString) => {
-        setCover((draft: any) => {
-          draft[apiMask] = modifiedPNGString;
+        setCover((draft) => {
+          draft[apiMask] = modifiedPNGString as string;
           return draft;
         });
       })
@@ -191,6 +191,7 @@ function MyDropzone() {
             executeFunction={() =>
               imageBlob && imageSrc && getImageSegmentation(imageBlob)
             }
+            text="模型推論"
           />
         </div>
       </div>
@@ -227,6 +228,7 @@ function MyDropzone() {
                     });
                   }}
                   cover={coverStatus[idx]}
+                  toggleTexts={{ positive: '已遮罩', negative: '遮罩' }}
                 />
               </div>
             );

@@ -1,7 +1,7 @@
 interface Props {
   title: string;
   content: string;
-  children: any;
+  children: React.ReactNode;
 }
 
 function PageTitle({ title, content, children }: Props) {

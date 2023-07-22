@@ -1,17 +1,34 @@
 interface TextInput {
   inputs: string;
+  options?: {
+    wait_for_model: boolean;
+  };
 }
 
 interface QaInput {
   inputs: {
-    [key: string]: string;
+    question: string;
+    context: string;
+  };
+  options?: {
+    wait_for_model: boolean;
+  };
+}
+
+interface QaInput {
+  inputs: {
+    question: string;
+    context: string;
+  };
+  options?: {
+    wait_for_model: boolean;
   };
 }
 
 const huggingFaceApi = {
   hostname: '/api/huggingFace',
 
-  async getChineseWs(data: any) {
+  async getChineseWs(data: TextInput) {
     const response = await fetch(`${this.hostname}/getChineseWs`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -20,7 +37,7 @@ const huggingFaceApi = {
     return result;
   },
 
-  async getChinesePos(data: any) {
+  async getChinesePos(data: TextInput) {
     const response = await fetch(`${this.hostname}/getChinesePos`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -29,7 +46,7 @@ const huggingFaceApi = {
     return result;
   },
 
-  async getChineseNer(data: any) {
+  async getChineseNer(data: TextInput) {
     const response = await fetch(`${this.hostname}/getChineseNer`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -38,7 +55,7 @@ const huggingFaceApi = {
     return result;
   },
 
-  async getChineseQa(data: any) {
+  async getChineseQa(data: QaInput) {
     const response = await fetch(`${this.hostname}/getChineseQa`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -47,7 +64,7 @@ const huggingFaceApi = {
     return result;
   },
 
-  async getStableDiffusionImage(data: any) {
+  async getStableDiffusionImage(data: TextInput) {
     const response = await fetch(`${this.hostname}/getStableDiffusionImage`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -67,7 +84,7 @@ const huggingFaceApi = {
     return result;
   },
 
-  async getSketchClassifier(data: any) {
+  async getSketchClassifier(data: Blob) {
     const formData = new FormData();
     formData.append('file', data);
     const response = await fetch(`${this.hostname}/getSketchClassifier`, {

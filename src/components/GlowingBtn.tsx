@@ -1,6 +1,11 @@
 import { PiShuffleFill } from 'react-icons/pi';
 
-function GlowingBtn({ executeMethod, text }: any) {
+interface Props {
+  executeMethod: () => void;
+  text: string;
+}
+
+function GlowingBtn({ executeMethod, text }: Props) {
   return (
     <div onClick={executeMethod}>
       <div className="group relative">

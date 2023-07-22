@@ -1,12 +1,13 @@
 import { Stage, Layer, Line, Text } from 'react-konva';
 import Konva from 'konva';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, SetStateAction, Dispatch } from 'react';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 import { IoIosRefreshCircle } from 'react-icons/io';
 import LoadingButton from '@/components/LoadingButton';
 import { apiNotify } from '@/components/ReactToast';
 import { StyledToastContainer } from '@/components/ReactToast';
+import type { ApiResponse } from '../types';
 
 interface LineData {
   tool: string;
@@ -15,7 +16,7 @@ interface LineData {
 
 interface CanvasProps {
   tool: string;
-  setApiResponse: any;
+  setApiResponse: Dispatch<SetStateAction<ApiResponse[] | null>>;
 }
 
 function Canvas({ tool, setApiResponse }: CanvasProps) {
@@ -165,6 +166,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
         <LoadingButton
           loading={loading}
           executeFunction={getSketchClassifier}
+          text="模型推論"
         />
       </div>
 

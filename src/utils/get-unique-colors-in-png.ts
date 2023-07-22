@@ -2,7 +2,7 @@ export interface UniqueColorsInPng {
   [key: string]: { r: number; g: number; b: number; a: number };
 }
 
-function getUniqueColorsInPNG(pngString: any) {
+function getUniqueColorsInPNG(pngString: string) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
 
@@ -38,8 +38,8 @@ function getUniqueColorsInPNG(pngString: any) {
       }
       // `${red}_${green}_${blue}_${alpha}`
       const output: UniqueColorsInPng = {};
-      uniqueColors.forEach((uniqueColor: any) => {
-        const value = JSON.parse(uniqueColor);
+      uniqueColors.forEach((uniqueColor) => {
+        const value = JSON.parse(uniqueColor as string);
         const key = `${value.r}_${value.g}_${value.b}_${value.a}`;
         output[key] = value;
       });

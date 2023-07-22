@@ -1,8 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Tab } from '@headlessui/react';
 import Link from 'next/link';
 import classNames from '@/utils/tailwind-class-name-formatter';
+import { FaceDetail } from '../aws-facial-recognition/types';
 
 interface Category {
   id: number;
@@ -17,11 +18,17 @@ interface Categories {
   [key: string]: Category[];
 }
 
+interface Props {
+  setTabClass: Dispatch<SetStateAction<string>>;
+  setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
+  setCanvasUrls: Dispatch<SetStateAction<string | null>>;
+}
+
 export default function Tabs({
   setTabClass,
   setFaceDetails,
   setCanvasUrls,
-}: any) {
+}: Props) {
   let [categories] = useState<Categories>({
     picture: [
       {
@@ -84,7 +91,6 @@ export default function Tabs({
           {Object.keys(categories).map((category) => (
             <Tab
               onClick={() => {
-                console.log(category);
                 setTabClass(category);
               }}
               key={category}

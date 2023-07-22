@@ -8,6 +8,10 @@ import {
 } from 'react';
 import { useImmer } from 'use-immer';
 import GlowingBtn from '@/components/GlowingBtn';
+import {
+  PuzzleCompletedNotify,
+  StyledToastContainer,
+} from '@/components/ReactToast';
 
 interface InitialStates {
   dataId: number;
@@ -60,8 +64,7 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
       }
     }
     setScore(scoreCt);
-
-    scoreCt === 9 && window.alert('well done');
+    scoreCt === 9 && PuzzleCompletedNotify();
   }, [imageArrangement]);
 
   const dragStart: DragEventHandler<HTMLDivElement> = (event) => {
@@ -149,6 +152,7 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
           </div>
         );
       })}
+      <StyledToastContainer />
     </div>
   );
 }

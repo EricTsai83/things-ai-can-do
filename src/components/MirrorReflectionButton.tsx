@@ -1,4 +1,10 @@
-function MirrorReflectionBtn({ executeFunction, cover }: any) {
+interface Props {
+  executeFunction: () => void;
+  cover: boolean;
+  toggleTexts: { positive: string; negative: string };
+}
+
+function MirrorReflectionBtn({ executeFunction, cover, toggleTexts }: Props) {
   return (
     <button
       className={`${
@@ -14,7 +20,7 @@ function MirrorReflectionBtn({ executeFunction, cover }: any) {
       hover:before:translate-x-full hover:before:rotate-45
       `}
       onClick={() => executeFunction()}>
-      {cover ? '已遮罩' : '遮罩'}
+      {cover ? toggleTexts['positive'] : toggleTexts['negative']}
     </button>
   );
 }

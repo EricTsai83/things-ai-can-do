@@ -6,6 +6,7 @@ import { ImMakeGroup } from 'react-icons/im';
 import ArrowIconButton from '@/components/ArrowIconButton';
 import label from './label';
 import Animated3dFlipCard from './components/Animated3dFlipCard';
+import type { ApiResponse } from './types';
 
 // Note: react-konva is designed to work in the client-side.
 // On the server side, it will render just empty div. So it
@@ -13,10 +14,6 @@ import Animated3dFlipCard from './components/Animated3dFlipCard';
 const NoSSRComponent = dynamic(() => import('./components/Canvas'), {
   ssr: false,
 });
-interface ApiResponse {
-  label: string;
-  score: number;
-}
 
 export default function TestsPage() {
   const [tool, setTool] = useState('pen');

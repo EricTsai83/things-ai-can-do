@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { FaceDetail } from '../types';
 import { SelectOption } from './Select';
 import ImageMask from './ImageMask';
-import cutFaceOnImage from '@/utils/cut-face-on-image';
-import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
+import cutFaceOnImage from './cut-face-on-image';
+import drawFacialResultOnImg from './draw-facial-recognition-result-on-image';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { ImCross, ImCheckmark } from 'react-icons/im';
 import { GiClick } from 'react-icons/gi';
@@ -63,7 +63,7 @@ export default function ModelReport({
                   focus-visible:ring focus-visible:ring-teal-200
                   focus-visible:ring-opacity-75 ">
                 <span className="flex items-center text-xl">
-                  顯示臉部偵測點在圖片上
+                  <p>顯示臉部偵測點在圖片上</p>
                   <IoIosRefreshCircle
                     onClick={(event) => {
                       event.stopPropagation();
@@ -87,16 +87,16 @@ export default function ModelReport({
                           absolute -left-8 top-8 hidden w-32 border border-gray-300
                         bg-white p-2 text-center
                           group-hover:block">
-                        刷新臉部偵測點
+                        <p>刷新臉部偵測點</p>
                       </div>
                     </div>
 
-                    <p className="flex">
+                    <div className="flex">
                       <ImCheckmark className="text-2xl text-green-600" />
                       <p className="ml-2 flex items-center justify-center">
                         已完成繪製臉部偵測框與臉部偵測點
                       </p>
-                    </p>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex">
@@ -134,7 +134,7 @@ export default function ModelReport({
                 hover:bg-teal-100 focus:outline-none focus-visible:ring
                 focus-visible:ring-teal-200 focus-visible:ring-opacity-75">
                 <span className="flex items-center text-xl">
-                  臉部分析模型推論結果
+                  <p>臉部分析模型推論結果</p>
                   <IoIosRefreshCircle
                     onClick={(event) => {
                       event.stopPropagation();

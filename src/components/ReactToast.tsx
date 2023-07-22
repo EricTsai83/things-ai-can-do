@@ -104,3 +104,16 @@ export function BounceToastContainer() {
     />
   );
 }
+
+export function PuzzleCompletedNotify() {
+  toast.error('完成拼圖', {
+    position: 'top-center',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
+}

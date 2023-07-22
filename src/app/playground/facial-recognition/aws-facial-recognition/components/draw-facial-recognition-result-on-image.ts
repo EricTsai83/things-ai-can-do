@@ -1,14 +1,4 @@
-interface BoundingBoxType {
-  Width: number;
-  Height: number;
-  Left: number;
-  Top: number;
-}
-
-interface FaceDetail {
-  BoundingBox: BoundingBoxType;
-  Landmarks: any[];
-}
+import { FaceDetail } from '../types.d';
 
 interface Landmark {
   Type: string;
@@ -18,7 +8,7 @@ interface Landmark {
 
 const drawFacialResultOnImg = (
   imageSrc: string,
-  faceDetails: any,
+  faceDetails: FaceDetail[],
   marksUsed: string[],
 ): Promise<string> => {
   return new Promise((resolve, reject) => {

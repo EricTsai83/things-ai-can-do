@@ -72,17 +72,13 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
     <div className="relative z-10">
       {pngStrAfterColorChange &&
         pngStrAfterColorChange.map((pngStr: string, id: number) => {
-          // console.log(element.label);
-          // console.log(maskUniqueColors);
-          // console.log('=========');
-          // console.log(pngStr);
           return (
             <Image
               className="absolute max-h-[360px] w-auto"
               key={id}
               src={pngStr}
               alt="Decoded Image"
-              style={{ opacity: '0.5' }} // Adjust the opacity value as desired (0.0 to 1.0)
+              style={{ opacity: '0.5' }}
               width={0}
               height={0}
             />

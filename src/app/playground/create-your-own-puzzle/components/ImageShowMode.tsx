@@ -2,12 +2,13 @@ import { RadioGroup } from '@headlessui/react';
 import { plans } from './plans';
 import { Selected } from '../types.d';
 import type { Dispatch, SetStateAction } from 'react';
+import CheckIcon from '@/components/CheckIcon';
 
 interface Props {
   selected: Selected;
   setSelected: Dispatch<SetStateAction<Selected>>;
   setShowImage: Dispatch<SetStateAction<boolean>>;
-  getPuzzle: any;
+  getPuzzle: () => void;
   setShowDifficultPuzzle: Dispatch<SetStateAction<boolean>>;
   SetShowEasyPuzzle: Dispatch<SetStateAction<boolean>>;
 }
@@ -106,20 +107,5 @@ export default function ImageShowMode({
         </RadioGroup>
       </div>
     </div>
-  );
-}
-
-function CheckIcon(props: any) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <circle cx={12} cy={12} r={12} fill="#fff" opacity="0.2" />
-      <path
-        d="M7 13l3 3 7-7"
-        stroke="#fff"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

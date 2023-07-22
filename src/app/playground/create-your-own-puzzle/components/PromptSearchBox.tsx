@@ -3,40 +3,18 @@ import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { copyTextToClipboard } from '@/utils/copy-to-clipboard';
 import { RiFileCopyFill } from 'react-icons/ri';
-
-const people = [
-  {
-    id: 1,
-    name: `ull body cyborg| full-length portrait| detailed face| symmetric| steampunk| cyberpunk| cyborg| intricate detailed| to scale| hyperrealistic| cinematic lighting| digital art`,
-  },
-  { id: 2, name: `batman-cat, hyper detalic, cinematic, animation, 8k` },
-  {
-    id: 3,
-    name: `A large cabin on top of a sunny mountain in the style of Dreamworks, artstation`,
-  },
-  {
-    id: 4,
-    name: `hawaiian sea turtle, tropical beach, perfect photo-realistic face, ethereal and dreamy watercolor painting by Robert Wyland, highly detailed, dramatic cinematic lighting, 4k, 50mm lens`,
-  },
-  {
-    id: 5,
-    name: `painting of a bouquet of flowers in vase, interior design in background, dreamy sunken living room conversation pit, small windows opening onto the garden, high ceiling, wide shot, bright soft diffused light, depth of field, digital painting, artstation, concept art, intricate, highly detailed, masterpiece, trending on Artstation, art by artgerm and greg rutkowski and alphonse mucha, hdr 4k, 8k`,
-  },
-  {
-    id: 6,
-    name: `professional portrait of XIX century worker, male, tired look, XIX century, heavy brushstrokes, textured paint, impasto paint, highly detailed, intricate, cinematic lighting, oil painting, highly textured skin, dramatic, 8k, trending on artstation, painting by Vittorio Matteo Corcos and Albert Lynch and Tom Roberts`,
-  },
-];
+import { prompts } from './prompts';
+import type { Prompt } from './prompts';
 
 function PromptSearchBox() {
-  const [selected, setSelected] = useState(people[0]);
+  const [selected, setSelected] = useState(prompts[0]);
   const [query, setQuery] = useState('');
 
   const filteredPeople =
     query === ''
-      ? people
-      : people.filter((person) =>
-          person.name
+      ? prompts
+      : prompts.filter((prompt) =>
+          prompt.name
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
@@ -61,7 +39,7 @@ function PromptSearchBox() {
             focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(person: any) => person.name}
+              displayValue={(prompt: Prompt) => prompt.name}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">

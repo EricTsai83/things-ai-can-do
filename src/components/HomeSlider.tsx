@@ -90,7 +90,7 @@ function HomeSlider() {
                     alt="slide image"
                     width={0}
                     height={0}
-                    quality={100}
+                    quality={60}
                   />
                 </Link>
               </SwiperSlide>

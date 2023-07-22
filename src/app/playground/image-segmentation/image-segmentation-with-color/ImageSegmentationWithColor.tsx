@@ -53,7 +53,7 @@ function Page() {
     }
   }
 
-  async function storeMaskData(apiRespond: any) {
+  async function storeMaskData(apiRespond: Respond[]) {
     setMasks((draft: Masks) => {
       if (imageSrc) {
         draft[imageSrc] = apiRespond;
@@ -121,9 +121,9 @@ function Page() {
     fileInputRef.current?.click();
   }
 
-  async function setUniqueColorsInPNG(respond: any) {
+  async function setUniqueColorsInPNG(responds: Respond[]) {
     if (imageSrc) {
-      const uniqueColors = await getUniqueColorsInPNG(respond[0].mask);
+      const uniqueColors = await getUniqueColorsInPNG(responds[0].mask);
       setMaskUniqueColors(uniqueColors as UniqueColorsInPng);
       console.log('set color completed');
     }
@@ -176,6 +176,7 @@ function Page() {
             executeFunction={() =>
               imageSrc && getImageSegmentation(imageBlob[imageSrc])
             }
+            text="模型推論"
           />
         </div>
       </div>

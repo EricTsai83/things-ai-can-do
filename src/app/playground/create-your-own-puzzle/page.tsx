@@ -48,7 +48,7 @@ function Page() {
           setShowDifficultPuzzle(false);
           setShowImage(false);
           setSelected(plans[1]);
-        } catch (e) {
+        } catch (event) {
           apiNotify();
         } finally {
           setLoading(false);
@@ -110,6 +110,7 @@ function Page() {
           <LoadingButton
             loading={loading}
             executeFunction={getStableDiffusionImage}
+            text="模型推論"
           />
         </div>
       </div>
