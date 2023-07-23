@@ -1,8 +1,9 @@
 'use client';
-import { useState, useRef, ChangeEvent } from 'react';
+
+import { ChangeEvent, useRef, useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
-import { MdCleaningServices } from 'react-icons/md';
 import { BsFiletypeJson } from 'react-icons/bs';
+import { MdCleaningServices } from 'react-icons/md';
 import LoadingAnimation from '@/components/LoadingAnimation';
 
 function ChatGPT() {

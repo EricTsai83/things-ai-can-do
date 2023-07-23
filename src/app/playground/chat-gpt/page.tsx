@@ -1,5 +1,9 @@
 'use client';
+
 import { useState } from 'react';
+import { BsRobot } from 'react-icons/bs';
+import PageTitle from '@/components/PageTitle';
+import ChatGPT from './components/ChatGPT';
 import SplitPane, {
   Divider,
   SplitPaneBottom,
@@ -8,13 +12,10 @@ import SplitPane, {
   SplitPaneTop,
 } from './components/SplitPane';
 import ContentContext from './context/ContentContext';
-import ChatGPT from './components/ChatGPT';
 import contents from './page-content';
-import PageTitle from '@/components/PageTitle';
-import { BsRobot } from 'react-icons/bs';
 
 function Page() {
-  const [currContent, setCurrContent] = useState(1);
+  const [currContent, setCurrContent] = useState(1); // Content ID
 
   return (
     <div className="flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
@@ -31,10 +32,8 @@ function Page() {
 
         <SplitPane className="flex h-full w-full flex-col gap-20">
           <SplitPaneTop />
-
           <div className="md:hidden">
             <SplitPaneBottom />
-
             <div className="mt-10 h-full rounded-t-lg bg-gray-500">
               <ChatGPT />
             </div>

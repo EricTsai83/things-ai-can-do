@@ -1,12 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import type { ReactNode, MouseEventHandler } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
+import { TbTargetArrow } from 'react-icons/tb';
 import ContentContext from '../context/ContentContext';
 import SplitPaneContext from '../context/SplitPaneContext';
-import Delimiter from './prompt/Delimiter';
-import StructureFormat from './prompt/StructureFormat';
 import Condition from './prompt/Condition';
+import Delimiter from './prompt/Delimiter';
 import Imitate from './prompt/Imitate';
-import { TbTargetArrow } from 'react-icons/tb';
+import StructureFormat from './prompt/StructureFormat';
 
 interface SplitPaneProps {
   children: ReactNode[];
@@ -111,7 +111,6 @@ export const SplitPaneTop = () => {
             <li key={element.id} className="md:w-[320px]">
               <div
                 className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
-                // href=""
                 onClick={() => setCurrContent(element.id)}>
                 {element.subject}
 
