@@ -18,7 +18,7 @@ import EasyPuzzle from './components/EasyPuzzle';
 import ImageShowMode from './components/ImageShowMode';
 import PromptSearchBox from './components/PromptSearchBox';
 import { plans } from './components/plans';
-import type { Selected } from './types.d';
+import type { Selected } from './types';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);

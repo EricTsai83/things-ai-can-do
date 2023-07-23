@@ -1,7 +1,7 @@
 import { RadioGroup } from '@headlessui/react';
 import type { Dispatch, SetStateAction } from 'react';
 import CheckIcon from '@/components/CheckIcon';
-import { Selected } from '../types.d';
+import { Selected } from '../types';
 import { plans } from './plans';
 
 interface Props {
