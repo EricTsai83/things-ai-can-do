@@ -145,8 +145,7 @@ export default function Tabs({
                           `/playground/facial-recognition/${post.sampleImgQuery}`,
                           { shallow: true },
                         );
-                      }}
-                    />
+                      }}></div>
                   </li>
                 ))}
               </ul>
