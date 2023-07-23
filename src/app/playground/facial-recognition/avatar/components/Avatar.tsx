@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useFrame, useGraph } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import type { BufferGeometry, Euler, Material, Mesh } from 'three'; // Import the required types
+import type { BufferGeometry, Euler, Material, Mesh } from 'three';
 import { Category } from '@mediapipe/tasks-vision';
 
 let headMesh: Mesh<BufferGeometry, Material | Material[]>;

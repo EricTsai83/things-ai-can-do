@@ -31,8 +31,8 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
 
   const mouseDownAct: MouseEventHandler = (event) => {
     event.preventDefault();
-    document.body.addEventListener('scroll', disableScroll); // 不給滾
-    // document.body.style.overflow = 'hidden'; // 讓滾動條消失
+    document.body.addEventListener('scroll', disableScroll);
+
     const target = event.target as HTMLElement;
     if (target) {
       zIndexCounter.current++;
@@ -46,12 +46,9 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
     document.body.removeEventListener('scroll', disableScroll);
 
     const target = event.target as HTMLElement;
-    // document.body.style.overflow = 'auto';
     const style = window.getComputedStyle(target);
-    // console.log(style);
     const top = parseInt(style.getPropertyValue('top'));
     const left = parseInt(style.getPropertyValue('left'));
-    // console.log(top);
     const answerTopStart = parseInt(
       target.getAttribute('data-answertopstart')!,
     );
@@ -129,10 +126,9 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
             id={`tile_${i}_${j}`}
             style={{
               backgroundImage: '',
-              backgroundSize: '100% 100%' /* <------ */,
+              backgroundSize: '100% 100%',
               backgroundRepeat: 'no-repeat',
-              backgroundPosition:
-                'center center' /* optional, center the image */,
+              backgroundPosition: 'center center',
             }}></div>,
         );
       }

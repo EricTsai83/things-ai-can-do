@@ -1,6 +1,5 @@
 'use client';
-// 不是很懂，細讀一下
-import { useState, useRef, FormEventHandler, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { MdCleaningServices } from 'react-icons/md';
 import { BsFiletypeJson } from 'react-icons/bs';
@@ -16,7 +15,7 @@ function ChatGPT() {
     const response = await fetch(`/api/chatGPT`, {
       method: 'POST',
       body: JSON.stringify({ input: data }),
-    }); // get all response
+    });
     const body = response.body!;
     const reader = body.getReader();
     const decoder = new TextDecoder();
@@ -26,8 +25,8 @@ function ChatGPT() {
       for (const word of words) {
         if (word === '') continue;
         wordBuffer += word + ' ';
-        setResponse((prevResponse) => prevResponse + wordBuffer); // Update response state
-        await delay(100); // Delay for 0.1 second
+        setResponse((prevResponse) => prevResponse + wordBuffer);
+        await delay(100);
         wordBuffer = '';
       }
     }
@@ -50,7 +49,7 @@ function ChatGPT() {
     if (inputRef.current?.value) {
       setReformatToggle(false);
       setReformatToggle(false);
-      setResponse(''); // Clear previous response
+      setResponse('');
       await getChatGPTResponse(inputRef.current.value);
     }
 

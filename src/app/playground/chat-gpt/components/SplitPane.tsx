@@ -13,26 +13,22 @@ interface SplitPaneProps {
   className: string;
 }
 
-// ...props: 可以方便你重用組建時，取不一樣的props
 function SplitPane({ children, ...props }: SplitPaneProps) {
   const [clientHeight, setClientHeight] = useState<number | null>(null);
   const [clientWidth, setClientWidth] = useState<number | null>(null);
   const yDividerPos = useRef<number | null>(null);
   const xDividerPos = useRef<number | null>(null);
 
-  // 按下左鍵
   const onMouseHoldDown: MouseEventHandler = (event) => {
     yDividerPos.current = event.clientY;
     xDividerPos.current = event.clientX;
   };
 
-  // 放開左鍵
   const onMouseHoldUp = () => {
     yDividerPos.current = null;
     xDividerPos.current = null;
   };
 
-  // 按者左鍵移動滑鼠
   const onMouseHoldMove: EventListener = (event) => {
     if (yDividerPos.current === null || xDividerPos.current === null) {
       return;

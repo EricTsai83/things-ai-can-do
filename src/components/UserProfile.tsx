@@ -1,5 +1,4 @@
 'use client';
-
 import LoginButton from './LoginButton';
 import { useSession } from 'next-auth/react';
 

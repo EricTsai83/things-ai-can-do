@@ -19,16 +19,9 @@ const drawFacialResultOnImg = (
     const drawGreenCircle = () => {
       canvas.width = image.naturalWidth;
       canvas.height = image.naturalHeight;
-      context.drawImage(
-        image,
-        0, // source image: left
-        0, // source image: top
-        image.naturalWidth, // source image: width
-        image.naturalHeight, // source image: height
-      );
+      context.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight);
 
       faceDetails.forEach((faceDetail: FaceDetail) => {
-        // Draw the green circle
         const usedLandmarks = faceDetail.Landmarks.filter(
           (landmark: Landmark) => marksUsed.includes(landmark.Type),
         );
@@ -56,7 +49,6 @@ const drawFacialResultOnImg = (
         });
       });
 
-      // Convert the canvas to a new image URL
       const newImageUrl = canvas.toDataURL('image/png');
       resolve(newImageUrl);
     };

@@ -35,11 +35,6 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
 
     isDrawing.current = true;
     const pos = stage.getPointerPosition();
-
-    // these expressions allow you to safely access the x and y properties
-    // of pos by providing default values (0) in case pos is null or undefined.
-    // This helps prevent potential runtime errors when attempting to access
-    // properties of a null or undefined value.
     setLines([...lines, { tool, points: [pos?.x ?? 0, pos?.y ?? 0] }]);
   };
 

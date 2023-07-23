@@ -16,7 +16,6 @@ interface Props {
   setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 
-// searchParams: next default 用來引入 query string 的參數，只能在 page 使用
 function AwsFacialRecognition({
   selectOption,
   searchParams,

@@ -126,9 +126,7 @@ function FacialRecognition({
         sortMode="multiple"
         filters={filters}
         paginator
-        rows={5}
-        // rowsPerPageOptions={[5, 10, 13]}
-      >
+        rows={5}>
         <Column field="id" header="編號" sortable />
         <Column field="feature" header="特徵" sortable />
         <Column field="result" header="結果" />

@@ -4,7 +4,7 @@ export interface UniqueColorsInPng {
 
 function getUniqueColorsInPNG(pngString: string) {
   const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext('2d')!;
 
   const image = new Image();
   image.src = 'data:image/png;base64,' + pngString;
@@ -13,19 +13,12 @@ function getUniqueColorsInPNG(pngString: string) {
     image.onload = function () {
       canvas.width = image.width;
       canvas.height = image.height;
-      // @ts-ignore
+
       context.drawImage(image, 0, 0);
-      // @ts-ignore
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const pixels = imageData.data;
       const uniqueColors = new Set();
 
-      // In this example, each group of four consecutive values
-      // represents a single pixel. The first group [255, 0, 0, 255]
-      // corresponds to the red pixel, the second group [0, 255, 0, 255]
-      // corresponds to the green pixel, and so on.
-      // =============== example ====================
-      // pixels = [255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255, ...]
       for (let i = 0; i < pixels.length; i += 4) {
         const red = pixels[i];
         const green = pixels[i + 1];
@@ -34,9 +27,8 @@ function getUniqueColorsInPNG(pngString: string) {
 
         const color = { r: red, g: green, b: blue, a: alpha };
         const colorString = JSON.stringify(color);
-        uniqueColors.add(colorString); // Convert color object to string for uniqueness
+        uniqueColors.add(colorString);
       }
-      // `${red}_${green}_${blue}_${alpha}`
       const output: UniqueColorsInPng = {};
       uniqueColors.forEach((uniqueColor) => {
         const value = JSON.parse(uniqueColor as string);

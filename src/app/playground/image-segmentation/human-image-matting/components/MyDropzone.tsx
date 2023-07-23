@@ -24,9 +24,9 @@ interface Respond {
 
 function MyDropzone() {
   const [imageBlob, setImageBlob] = useState<File | Blob>();
-  const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
-  const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊up load file
-  const [apiData, setApiData] = useState<Respond[] | null>(null); // set api data
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [apiData, setApiData] = useState<Respond[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [cover, setCover] = useImmer<{ [key: string]: string }>({});
   const [coverStatus, setCoverStatus] = useImmer<{ [key: string]: boolean }>(
@@ -62,7 +62,7 @@ function MyDropzone() {
     }
 
     if (imageFile) {
-      const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+      const maxSize = 1.5 * 1024 * 1024;
       if (imageFile.size > maxSize) {
         imgSizeNotify();
         return;
@@ -88,7 +88,7 @@ function MyDropzone() {
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0];
     if (imageFile) {
-      const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+      const maxSize = 1.5 * 1024 * 1024;
       if (imageFile.size > maxSize) {
         imgSizeNotify();
         return;
@@ -125,7 +125,6 @@ function MyDropzone() {
   async function addBackgroundMaskToImage(apiMask: string) {
     const colorMappings = [
       {
-        // 讓黑的地方變透明
         targetColor: {
           r: 0,
           g: 0,
@@ -168,16 +167,14 @@ function MyDropzone() {
 
   return (
     <div>
-      <div // dropzone
+      <div
         className="
           relative mx-auto mb-6 flex h-[360px] w-full
           min-w-[300px] max-w-4xl items-center
           justify-center border-2 border-dashed
         border-black object-contain"
         onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        // onClick={handleBoxClick}
-      >
+        onDragOver={handleDragOver}>
         {imageSrc && (
           <div className="absolute">
             <Image
@@ -231,8 +228,7 @@ function MyDropzone() {
           </TooltipContainer>
         </div>
       </div>
-      <div // small image preview
-        className="mt-10 flex h-20 flex-wrap items-center justify-center gap-2 border-black">
+      <div className="mt-10 flex h-20 flex-wrap items-center justify-center gap-2 border-black">
         {apiData &&
           apiData.map((data: Respond, idx: number) => {
             return (
@@ -240,7 +236,7 @@ function MyDropzone() {
                 key={idx}
                 className="flex flex-col items-center justify-center gap-2">
                 <Image
-                  src={`data:image/png;base64,${data.mask}`} // next js required
+                  src={`data:image/png;base64,${data.mask}`}
                   alt=""
                   className="mr-2 cursor-pointer border border-black"
                   width={100}

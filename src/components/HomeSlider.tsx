@@ -1,11 +1,9 @@
 'use client';
-// slider image
 import chatbot from '@/assets/home-carousel/GPT-3.webp';
 import facialRecognation from '@/assets/home-carousel/facial-recognition.jpg';
 import imageSegmentation from '@/assets/home-carousel/image-segmentation.png';
 import textToImage from '@/assets/home-carousel/stable-diffusion.png';
 import avatar from '@/assets/home-carousel/avatar.jpeg';
-import bodyDetection from '@/assets/home-carousel/body-detection.png';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Navigation } from 'swiper';
@@ -49,12 +47,6 @@ const slides = [
     title: 'Avatar',
     url: '/playground/facial-recognition',
   },
-  // {
-  //   id: 5,
-  //   image: bodyDetection,
-  //   title: 'bodt-detection',
-  //   url: '/tech-intro/real-time-pose-estimation',
-  // },
 ];
 
 function HomeSlider() {

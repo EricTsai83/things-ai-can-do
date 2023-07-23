@@ -48,9 +48,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   }
 
   async function setup() {
-    // Before we can use faceLandmarker class we must wait for it to finish
-    // loading. Machine Learning models can be large and take a moment to
-    // get everything needed to run.
     const filesetResolver = await FilesetResolver.forVisionTasks(
       'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
     );
@@ -80,8 +77,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     if (canvasElement.getContext('2d')) {
       const canvasCtx = canvasElement.getContext('2d')!;
 
-      // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
-
       const radio = video.videoHeight / video.videoWidth;
       video.style.width = videoWidth + 'px';
       video.style.height = videoWidth * radio + 'px';
@@ -90,7 +85,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
       canvasElement.width = video.videoWidth;
       canvasElement.height = video.videoHeight;
 
-      // Now let's start detecting the stream.
       let nowInMs = Date.now();
       let results = undefined;
       let lastVideoTime = -1;
@@ -196,11 +190,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     setup();
     return () => {
-      // streamRef.current
-      //   .getTracks()
-      //   .forEach(function (track: { stop: () => void }) {
-      //     track.stop();
-      //   });
       video.removeEventListener('loadeddata', predict);
       window.cancelAnimationFrame(myReq);
     };
@@ -251,7 +240,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
           />
           <div className="relative mt-4 h-[80px] w-full">
             <video
-              // ref={streamRef}
               id="video"
               className="absolute right-3 top-0 h-full rounded-3xl"
               autoPlay

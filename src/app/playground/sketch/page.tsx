@@ -8,9 +8,6 @@ import label from './label';
 import Animated3dFlipCard from './components/Animated3dFlipCard';
 import type { ApiResponse } from './types';
 
-// Note: react-konva is designed to work in the client-side.
-// On the server side, it will render just empty div. So it
-// doesn't make much sense to use react-konva for server-side rendering.
 const NoSSRComponent = dynamic(() => import('./components/Canvas'), {
   ssr: false,
 });

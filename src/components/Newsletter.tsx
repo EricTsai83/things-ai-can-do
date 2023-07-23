@@ -52,7 +52,7 @@ function Newsletter() {
               onSubmit={(e) => e.preventDefault()}
               className="flex items-center gap-x-3 md:justify-end">
               <div className="relative">
-                <svg // 信箱 icon
+                <svg
                   className="absolute inset-y-0 left-3 my-auto h-6 w-6 text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

@@ -21,7 +21,7 @@ interface InitialStates {
 function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
   let initialStates: InitialStates[] = [
     { dataId: 1, style: '-200px 0px' },
-    { dataId: 0, style: '0px 0px' }, // 跟上面一行調換位置，避免初始化的時候拼圖就完成了
+    { dataId: 0, style: '0px 0px' },
     { dataId: 2, style: '-400px 0px' },
     { dataId: 3, style: '0px -200px' },
     { dataId: 4, style: '-200px -200px' },

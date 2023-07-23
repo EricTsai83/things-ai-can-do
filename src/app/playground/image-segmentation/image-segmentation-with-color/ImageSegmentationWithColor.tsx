@@ -34,10 +34,10 @@ interface Masks {
 
 function Page() {
   const [imageBlob, setImageBlob] = useImmer<ImageBlob>({});
-  const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
-  const [droppedImages, setDroppedImages] = useState<string[]>([]); // 用來記錄dropzone 下方小圖展示的圖片有哪些
-  const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊upload file
-  const [masks, setMasks] = useImmer<Masks>({}); // set api data
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [droppedImages, setDroppedImages] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [masks, setMasks] = useImmer<Masks>({});
   const [maskUniqueColors, setMaskUniqueColors] =
     useState<UniqueColorsInPng | null>(null);
   const [loading, setLoading] = useState(false);
@@ -94,7 +94,7 @@ function Page() {
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
     const imageFile = event.dataTransfer.files[0];
-    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+    const maxSize = 1.5 * 1024 * 1024;
 
     const allowedFormats = ['image/jpeg', 'image/png'];
     if (!allowedFormats.includes(imageFile.type)) {
@@ -128,7 +128,7 @@ function Page() {
     if (Object.keys(imageBlob).length < 6) {
       const imageFile = event.target.files?.[0];
       if (imageFile) {
-        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+        const maxSize = 1.5 * 1024 * 1024;
         if (imageFile.size > maxSize) {
           imgSizeNotify();
           return;
@@ -137,7 +137,7 @@ function Page() {
         const imageUrl = URL.createObjectURL(imageFile);
         setImageSrc(imageUrl);
         setDroppedImages((prevImages) => [...prevImages, imageUrl]);
-        event.target.value = ''; // Reset the file input field
+        event.target.value = '';
       }
     } else {
       limitedImgNumNotify();

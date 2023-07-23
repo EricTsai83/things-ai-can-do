@@ -50,7 +50,7 @@ function MyDropzone({
   const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const imageFile = event.dataTransfer.files[0]!;
-    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+    const maxSize = 1.5 * 1024 * 1024;
     if (imageFile.size > maxSize) {
       imgSizeNotify();
       return;
@@ -76,7 +76,7 @@ function MyDropzone({
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0]!;
-    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+    const maxSize = 1.5 * 1024 * 1024;
     if (imageFile.size > maxSize) {
       imgSizeNotify();
       return;
@@ -128,7 +128,6 @@ function MyDropzone({
       fetch(sampleImg1.src)
         .then((response) => response.blob())
         .then((blob) => {
-          // 因為這個執行是有待參數的，為了讓其加入dependency後，可以一直被視為相同function，故要加入useCallback
           handleSampleImgCallback(blob);
         })
         .catch((error) => {
@@ -150,7 +149,7 @@ function MyDropzone({
 
   return (
     <div className="w-full">
-      <div // dropzone
+      <div
         className="
           relative mb-6 flex h-[360px] w-full 
           min-w-[360px] items-center 

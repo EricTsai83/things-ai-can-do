@@ -1,4 +1,3 @@
-// https://dev.to/manufac/using-apache-echarts-with-react-and-typescript-353k
 import { useRef, useEffect } from 'react';
 import { init, getInstanceByDom } from 'echarts';
 import type { CSSProperties } from 'react';
@@ -22,20 +21,16 @@ export function ReactECharts({
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize chart
     let chart: ECharts | undefined;
     if (chartRef.current !== null) {
       chart = init(chartRef.current, theme);
     }
 
-    // Add chart resize listener
-    // ResizeObserver is leading to a bit janky UX
     function resizeChart() {
       chart?.resize();
     }
     window.addEventListener('resize', resizeChart);
 
-    // Return cleanup function
     return () => {
       chart?.dispose();
       window.removeEventListener('resize', resizeChart);
@@ -43,15 +38,13 @@ export function ReactECharts({
   }, [theme]);
 
   useEffect(() => {
-    // Update chart
     if (chartRef.current !== null) {
       const chart = getInstanceByDom(chartRef.current)!;
       chart.setOption(option, settings);
     }
-  }, [option, settings, theme]); // Whenever theme changes we need to add option and setting due to it being deleted in cleanup function
+  }, [option, settings, theme]);
 
   useEffect(() => {
-    // Update chart
     if (chartRef.current !== null) {
       const chart = getInstanceByDom(chartRef.current)!;
       loading === true ? chart.showLoading() : chart.hideLoading();

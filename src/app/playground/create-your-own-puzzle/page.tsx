@@ -21,7 +21,7 @@ import { Selected } from './types.d';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>(); // 像是圖片的 reference，而不是圖片本身喔
+  const [imageUrl, setImageUrl] = useState<string>();
   const [imgBlobs, setImgBlobs] = useImmer<TileObject>({});
   const [showImage, setShowImage] = useState<boolean>(false);
   const [showEasyPuzzle, SetShowEasyPuzzle] = useState<boolean>(false);
@@ -45,7 +45,6 @@ function Page() {
           const imgUrl = URL.createObjectURL(myBlob);
           setImageUrl(imgUrl);
           SetShowEasyPuzzle(true);
-          // 隱藏其他兩個模式，只顯示簡單拼圖模式
           setShowDifficultPuzzle(false);
           setShowImage(false);
           setSelected(plans[1]);

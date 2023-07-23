@@ -116,12 +116,6 @@ export default function ModelReport({
               <Disclosure.Button
                 onClick={() => {
                   setFaceUrls([]);
-                  // 在此示例中，我們使用array.reduce 方法來檢索吞吐量，並在每個元素上執行異步函數 asyncFunction。
-                  // reduce方法的回調函數接收兩個參數：previousPromise和data。previousPromise表示前一個異步
-                  // 函數的返回值，而data寫入當前元素的值。我們使用await previousPromise來等待前一個異步函數的完成
-                  // ，然後使用await asyncFunction(data)來執行當前元素對應的異步函數。
-                  // 通過這種方式，你可以確保異步函數按照隊列中的順序依次執行，並且每個異步函數都使用相應的數據作為輸入。
-
                   faceDetails &&
                     faceDetails.reduce(async (previousPromise, faceDetail) => {
                       await previousPromise;
