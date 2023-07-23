@@ -20,7 +20,7 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
 
   return (
     <div className="flex flex-col items-start justify-center md:flex-row">
-      <div className="flex w-full max-w-[360px] flex-col ">
+      <div className="flex w-full max-w-[400px] flex-col ">
         <div className="flex gap-2">
           {faceUrls &&
             faceUrls.map((faceUrl, idx) => {
@@ -28,7 +28,7 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
                 <Image
                   className="cursor-pointer"
                   onClick={() => showFaceAnalysisResult(idx)}
-                  key={idx}
+                  key={`face_${idx}`}
                   src={faceUrl}
                   alt=""
                   width={100}

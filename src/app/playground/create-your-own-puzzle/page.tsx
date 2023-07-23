@@ -111,8 +111,7 @@ function Page() {
           <TooltipContainer
             tooltips="
               在一段時間後，首次做模型推論，
-              模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。"
-            tailwindSettingFromTop="40">
+              模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
             <LoadingButton
               loading={loading}
               executeFunction={getStableDiffusionImage}
