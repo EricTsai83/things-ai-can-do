@@ -1,21 +1,29 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import type { FaceDetail } from '../types';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-//theme
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-//core
 import 'primereact/resources/primereact.min.css';
 import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
+import type { DataTableFilterMetaData } from 'primereact/datatable';
+interface TableData {
+  id: number;
+  feature: string;
+  result: string | number;
+}
+
+interface Filters {
+  [key: string]: DataTableFilterMetaData;
+}
 
 function FacialRecognition({
   faceAnalysis,
 }: {
   faceAnalysis: FaceDetail | null;
 }) {
-  const [tableData, setTableData] = useState<any>([]);
-  const [filters, setFilters] = useState({
+  const [tableData, setTableData] = useState<TableData[]>([]);
+  const [filters, setFilters] = useState<Filters>({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
@@ -26,7 +34,7 @@ function FacialRecognition({
 
   function dataProcessing() {
     if (faceAnalysis) {
-      const dataArry: any = [
+      const dataArry: TableData[] = [
         {
           id: 1,
           feature: '年齡',
@@ -65,7 +73,7 @@ function FacialRecognition({
         {
           id: 8,
           feature: '鬍子',
-          result: `${faceAnalysis.MouthOpen.Value ? '✓' : '✗'}`,
+          result: `${faceAnalysis.Beard.Value ? '✓' : '✗'}`,
         },
         { id: 9, feature: '上下仰角', result: round(faceAnalysis.Pose.Pitch) },
         {
@@ -89,7 +97,6 @@ function FacialRecognition({
           result: `${faceAnalysis.Sunglasses.Value ? '✓' : '✗'}`,
         },
       ];
-      console.log(dataArry);
       setTableData(dataArry);
     }
   }
@@ -103,10 +110,11 @@ function FacialRecognition({
       <InputText
         className="h-8"
         placeholder="輸入臉部特徵"
-        onInput={(event: any) => {
+        onInput={(event: FormEvent<HTMLInputElement>) => {
+          const inputElement = event.target as HTMLInputElement;
           setFilters({
             global: {
-              value: event.target.value,
+              value: inputElement.value,
               matchMode: FilterMatchMode.CONTAINS,
             },
           });
@@ -120,7 +128,7 @@ function FacialRecognition({
         paginator
         rows={5}
         // rowsPerPageOptions={[5, 10, 13]}
-        totalRecords={13}>
+      >
         <Column field="id" header="編號" sortable />
         <Column field="feature" header="特徵" sortable />
         <Column field="result" header="結果" />
