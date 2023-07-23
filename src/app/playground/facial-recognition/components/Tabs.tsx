@@ -1,9 +1,9 @@
 'use client';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Tab } from '@headlessui/react';
-import Link from 'next/link';
 import classNames from '@/utils/tailwind-class-name-formatter';
 import { FaceDetail } from '../aws-facial-recognition/types';
+import { useRouter } from 'next/navigation';
 
 interface Category {
   id: number;
@@ -29,6 +29,7 @@ export default function Tabs({
   setFaceDetails,
   setCanvasUrls,
 }: Props) {
+  const router = useRouter();
   let [categories] = useState<Categories>({
     picture: [
       {
@@ -132,15 +133,18 @@ export default function Tabs({
                       <li>{post.subject}</li>
                     </ul>
 
-                    <Link
-                      href={`/playground/facial-recognition/${post.sampleImgQuery}`}
+                    <div
                       className={classNames(
-                        'absolute inset-0 rounded-md',
+                        'absolute inset-0 cursor-pointer rounded-md',
                         'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
                       )}
                       onClick={() => {
                         setFaceDetails(null);
                         setCanvasUrls(null);
+                        router.push(
+                          `/playground/facial-recognition/${post.sampleImgQuery}`,
+                          { shallow: true },
+                        );
                       }}
                     />
                   </li>
