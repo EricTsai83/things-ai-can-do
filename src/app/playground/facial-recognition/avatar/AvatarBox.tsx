@@ -1,20 +1,21 @@
 'use client';
-import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
 import {
+  Category,
+  DrawingUtils,
   FaceLandmarker,
   FaceLandmarkerOptions,
   FilesetResolver,
-  DrawingUtils,
-  Category,
 } from '@mediapipe/tasks-vision';
-import { Color, Euler, Matrix4 } from 'three';
 import { Canvas } from '@react-three/fiber';
-import Avatar from './components/Avatar';
-import type { SearchParams } from '../types';
-import Image from 'next/image';
-import readyPlayerMe from './img/ready-player-me-banner.png';
-import Link from 'next/link';
+import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+import { Color, Euler, Matrix4 } from 'three';
 import ToolTip from '@/components/ToolTip';
+import type { SearchParams } from '../types';
+import Avatar from './components/Avatar';
+import readyPlayerMeImg from './img/ready-player-me-banner.png';
 
 let video: HTMLVideoElement;
 let faceLandmarker: FaceLandmarker;
@@ -35,11 +36,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   const [blendshapes, setBlendshapes] = useState<Category[]>([]);
   const [rotation, setRotation] = useState<Euler>();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // https://models.readyplayer.me/648ef0aef2caada0866fd637.glb
-  // https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb (男)
-  // https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb (女)
-  // https://models.readyplayer.me/6490655e99211a8c97fc395f.glb
-  // https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb
   const [url, setUrl] = useState<string | null>(null);
 
   function validateURL(url: string): boolean {
@@ -145,7 +141,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     }
   }
 
-  let myReq: number;
+  let animationFrame: number;
   async function predict() {
     await drawMaskOnWebcam();
 
@@ -172,7 +168,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
         setRotation(rotationData);
       }
     }
-    myReq = window.requestAnimationFrame(predict);
+    animationFrame = window.requestAnimationFrame(predict);
   }
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -191,7 +187,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     setup();
     return () => {
       video.removeEventListener('loadeddata', predict);
-      window.cancelAnimationFrame(myReq);
+      window.cancelAnimationFrame(animationFrame);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -282,7 +278,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
               <div className="rounded-b-2xl ">
                 <Image
                   className="rounded-2xl"
-                  src={readyPlayerMe}
+                  src={readyPlayerMeImg}
                   alt="ready player me logo"
                   width={0}
                   height={0}
