@@ -1,22 +1,23 @@
 'use client';
-import { useState, useRef } from 'react';
-import EasyPuzzle from './components/EasyPuzzle';
-import DifficultPuzzle from './components/DifficultPuzzle';
+
 import Image from 'next/image';
-import splitImage from '@/utils/split-image';
-import type { TileObject } from '@/utils/split-image';
-import { useImmer } from 'use-immer';
-import huggingFaceApi from '@/utils/hugging-face-api';
-import PromptSearchBox from './components/PromptSearchBox';
-import PageTitle from '@/components/PageTitle';
+import { useRef, useState } from 'react';
+import { ImArrowRight } from 'react-icons/im';
 import { IoImages } from 'react-icons/io5';
 import { MdOutlineTextFields } from 'react-icons/md';
-import { ImArrowRight } from 'react-icons/im';
+import { useImmer } from 'use-immer';
 import LoadingButton from '@/components/LoadingButton';
+import PageTitle from '@/components/PageTitle';
+import { FlipToastContainer, apiNotify } from '@/components/ReactToast';
 import TooltipContainer from '@/components/TooltipContainer';
+import huggingFaceApi from '@/utils/hugging-face-api';
+import splitImage from '@/utils/split-image';
+import type { TileObject } from '@/utils/split-image';
+import DifficultPuzzle from './components/DifficultPuzzle';
+import EasyPuzzle from './components/EasyPuzzle';
 import ImageShowMode from './components/ImageShowMode';
+import PromptSearchBox from './components/PromptSearchBox';
 import { plans } from './components/plans';
-import { apiNotify, StyledToastContainer } from '@/components/ReactToast';
 import { Selected } from './types.d';
 
 function Page() {
@@ -150,7 +151,7 @@ function Page() {
           {imageUrl && showEasyPuzzle && <EasyPuzzle imageUrl={imageUrl} />}
         </div>
       </div>
-      <StyledToastContainer />
+      <FlipToastContainer />
     </main>
   );
 }

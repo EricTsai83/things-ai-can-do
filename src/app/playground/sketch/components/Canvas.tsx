@@ -1,12 +1,12 @@
-import { Stage, Layer, Line, Text } from 'react-konva';
 import Konva from 'konva';
-import { useState, useRef, useEffect, SetStateAction, Dispatch } from 'react';
-import huggingFaceApi from '@/utils/hugging-face-api';
-import dataURItoBlob from '@/utils/dataURItoBlob';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { IoIosRefreshCircle } from 'react-icons/io';
+import { Layer, Line, Stage, Text } from 'react-konva';
 import LoadingButton from '@/components/LoadingButton';
 import { apiNotify } from '@/components/ReactToast';
-import { StyledToastContainer } from '@/components/ReactToast';
+import { FlipToastContainer } from '@/components/ReactToast';
+import dataURItoBlob from '@/utils/dataURItoBlob';
+import huggingFaceApi from '@/utils/hugging-face-api';
 import type { ApiResponse } from '../types';
 
 interface LineData {
@@ -165,7 +165,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
         />
       </div>
 
-      <StyledToastContainer />
+      <FlipToastContainer />
     </div>
   );
 }

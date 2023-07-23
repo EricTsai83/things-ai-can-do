@@ -1,22 +1,23 @@
 'use client';
-import { useState, useRef, useEffect, useCallback } from 'react';
-import type { Dispatch, SetStateAction, DragEvent, ChangeEvent } from 'react';
-import { useImmer } from 'use-immer';
-import type { FaceDetail } from '../types';
-import convertImageToBase64 from '@/utils/convert-image-to-base64';
+
 import Image from 'next/image';
-import sampleImg1 from '../img/sample-img-1.jpg';
-import sampleImg2 from '../img/sample-img-2.jpeg';
 import { WritableDraft } from 'immer/dist/internal';
-import { SearchParams } from '../../types';
-import { SelectOption } from './Select';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, Dispatch, DragEvent, SetStateAction } from 'react';
+import { useImmer } from 'use-immer';
 import LoadingButton from '@/components/LoadingButton';
-import TooltipContainer from '@/components/TooltipContainer';
 import {
+  FlipToastContainer,
   apiNotify,
   imgSizeNotify,
-  StyledToastContainer,
 } from '@/components/ReactToast';
+import TooltipContainer from '@/components/TooltipContainer';
+import convertImageToBase64 from '@/utils/convert-image-to-base64';
+import { SearchParams } from '../../types';
+import sampleImg1 from '../img/sample-img-1.jpg';
+import sampleImg2 from '../img/sample-img-2.jpeg';
+import type { FaceDetail } from '../types';
+import { SelectOption } from './Select';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -192,7 +193,7 @@ function MyDropzone({
         </TooltipContainer>
       </div>
 
-      <StyledToastContainer />
+      <FlipToastContainer />
     </div>
   );
 }

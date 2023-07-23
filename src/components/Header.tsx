@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import ProfileIcon from './ProfileIcon';
 import { GiArtificialHive } from 'react-icons/gi';
+import ProfileIcon from './ProfileIcon';
 
 const iconStyle = `text-4xl text-gray-600 text-teal-700`;
 
@@ -15,7 +15,9 @@ function Header() {
       <Link href={'/'}>
         <div className="flex items-center pl-12 xl:pl-0">
           <GiArtificialHive className={iconStyle} />
-          <h1 className="pl-2 text-2xl font-semibold">Things AI Can Do</h1>
+          <h1 className="pl-2 text-lg font-semibold md:text-2xl">
+            Things AI Can Do
+          </h1>
         </div>
       </Link>
 

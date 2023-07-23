@@ -1,15 +1,16 @@
 'use client';
+
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 import { GiRobotGolem } from 'react-icons/gi';
 import { GiArtificialHive } from 'react-icons/gi';
-import { useRef, useState, useEffect } from 'react';
-import {
-  newsletterSubscribeSuccess,
-  newsletterSubscribeFailure,
-  StyledToastContainer,
-  BounceToastContainer,
-} from './ReactToast';
 import smallRobot from '@/components/small-robot.png';
-import Image from 'next/image';
+import {
+  BounceToastContainer,
+  FlipToastContainer,
+  newsletterSubscribeFailureNotify,
+  newsletterSubscribeSuccessNotify,
+} from './ReactToast';
 
 function Newsletter() {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -25,10 +26,10 @@ function Newsletter() {
     const currRef = inputRef.current!;
     if (currRef.value) {
       if (emailStatus) {
-        newsletterSubscribeSuccess();
+        newsletterSubscribeSuccessNotify();
         currRef.value = '';
       } else {
-        newsletterSubscribeFailure();
+        newsletterSubscribeFailureNotify();
       }
     }
   }, [email, emailStatus]);
@@ -111,7 +112,7 @@ function Newsletter() {
           alt=""
         />
       </section>
-      {emailStatus ? <StyledToastContainer /> : <BounceToastContainer />}
+      {emailStatus ? <FlipToastContainer /> : <BounceToastContainer />}
     </div>
   );
 }

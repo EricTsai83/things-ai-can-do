@@ -1,16 +1,17 @@
 'use client';
+
 import {
-  useState,
-  useEffect,
-  useRef,
   DragEventHandler,
   useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 import { useImmer } from 'use-immer';
 import GlowingBtn from '@/components/GlowingBtn';
 import {
+  FlipToastContainer,
   puzzleCompletedNotify,
-  StyledToastContainer,
 } from '@/components/ReactToast';
 
 interface InitialStates {
@@ -152,7 +153,7 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
           </div>
         );
       })}
-      <StyledToastContainer />
+      <FlipToastContainer />
     </div>
   );
 }

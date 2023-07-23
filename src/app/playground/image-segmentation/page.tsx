@@ -1,9 +1,10 @@
 'use client';
-import PageTitle from '@/components/PageTitle';
+
 import { IoCutSharp } from 'react-icons/io5';
-import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
+import PageTitle from '@/components/PageTitle';
+import { FlipToastContainer } from '@/components/ReactToast';
 import HumanImageMatting from './human-image-matting/HumanImageMatting';
-import { StyledToastContainer } from '@/components/ReactToast';
+import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
 
 function Page() {
   return (
@@ -31,7 +32,7 @@ function Page() {
         (白色：遮罩區域、黑色：保留區域)
       </h2>
       <HumanImageMatting />
-      <StyledToastContainer />
+      <FlipToastContainer />
     </div>
   );
 }

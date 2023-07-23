@@ -1,8 +1,10 @@
 'use client';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
 
-const buttonStyle = 'rounded-lg bg-zinc-800 px-6 py-2 text-white';
+import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
+
+const buttonStyle =
+  'rounded-lg bg-zinc-800 px-3 py-2 text-white md:px-6 md:py-2 ';
 
 export default function ProfileIcon() {
   const { data: session, status } = useSession();
@@ -10,10 +12,10 @@ export default function ProfileIcon() {
     return (
       <div className="flex items-center justify-center gap-5">
         <Image
+          className="hidden rounded-full sm:block sm:h-10 sm:w-10"
           src={session.user ? (session.user.image as string) : ''}
           width={40}
           height={40}
-          className="rounded-full"
           alt=""
         />
 

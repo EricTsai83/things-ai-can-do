@@ -1,21 +1,9 @@
 'use client';
+
+import { Bounce, Flip, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { ToastContainer, toast, Flip, Bounce } from 'react-toastify';
 
-export function apiNotify() {
-  toast.info('模型佔用中，請稍後再試！', {
-    position: 'top-center',
-    autoClose: 3500,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: 'colored',
-  });
-}
-
-export function StyledToastContainer() {
+export function FlipToastContainer() {
   return (
     <ToastContainer
       transition={Flip}
@@ -35,52 +23,6 @@ export function StyledToastContainer() {
       theme="light"
     />
   );
-}
-
-const imgSizeMsg = () => (
-  <pre>{`\
-  圖片過大，請用小一點的
-  圖像來節省運算資元！
-  (上限為 1.5 MB)`}</pre>
-);
-
-export function imgSizeNotify() {
-  toast.info(imgSizeMsg, {
-    position: 'top-center',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: 'colored',
-  });
-}
-
-export function newsletterSubscribeSuccess() {
-  toast.info('電子報訂閱成功', {
-    position: 'top-center',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: 'colored',
-  });
-}
-
-export function newsletterSubscribeFailure() {
-  toast.error('email 格式錯誤', {
-    position: 'top-center',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: 'colored',
-  });
 }
 
 export function BounceToastContainer() {
@@ -103,6 +45,65 @@ export function BounceToastContainer() {
       theme="light"
     />
   );
+}
+
+export function apiNotify() {
+  toast.info('模型佔用中，請稍後再試！', {
+    position: 'top-center',
+    autoClose: 3500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
+}
+
+const imgSizeMsg = () => (
+  <pre>{`\
+  圖片過大，請用小一點的
+  圖像來節省運算資元！
+  (上限為 1.5 MB)`}</pre>
+);
+
+export function imgSizeNotify() {
+  toast.info(imgSizeMsg, {
+    position: 'top-center',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
+}
+
+export function newsletterSubscribeSuccessNotify() {
+  toast.info('電子報訂閱成功', {
+    position: 'top-center',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
+}
+
+export function newsletterSubscribeFailureNotify() {
+  toast.error('email 格式錯誤', {
+    position: 'top-center',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored',
+  });
 }
 
 export function puzzleCompletedNotify() {
