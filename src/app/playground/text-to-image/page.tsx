@@ -18,23 +18,23 @@ import EasyPuzzle from './components/EasyPuzzle';
 import ImageShowMode from './components/ImageShowMode';
 import PromptSearchBox from './components/PromptSearchBox';
 import { plans } from './components/plans';
-import { Selected } from './types.d';
+import type { Selected } from './types.d';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>('');
   const [imgBlobs, setImgBlobs] = useImmer<TileObject>({});
   const [showImage, setShowImage] = useState<boolean>(false);
-  const [showEasyPuzzle, SetShowEasyPuzzle] = useState<boolean>(false);
+  const [showEasyPuzzle, setShowEasyPuzzle] = useState<boolean>(false);
   const [showDifficultPuzzle, setShowDifficultPuzzle] =
     useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selected, setSelected] = useState<Selected>(plans[1]);
 
   async function getStableDiffusionImage() {
     try {
       if (textForDiffusion.current) {
-        setLoading(true);
+        setIsLoading(true);
         const postData = {
           inputs: textForDiffusion.current.value,
           options: {
@@ -45,14 +45,14 @@ function Page() {
           const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
           const imgUrl = URL.createObjectURL(myBlob);
           setImageUrl(imgUrl);
-          SetShowEasyPuzzle(true);
+          setShowEasyPuzzle(true);
           setShowDifficultPuzzle(false);
           setShowImage(false);
           setSelected(plans[1]);
         } catch (event) {
           apiNotify();
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       }
     } catch (err) {
@@ -113,7 +113,7 @@ function Page() {
               在一段時間後，首次做模型推論，
               模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
             <LoadingButton
-              loading={loading}
+              isLoading={isLoading}
               executeFunction={getStableDiffusionImage}
               text="模型推論"
             />
@@ -129,7 +129,7 @@ function Page() {
         setShowImage={setShowImage}
         getPuzzle={getPuzzle}
         setShowDifficultPuzzle={setShowDifficultPuzzle}
-        SetShowEasyPuzzle={SetShowEasyPuzzle}
+        setShowEasyPuzzle={setShowEasyPuzzle}
       />
 
       <div className="flex min-h-[700px] w-full items-center justify-center">

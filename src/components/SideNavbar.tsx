@@ -1,19 +1,20 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { RiRobotFill } from 'react-icons/ri';
-import { TbTextSize } from 'react-icons/tb';
-import { BsImageFill } from 'react-icons/bs';
-import { FaDochub } from 'react-icons/fa';
-import { HiOutlineMail } from 'react-icons/hi';
-import { Disclosure } from '@headlessui/react';
-import {
-  MdOutlineHome,
-  MdOutlineTagFaces,
-  MdOutlineSpaceDashboard,
-} from 'react-icons/md';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Disclosure } from '@headlessui/react';
+import { useEffect, useState } from 'react';
+import { BsImageFill } from 'react-icons/bs';
+import { FaDochub } from 'react-icons/fa';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { HiOutlineMail } from 'react-icons/hi';
+import {
+  MdOutlineHome,
+  MdOutlineSpaceDashboard,
+  MdOutlineTagFaces,
+} from 'react-icons/md';
+import { RiRobotFill } from 'react-icons/ri';
+import { TbTextSize } from 'react-icons/tb';
 
 const navItemStyle = `
   group flex w-full cursor-pointer items-center justify-start
@@ -45,7 +46,7 @@ function SideNavbar() {
       setSelected('臉部識別');
     } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
-    } else if (lastElement === 'create-your-own-puzzle') {
+    } else if (lastElement === 'text-to-image') {
       setSelected('文字生成圖片');
     } else if (lastElement === 'human-image-matting') {
       setSelected('圖像分割');
@@ -64,7 +65,7 @@ function SideNavbar() {
     const hrefs = [
       '/playground/facial-recognition',
       '/playground/chat-gpt',
-      '/playground/create-your-own-puzzle',
+      '/playground/text-to-image',
       '/playground/image-segmentation',
       '/playground/sketch',
     ];

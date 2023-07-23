@@ -1,19 +1,20 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
-import type { DragEvent, ChangeEvent } from 'react';
-import huggingFaceApi from '@/utils/hugging-face-api';
+
 import Image from 'next/image';
-import replaceColorsInPNG from '@/utils/replace-color-in-png';
-import LoadingButton from '@/components/LoadingButton';
-import TooltipContainer from '@/components/TooltipContainer';
-import MirrorReflectionBtn from '@/components/MirrorReflectionButton';
-import { useImmer } from 'use-immer';
+import { useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, DragEvent } from 'react';
 import { FaUpload } from 'react-icons/fa';
+import { useImmer } from 'use-immer';
+import LoadingButton from '@/components/LoadingButton';
+import MirrorReflectionBtn from '@/components/MirrorReflectionButton';
 import {
   apiNotify,
   imgSizeNotify,
   uploadWrongImgFormatNotify,
 } from '@/components/ReactToast';
+import TooltipContainer from '@/components/TooltipContainer';
+import huggingFaceApi from '@/utils/hugging-face-api';
+import replaceColorsInPNG from '@/utils/replace-color-in-png';
 import demoImg from '../../img/demo-guys-img.png';
 
 interface Respond {
@@ -27,7 +28,7 @@ function MyDropzone() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [apiData, setApiData] = useState<Respond[] | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [cover, setCover] = useImmer<{ [key: string]: string }>({});
   const [coverStatus, setCoverStatus] = useImmer<{ [key: string]: boolean }>(
     {},
@@ -106,7 +107,7 @@ function MyDropzone() {
 
   async function getImageSegmentation(data: File | Blob) {
     try {
-      setLoading(true);
+      setIsLoading(true);
       console.log(data);
       const respond = await huggingFaceApi.getImageSegmentation(data);
       console.log(respond);
@@ -118,7 +119,7 @@ function MyDropzone() {
     } catch (e) {
       apiNotify();
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -219,7 +220,7 @@ function MyDropzone() {
              在一段時間後，首次做模型推論，
              模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
             <LoadingButton
-              loading={loading}
+              isLoading={isLoading}
               executeFunction={() =>
                 imageBlob && imageSrc && getImageSegmentation(imageBlob)
               }

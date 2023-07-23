@@ -46,7 +46,7 @@ function MyDropzone({
   const [imageBase64String, setImageBase64String] = useImmer<
     WritableDraft<ImageBase64String>
   >({});
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -95,7 +95,7 @@ function MyDropzone({
   async function getFacialRecognition() {
     if (imageSrc) {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const res = await fetch('/api/aws', {
           method: 'POST',
           body: JSON.stringify({ image_base64: imageBase64String[imageSrc] }),
@@ -106,7 +106,7 @@ function MyDropzone({
       } catch (e) {
         apiNotify();
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
   }
@@ -186,7 +186,7 @@ function MyDropzone({
             在一段時間後，首次做模型推論，
             模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
           <LoadingButton
-            loading={loading}
+            isLoading={isLoading}
             executeFunction={getFacialRecognition}
             text="模型推論"
           />

@@ -1,10 +1,12 @@
-import { MouseEventHandler, useRef } from 'react';
-import useDragger from '@/hook/useDragger';
+'use client';
+
 import Image from 'next/image';
+import useDragger from '@/hook/useDragger';
+import { MouseEventHandler, useRef } from 'react';
 import type { TileObject } from '@/utils/split-image';
 
 function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
-  const zIndexCounter = useRef(1);
+  const zIndexCounter = useRef(1); // Use it to calculate which puzzle must be above than other.
   const imgWidth = 200;
   const imgHeight = 200;
   const ids: string[] = [];
@@ -47,8 +49,10 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
 
     const target = event.target as HTMLElement;
     const style = window.getComputedStyle(target);
+
     const top = parseInt(style.getPropertyValue('top'));
     const left = parseInt(style.getPropertyValue('left'));
+
     const answerTopStart = parseInt(
       target.getAttribute('data-answertopstart')!,
     );
@@ -57,6 +61,7 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
       target.getAttribute('data-answerleftstart')!,
     );
     const answerLeftEnd = parseInt(target.getAttribute('data-answerleftend')!);
+
     const tileId = target.getAttribute('data-answertile')!;
     const id = target.getAttribute('id')!;
 

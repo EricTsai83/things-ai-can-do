@@ -1,8 +1,8 @@
 import { RadioGroup } from '@headlessui/react';
-import { plans } from './plans';
-import { Selected } from '../types.d';
 import type { Dispatch, SetStateAction } from 'react';
 import CheckIcon from '@/components/CheckIcon';
+import { Selected } from '../types.d';
+import { plans } from './plans';
 
 interface Props {
   selected: Selected;
@@ -10,7 +10,7 @@ interface Props {
   setShowImage: Dispatch<SetStateAction<boolean>>;
   getPuzzle: () => void;
   setShowDifficultPuzzle: Dispatch<SetStateAction<boolean>>;
-  SetShowEasyPuzzle: Dispatch<SetStateAction<boolean>>;
+  setShowEasyPuzzle: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ImageShowMode({
@@ -19,7 +19,7 @@ export default function ImageShowMode({
   setShowImage,
   getPuzzle,
   setShowDifficultPuzzle,
-  SetShowEasyPuzzle,
+  setShowEasyPuzzle,
 }: Props) {
   return (
     <div className="w-full px-4">
@@ -31,29 +31,29 @@ export default function ImageShowMode({
               <RadioGroup.Option
                 onClick={() => {
                   if (
-                    plan.name === '拼圖遊戲(困難)' &&
-                    selected.name !== '拼圖遊戲(困難)'
+                    plan.title === '拼圖遊戲(困難)' &&
+                    selected.title !== '拼圖遊戲(困難)'
                   ) {
-                    SetShowEasyPuzzle(false);
+                    setShowEasyPuzzle(false);
                     setShowImage(false);
                     getPuzzle();
                   } else if (
-                    plan.name === '拼圖遊戲(簡單)' &&
-                    selected.name !== '拼圖遊戲(簡單)'
+                    plan.title === '拼圖遊戲(簡單)' &&
+                    selected.title !== '拼圖遊戲(簡單)'
                   ) {
                     setShowDifficultPuzzle(false);
                     setShowImage(false);
-                    SetShowEasyPuzzle(true);
+                    setShowEasyPuzzle(true);
                   } else if (
-                    plan.name === '直接顯示圖片' &&
-                    selected.name !== '直接顯示圖片'
+                    plan.title === '直接顯示圖片' &&
+                    selected.title !== '直接顯示圖片'
                   ) {
                     setShowDifficultPuzzle(false);
-                    SetShowEasyPuzzle(false);
+                    setShowEasyPuzzle(false);
                     setShowImage(true);
                   }
                 }}
-                key={plan.name}
+                key={plan.title}
                 value={plan}
                 className={({ active, checked }) =>
                   `${
@@ -78,7 +78,7 @@ export default function ImageShowMode({
                             className={`font-medium  ${
                               checked ? 'text-white' : 'text-gray-900'
                             }`}>
-                            {plan.name}
+                            {plan.title}
                           </RadioGroup.Label>
                           <RadioGroup.Description
                             as="span"
@@ -86,10 +86,10 @@ export default function ImageShowMode({
                               checked ? 'text-sky-100' : 'text-gray-500'
                             }`}>
                             <span>
-                              {plan.ram}/{plan.cpus}
+                              {plan.description1}/{plan.description2}
                             </span>{' '}
                             <span aria-hidden="true">&middot;</span>{' '}
-                            <span>{plan.disk}</span>
+                            <span>{plan.description3}</span>
                           </RadioGroup.Description>
                         </div>
                       </div>

@@ -1,8 +1,8 @@
-import { Fragment, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import { copyTextToClipboard } from '@/utils/copy-to-clipboard';
+import { Fragment, useState } from 'react';
 import { RiFileCopyFill } from 'react-icons/ri';
+import { copyTextToClipboard } from '@/utils/copy-to-clipboard';
 import { prompts } from './prompts';
 import type { Prompt } from './prompts';
 
@@ -10,11 +10,11 @@ function PromptSearchBox() {
   const [selected, setSelected] = useState(prompts[0]);
   const [query, setQuery] = useState('');
 
-  const filteredPeople =
+  const filteredPrompt =
     query === ''
       ? prompts
       : prompts.filter((prompt) =>
-          prompt.name
+          prompt.text
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
@@ -24,7 +24,7 @@ function PromptSearchBox() {
     <div className="flex w-full items-center justify-center">
       <button
         className="mr-2 flex cursor-pointer items-center justify-center text-gray-700 active:text-white"
-        onClick={() => copyTextToClipboard(selected.name)}>
+        onClick={() => copyTextToClipboard(selected.text)}>
         <RiFileCopyFill className="text-3xl" />
       </button>
 
@@ -39,7 +39,7 @@ function PromptSearchBox() {
             focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(prompt: Prompt) => prompt.name}
+              displayValue={(prompt: Prompt) => prompt.text}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -56,12 +56,12 @@ function PromptSearchBox() {
             leaveTo="opacity-0"
             afterLeave={() => setQuery('')}>
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredPeople.length === 0 && query !== '' ? (
+              {filteredPrompt.length === 0 && query !== '' ? (
                 <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                   Nothing found.
                 </div>
               ) : (
-                filteredPeople.map((person) => (
+                filteredPrompt.map((person) => (
                   <Combobox.Option
                     key={person.id}
                     className={({ active }) =>
@@ -76,7 +76,7 @@ function PromptSearchBox() {
                           className={`block truncate ${
                             selected ? 'font-medium' : 'font-normal'
                           }`}>
-                          {person.name}
+                          {person.text}
                         </span>
                         {selected ? (
                           <span

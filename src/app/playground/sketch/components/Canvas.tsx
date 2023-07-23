@@ -27,7 +27,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
   const [dimensions, setDimensions] = useState({
     width: 0,
   });
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleMouseDown = (event: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = event.target.getStage();
@@ -67,7 +67,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     const stage = stageRef.current;
     if (!stage) return;
     try {
-      setLoading(true);
+      setIsLoading(true);
       const uri = stage.toDataURL();
       const blobData = dataURItoBlob(uri);
       const respond = await huggingFaceApi.getSketchClassifier(blobData);
@@ -81,7 +81,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     } catch (e) {
       apiNotify();
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -159,7 +159,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
         </button>
 
         <LoadingButton
-          loading={loading}
+          isLoading={isLoading}
           executeFunction={getSketchClassifier}
           text="模型推論"
         />

@@ -22,7 +22,7 @@ interface InitialStates {
 function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
   let initialStates: InitialStates[] = [
     { dataId: 1, style: '-200px 0px' },
-    { dataId: 0, style: '0px 0px' },
+    { dataId: 0, style: '0px 0px' }, // Avoid puzzle is completed before the shuffle.
     { dataId: 2, style: '-400px 0px' },
     { dataId: 3, style: '0px -200px' },
     { dataId: 4, style: '-200px -200px' },
@@ -58,14 +58,14 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
   }, [shuffleArray]);
 
   useEffect(() => {
-    let scoreCt: number = 0;
+    let score: number = 0;
     for (let i = 0; i < 9; i++) {
       if (imageArrangement[i].dataId === i) {
-        scoreCt += 1;
+        score += 1;
       }
     }
-    setScore(scoreCt);
-    scoreCt === 9 && puzzleCompletedNotify();
+    setScore(score);
+    score === 9 && puzzleCompletedNotify();
   }, [imageArrangement]);
 
   const dragStart: DragEventHandler<HTMLDivElement> = (event) => {
