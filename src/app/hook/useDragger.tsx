@@ -21,19 +21,21 @@ function useDragger(id: string) {
     const container = target.parentElement;
     if (!container) throw new Error('Target element must have a parent');
 
-    const onMouseDown = (e: any) => {
-      e.preventDefault();
+    const onMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
 
       isClicked.current = true;
-      coords.current.startX = e.clientX;
-      coords.current.startY = e.clientY;
+      coords.current.startX = event.clientX;
+      coords.current.startY = event.clientY;
     };
 
-    const onMouseMove = (e: any) => {
+    const onMouseMove = (event: MouseEvent) => {
       if (!isClicked.current) return;
 
-      const nextX = e.clientX - coords.current.startX + coords.current.lastX;
-      const nextY = e.clientY - coords.current.startY + coords.current.lastY;
+      const nextX =
+        event.clientX - coords.current.startX + coords.current.lastX;
+      const nextY =
+        event.clientY - coords.current.startY + coords.current.lastY;
 
       target.style.top = `${nextY}px`;
       target.style.left = `${nextX}px`;
