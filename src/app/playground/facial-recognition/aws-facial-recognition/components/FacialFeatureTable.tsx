@@ -1,12 +1,13 @@
+import { FilterMatchMode } from 'primereact/api';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import type { DataTableFilterMetaData } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { FormEvent, useEffect, useState } from 'react';
 import type { FaceDetail } from '../types';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import 'primereact/resources/primereact.min.css';
-import { FilterMatchMode } from 'primereact/api';
-import { InputText } from 'primereact/inputtext';
-import type { DataTableFilterMetaData } from 'primereact/datatable';
+
 interface TableData {
   id: number;
   feature: string;
@@ -17,7 +18,7 @@ interface Filters {
   [key: string]: DataTableFilterMetaData;
 }
 
-function FacialRecognition({
+function FacialFeatureTable({
   faceAnalysis,
 }: {
   faceAnalysis: FaceDetail | null;
@@ -135,4 +136,4 @@ function FacialRecognition({
   );
 }
 
-export default FacialRecognition;
+export default FacialFeatureTable;

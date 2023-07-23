@@ -1,9 +1,10 @@
 'use client';
-import MyDropzone from './components/MyDropzone';
-import type { FaceDetail } from './types';
-import type { SearchParams } from '../types';
-import { SelectOption } from './components/Select';
+
 import { Dispatch, SetStateAction } from 'react';
+import type { SelectOption } from '@/components/Select';
+import type { SearchParams } from '../types';
+import Dropzone from './components/Dropzone';
+import type { FaceDetail } from './types';
 
 interface Props {
   selectOption: SelectOption[];
@@ -28,7 +29,7 @@ function AwsFacialRecognition({
 }: Props) {
   return (
     <div className="flex w-full flex-col">
-      <MyDropzone
+      <Dropzone
         imageSrc={imageSrc}
         setImageSrc={setImageSrc}
         faceDetails={faceDetails}

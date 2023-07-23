@@ -13,11 +13,11 @@ import {
 } from '@/components/ReactToast';
 import TooltipContainer from '@/components/TooltipContainer';
 import convertImageToBase64 from '@/utils/convert-image-to-base64';
+import { SelectOption } from '../../../../../components/Select';
 import { SearchParams } from '../../types';
 import sampleImg1 from '../img/sample-img-1.jpg';
 import sampleImg2 from '../img/sample-img-2.jpeg';
 import type { FaceDetail } from '../types';
-import { SelectOption } from './Select';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -34,7 +34,7 @@ interface ImageBase64String {
   [key: string]: string;
 }
 
-function MyDropzone({
+function Dropzone({
   setFaceDetails,
   imageSrc,
   setImageSrc,
@@ -198,4 +198,4 @@ function MyDropzone({
   );
 }
 
-export default MyDropzone;
+export default Dropzone;

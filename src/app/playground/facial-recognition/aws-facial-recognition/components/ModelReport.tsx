@@ -1,14 +1,14 @@
 import { Disclosure } from '@headlessui/react';
+import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { GiClick } from 'react-icons/gi';
+import { ImCheckmark, ImCross } from 'react-icons/im';
+import { IoIosRefreshCircle } from 'react-icons/io';
+import type { SelectOption } from '@/components/Select';
 import { FaceDetail } from '../types';
-import { SelectOption } from './Select';
-import ImageMask from './ImageMask';
+import FacialAnalysis from './FacialAnalysis';
 import cutFaceOnImage from './cut-face-on-image';
 import drawFacialResultOnImg from './draw-facial-recognition-result-on-image';
-import { ChevronUpIcon } from '@heroicons/react/20/solid';
-import { ImCross, ImCheckmark } from 'react-icons/im';
-import { GiClick } from 'react-icons/gi';
-import { IoIosRefreshCircle } from 'react-icons/io';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -161,7 +161,7 @@ export default function ModelReport({
                       </p>
                     </div>
                     <div>
-                      <ImageMask
+                      <FacialAnalysis
                         faceDetails={faceDetails}
                         faceUrls={faceUrls}
                       />

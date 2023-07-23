@@ -1,16 +1,17 @@
 'use client';
-import { useState } from 'react';
+
 import Image from 'next/image';
+import { useState } from 'react';
 import type { FaceDetail } from '../types';
-import FacialRecognition from './FacialRecognition';
-import MoodPieChart from './MoodPieChart';
+import FacialFeatureTable from './FacialFeatureTable';
+import FacialMoodPieChart from './FacialMoodPieChart';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
   faceUrls: string[];
 }
 
-function ImageMask({ faceDetails, faceUrls }: Props) {
+function FacialAnalysis({ faceDetails, faceUrls }: Props) {
   const [faceAnalysis, setFaceAnalysis] = useState<FaceDetail | null>(null);
 
   async function showFaceAnalysisResult(idx: number) {
@@ -37,17 +38,17 @@ function ImageMask({ faceDetails, faceUrls }: Props) {
               );
             })}
         </div>
-        {faceAnalysis && <FacialRecognition faceAnalysis={faceAnalysis} />}
+        {faceAnalysis && <FacialFeatureTable faceAnalysis={faceAnalysis} />}
       </div>
 
       <div
         className={`
           ${faceAnalysis ? 'w-[450px]' : 'invisible w-[450px] '}
           `}>
-        <MoodPieChart faceAnalysis={faceAnalysis} />
+        <FacialMoodPieChart faceAnalysis={faceAnalysis} />
       </div>
     </div>
   );
 }
 
-export default ImageMask;
+export default FacialAnalysis;

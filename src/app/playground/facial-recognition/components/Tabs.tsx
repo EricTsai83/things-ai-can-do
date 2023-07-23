@@ -1,9 +1,10 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
 import { Tab } from '@headlessui/react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import classNames from '@/utils/tailwind-class-name-formatter';
 import { FaceDetail } from '../aws-facial-recognition/types';
-import { useRouter } from 'next/navigation';
 
 interface Category {
   id: number;

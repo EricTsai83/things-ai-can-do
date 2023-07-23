@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
 import { ReactECharts } from '@/components/Echarts';
 import type { ReactEChartsProps } from '@/components/Echarts';
 import type { FaceDetail } from '../types';
-import { useEffect, useState } from 'react';
 
 interface Data {
   value?: number;
@@ -11,7 +11,7 @@ interface Props {
   faceAnalysis: FaceDetail | null;
 }
 
-function MoodPieChart({ faceAnalysis }: Props) {
+function FacialMoodPieChart({ faceAnalysis }: Props) {
   const [pieChartOption, setPieChartOption] = useState<
     ReactEChartsProps['option'] | null
   >(null);
@@ -84,4 +84,4 @@ function MoodPieChart({ faceAnalysis }: Props) {
   );
 }
 
-export default MoodPieChart;
+export default FacialMoodPieChart;
