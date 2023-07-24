@@ -11,25 +11,25 @@ import PageTitle from '@/components/PageTitle';
 import { FlipToastContainer, apiNotify } from '@/components/ReactToast';
 import TooltipContainer from '@/components/TooltipContainer';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import splitImage from '@/utils/split-image';
-import type { TileObject } from '@/utils/split-image';
 import DifficultPuzzle from './components/DifficultPuzzle';
 import EasyPuzzle from './components/EasyPuzzle';
 import ImageShowMode from './components/ImageShowMode';
 import PromptSearchBox from './components/PromptSearchBox';
 import { plans } from './components/plans';
-import type { Selected } from './types';
+import splitImage from './split-image';
+import type { TileObject } from './split-image';
+import type { ModeSelected } from './types';
 
 function Page() {
   const textForDiffusion = useRef<HTMLTextAreaElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<string>('');
   const [imgBlobs, setImgBlobs] = useImmer<TileObject>({});
   const [showImage, setShowImage] = useState<boolean>(false);
   const [showEasyPuzzle, setShowEasyPuzzle] = useState<boolean>(false);
   const [showDifficultPuzzle, setShowDifficultPuzzle] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selected, setSelected] = useState<Selected>(plans[1]);
+  const [modeSelected, setModeSelected] = useState<ModeSelected>(plans[1]);
 
   async function getStableDiffusionImage() {
     try {
@@ -44,11 +44,11 @@ function Page() {
         try {
           const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
           const imgUrl = URL.createObjectURL(myBlob);
-          setImageUrl(imgUrl);
+          setImgUrl(imgUrl);
           setShowEasyPuzzle(true);
           setShowDifficultPuzzle(false);
           setShowImage(false);
-          setSelected(plans[1]);
+          setModeSelected(plans[1]);
         } catch (event) {
           apiNotify();
         } finally {
@@ -68,8 +68,8 @@ function Page() {
   };
 
   async function getPuzzle() {
-    if (imageUrl) {
-      await getSplitImage(imageUrl);
+    if (imgUrl) {
+      await getSplitImage(imgUrl);
       setShowDifficultPuzzle(true);
       console.log('Cut completed.');
     }
@@ -124,8 +124,8 @@ function Page() {
         步驟三：選擇呈現圖片的方式
       </h2>
       <ImageShowMode
-        selected={selected}
-        setSelected={setSelected}
+        modeSelected={modeSelected}
+        setModeSelected={setModeSelected}
         setShowImage={setShowImage}
         getPuzzle={getPuzzle}
         setShowDifficultPuzzle={setShowDifficultPuzzle}
@@ -133,23 +133,21 @@ function Page() {
       />
 
       <div className="flex min-h-[700px] w-full items-center justify-center">
-        {imageUrl && (
+        {imgUrl && (
           <Image
             className={`${showImage ? '' : 'hidden'}`}
-            src={imageUrl}
+            src={imgUrl}
             width={600}
             height={600}
             alt=""
           />
         )}
         <div>
-          {imageUrl && showDifficultPuzzle && (
+          {imgUrl && showDifficultPuzzle && (
             <DifficultPuzzle imgBlobs={imgBlobs} />
           )}
         </div>
-        <div>
-          {imageUrl && showEasyPuzzle && <EasyPuzzle imageUrl={imageUrl} />}
-        </div>
+        <div>{imgUrl && showEasyPuzzle && <EasyPuzzle imgUrl={imgUrl} />}</div>
       </div>
       <FlipToastContainer />
     </main>

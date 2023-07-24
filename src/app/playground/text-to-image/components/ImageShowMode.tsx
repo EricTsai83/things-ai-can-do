@@ -1,12 +1,12 @@
 import { RadioGroup } from '@headlessui/react';
 import type { Dispatch, SetStateAction } from 'react';
 import CheckIcon from '@/components/CheckIcon';
-import { Selected } from '../types';
+import { ModeSelected } from '../types';
 import { plans } from './plans';
 
 interface Props {
-  selected: Selected;
-  setSelected: Dispatch<SetStateAction<Selected>>;
+  modeSelected: ModeSelected;
+  setModeSelected: Dispatch<SetStateAction<ModeSelected>>;
   setShowImage: Dispatch<SetStateAction<boolean>>;
   getPuzzle: () => void;
   setShowDifficultPuzzle: Dispatch<SetStateAction<boolean>>;
@@ -14,8 +14,8 @@ interface Props {
 }
 
 export default function ImageShowMode({
-  selected,
-  setSelected,
+  modeSelected,
+  setModeSelected,
   setShowImage,
   getPuzzle,
   setShowDifficultPuzzle,
@@ -24,7 +24,7 @@ export default function ImageShowMode({
   return (
     <div className="w-full px-4">
       <div className="mx-auto w-full">
-        <RadioGroup value={selected} onChange={setSelected}>
+        <RadioGroup value={modeSelected} onChange={setModeSelected}>
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
           <div className="flex flex-col justify-center gap-3 space-y-2 md:flex-row md:gap-10">
             {plans.map((plan) => (
@@ -32,21 +32,21 @@ export default function ImageShowMode({
                 onClick={() => {
                   if (
                     plan.title === '拼圖遊戲(困難)' &&
-                    selected.title !== '拼圖遊戲(困難)'
+                    modeSelected.title !== '拼圖遊戲(困難)'
                   ) {
                     setShowEasyPuzzle(false);
                     setShowImage(false);
                     getPuzzle();
                   } else if (
                     plan.title === '拼圖遊戲(簡單)' &&
-                    selected.title !== '拼圖遊戲(簡單)'
+                    modeSelected.title !== '拼圖遊戲(簡單)'
                   ) {
                     setShowDifficultPuzzle(false);
                     setShowImage(false);
                     setShowEasyPuzzle(true);
                   } else if (
                     plan.title === '直接顯示圖片' &&
-                    selected.title !== '直接顯示圖片'
+                    modeSelected.title !== '直接顯示圖片'
                   ) {
                     setShowDifficultPuzzle(false);
                     setShowEasyPuzzle(false);

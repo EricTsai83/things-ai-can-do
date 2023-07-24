@@ -19,7 +19,7 @@ interface InitialStates {
   style: string;
 }
 
-function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
+function EasyPuzzle({ imgUrl }: { imgUrl: string }) {
   let initialStates: InitialStates[] = [
     { dataId: 1, style: '-200px 0px' },
     { dataId: 0, style: '0px 0px' }, // Avoid puzzle is completed before the shuffle.
@@ -86,6 +86,7 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
       const tileBeingReplacedId = parseInt(
         tileBeingReplaced.getAttribute('data-positionid')!,
       );
+      setTileBeingReplaced(null);
 
       setImageArrangement((prev: { dataId: number; style: string }[]) => {
         let styleString: string;
@@ -138,7 +139,7 @@ function EasyPuzzle({ imageUrl }: { imageUrl: string }) {
               data-positionid={idx}
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: `url(${imageUrl})`,
+                backgroundImage: `url(${imgUrl})`,
                 backgroundPosition: element.style,
                 backgroundSize: '600px 600px',
               }}
