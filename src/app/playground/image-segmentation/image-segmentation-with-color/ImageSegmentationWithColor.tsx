@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Response } from '../types.d';
 import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
 import { FaUpload } from 'react-icons/fa';
@@ -16,107 +17,101 @@ import TooltipContainer from '@/components/TooltipContainer';
 import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import demoImg from '../img/demo-woman-img.jpeg';
+import womanImg from '../img/demo-woman-img.jpeg';
 import ColorMask from './components/ColorMask';
 
-interface ImageBlob {
-  [key: string]: File | Blob;
-}
-
-export interface Respond {
-  score: number;
-  label: string;
-  mask: string;
+interface ImgBlob {
+  [key: string]: Blob;
 }
 
 interface Masks {
-  [key: string]: Respond[];
+  [key: string]: Response[];
 }
 
 function Page() {
-  const [imageBlob, setImageBlob] = useImmer<ImageBlob>({});
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imgBlobForAPI, setImgBlobForAPI] = useImmer<ImgBlob>({});
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [droppedImages, setDroppedImages] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [masks, setMasks] = useImmer<Masks>({});
+  const uploadInputRef = useRef<HTMLInputElement>(null);
+  const [responseOfImg, setResponseOfImg] = useImmer<Masks>({});
   const [maskUniqueColors, setMaskUniqueColors] =
     useState<UniqueColorsInPng | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchImage = async () => {
-      console.log(demoImg.src);
-      const response = await fetch(demoImg.src);
-      const imageArrayBuffer = await response.arrayBuffer();
-      const demoImageBlob = new Blob([imageArrayBuffer], {
+    async function fetchLocalImg() {
+      console.log(womanImg.src);
+      const response = await fetch(womanImg.src);
+      const imgArrayBuffer = await response.arrayBuffer();
+      const imgBlob = new Blob([imgArrayBuffer], {
         type: 'image/jpeg',
       });
-      console.log(demoImageBlob);
-      const imageUrl = URL.createObjectURL(demoImageBlob);
-      setImageBlob((draft: ImageBlob) => {
-        draft[imageUrl] = demoImageBlob;
+      console.log(imgBlob);
+      const imgUrl = URL.createObjectURL(imgBlob);
+      setImgBlobForAPI((draft: ImgBlob) => {
+        draft[imgUrl] = imgBlob;
         return draft;
       });
-      console.log(imageUrl);
-      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
-      setImageSrc(imageUrl);
-    };
+      console.log(imgUrl);
+      setDroppedImages((prevImages) => [...prevImages, imgUrl]);
+      setImgSrc(imgUrl);
+    }
 
-    fetchImage();
-  }, [setImageBlob, setDroppedImages, setImageSrc]);
+    fetchLocalImg();
+  }, [setImgBlobForAPI, setDroppedImages, setImgSrc]);
 
-  async function getImageSegmentation(data: File | Blob) {
+  async function getImageSegmentation(data: Blob) {
+    async function storeApiResponse(response: Response[]) {
+      setResponseOfImg((draft: Masks) => {
+        if (imgSrc) {
+          draft[imgSrc] = response;
+        }
+        return draft;
+      });
+    }
+
     try {
       setIsLoading(true);
-      const respond = await huggingFaceApi.getImageSegmentation(data);
-      console.log(respond);
-      if (respond.error) {
+      const response = await huggingFaceApi.getImageSegmentation(data);
+      console.log(response);
+      if (response.error) {
         apiNotify();
       } else {
-        await storeMaskData(respond);
-        await setUniqueColorsInPNG(respond);
+        await storeApiResponse(response);
+        await setUniqueColorsInPNG(response);
       }
-    } catch (e) {
+    } catch (error) {
       apiNotify();
     } finally {
       setIsLoading(false);
     }
   }
 
-  async function storeMaskData(apiRespond: Respond[]) {
-    setMasks((draft: Masks) => {
-      if (imageSrc) {
-        draft[imageSrc] = apiRespond;
-      }
-      return draft;
-    });
-  }
-
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
-    const imageFile = event.dataTransfer.files[0];
-    const maxSize = 1.5 * 1024 * 1024;
+    const imgFile = event.dataTransfer.files[0];
+    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
 
     const allowedFormats = ['image/jpeg', 'image/png'];
-    if (!allowedFormats.includes(imageFile.type)) {
+    if (!allowedFormats.includes(imgFile.type)) {
       uploadWrongImgFormatNotify();
       return;
     }
 
-    if (imageFile.size > maxSize) {
+    if (imgFile.size > maxSize) {
       console.log('handleDrop');
       imgSizeNotify();
       return;
     }
 
-    if (Object.keys(imageBlob).length < 6) {
-      if (imageFile) {
-        const imageUrl = URL.createObjectURL(imageFile);
-        setImageBlob((draft: ImageBlob) => {
-          draft[imageUrl] = imageFile;
+    if (Object.keys(imgBlobForAPI).length < 6) {
+      if (imgFile) {
+        const imageUrl = URL.createObjectURL(imgFile);
+        setImgBlobForAPI((draft: ImgBlob) => {
+          draft[imageUrl] = imgFile;
           return draft;
         });
-        setImageSrc(imageUrl);
+        setImgSrc(imageUrl);
         setDroppedImages((prevImages) => [...prevImages, imageUrl]);
       }
     } else {
@@ -125,19 +120,18 @@ function Page() {
   }
 
   function handleUpload(event: ChangeEvent<HTMLInputElement>) {
-    console.log('handleUpload');
-    if (Object.keys(imageBlob).length < 6) {
-      const imageFile = event.target.files?.[0];
-      if (imageFile) {
-        const maxSize = 1.5 * 1024 * 1024;
-        if (imageFile.size > maxSize) {
+    if (Object.keys(imgBlobForAPI).length < 6) {
+      const imgFile = event.target.files?.[0];
+      if (imgFile) {
+        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+        if (imgFile.size > maxSize) {
           imgSizeNotify();
           return;
         }
 
-        const imageUrl = URL.createObjectURL(imageFile);
-        setImageSrc(imageUrl);
-        setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+        const imgUrl = URL.createObjectURL(imgFile);
+        setImgSrc(imgUrl);
+        setDroppedImages((prev) => [...prev, imgUrl]);
         event.target.value = '';
       }
     } else {
@@ -149,20 +143,19 @@ function Page() {
     event.preventDefault();
   }
 
-  function handleSmallImageClick(imageUrl: string) {
-    setMasks({});
-    setImageSrc(imageUrl);
+  function handleSmallImageClick(imgUrl: string) {
+    setResponseOfImg({});
+    setImgSrc(imgUrl);
   }
 
   function handleUploadIconClick() {
-    fileInputRef.current?.click();
+    uploadInputRef.current?.click();
   }
 
-  async function setUniqueColorsInPNG(responds: Respond[]) {
-    if (imageSrc) {
-      const uniqueColors = await getUniqueColorsInPNG(responds[0].mask);
+  async function setUniqueColorsInPNG(responses: Response[]) {
+    if (imgSrc) {
+      const uniqueColors = await getUniqueColorsInPNG(responses[0].mask);
       setMaskUniqueColors(uniqueColors as UniqueColorsInPng);
-      console.log('set color completed');
     }
   }
 
@@ -176,16 +169,16 @@ function Page() {
         border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}>
-        {imageSrc && (
+        {imgSrc && (
           <div className="absolute">
-            {masks[imageSrc] && (
+            {responseOfImg[imgSrc] && (
               <ColorMask
-                segmentations={masks[imageSrc]}
+                segmentations={responseOfImg[imgSrc]}
                 maskUniqueColors={maskUniqueColors as UniqueColorsInPng}
               />
             )}
             <Image
-              src={imageSrc}
+              src={imgSrc}
               alt="Image"
               width={0}
               height={0}
@@ -193,11 +186,11 @@ function Page() {
             />
           </div>
         )}
-        {!imageSrc && '拖照片到此區域來上傳圖片'}
+        {!imgSrc && '拖照片到此區域來上傳圖片'}
         <input
           type="file"
           accept="image/jpeg, image/png"
-          ref={fileInputRef}
+          ref={uploadInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
         />
@@ -214,7 +207,7 @@ function Page() {
             <LoadingButton
               isLoading={isLoading}
               executeFunction={() =>
-                imageSrc && getImageSegmentation(imageBlob[imageSrc])
+                imgSrc && getImageSegmentation(imgBlobForAPI[imgSrc])
               }
               text="模型推論"
             />
