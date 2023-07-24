@@ -1,9 +1,10 @@
 'use client';
-import PageTitle from '@/components/PageTitle';
+
 import { IoCutSharp } from 'react-icons/io5';
-import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
+import PageTitle from '@/components/PageTitle';
+import { FlipToastContainer } from '@/components/ReactToast';
 import HumanImageMatting from './human-image-matting/HumanImageMatting';
-import { StyledToastContainer } from '@/components/ReactToast';
+import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
 
 function Page() {
   return (
@@ -26,12 +27,12 @@ function Page() {
         步驟一：透過顏色了解模型如何對圖中的物件做分割
       </h2>
       <ImageSegmentationWithColor />
-      <h2 className="mb-3 mt-10 text-2xl font-semibold text-teal-700">
+      <h2 className="mb-3 mt-16 text-2xl font-semibold text-teal-700">
         步驟二：選擇特定分割出來的圖層進行遮罩來實現去背的效果
         (白色：遮罩區域、黑色：保留區域)
       </h2>
       <HumanImageMatting />
-      <StyledToastContainer />
+      <FlipToastContainer />
     </div>
   );
 }

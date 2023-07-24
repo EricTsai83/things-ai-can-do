@@ -5,7 +5,7 @@ interface Props {
   tooltip?: string;
 }
 
-function ToolTip({ children, tooltip }: any) {
+function ToolTip({ children, tooltip }: Props) {
   const tooltipRef = useRef<HTMLSpanElement>(null);
   const container = useRef<HTMLDivElement>(null);
 

@@ -1,23 +1,21 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { RiRobotFill } from 'react-icons/ri';
-import { TbTextSize } from 'react-icons/tb';
-import { IoBodySharp } from 'react-icons/io5';
-import { BsImageFill } from 'react-icons/bs';
-import { FaDochub } from 'react-icons/fa';
-// import { BiLogoVenmo } from 'react-icons/bi';
-import { HiOutlineMail } from 'react-icons/hi';
-import { Disclosure } from '@headlessui/react';
-import {
-  MdOutlineHome,
-  MdOutlineTagFaces,
-  MdOutlineSpaceDashboard,
-} from 'react-icons/md';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Disclosure } from '@headlessui/react';
+import { useEffect, useState } from 'react';
+import { BsImageFill } from 'react-icons/bs';
+import { FaDochub } from 'react-icons/fa';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { HiOutlineMail } from 'react-icons/hi';
+import {
+  MdOutlineHome,
+  MdOutlineSpaceDashboard,
+  MdOutlineTagFaces,
+} from 'react-icons/md';
+import { RiRobotFill } from 'react-icons/ri';
+import { TbTextSize } from 'react-icons/tb';
 
-// group 可以把子元素綁在一起，比如說服元素被hover，相當於子元素也觸發了 hover
 const navItemStyle = `
   group flex w-full cursor-pointer items-center justify-start
   gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 hover:bg-zinc-100`;
@@ -48,10 +46,8 @@ function SideNavbar() {
       setSelected('臉部識別');
     } else if (lastElement === 'chat-gpt') {
       setSelected('聊天機器人');
-    } else if (lastElement === 'create-your-own-puzzle') {
+    } else if (lastElement === 'text-to-image') {
       setSelected('文字生成圖片');
-      // } else if (lastElement === 'real-time-pose-estimation') {
-      //   setSelected('肢體偵測');
     } else if (lastElement === 'human-image-matting') {
       setSelected('圖像分割');
     } else if (lastElement === 'sketch') {
@@ -63,14 +59,13 @@ function SideNavbar() {
     } else if (lastElement === 'news-letter') {
       setSelected('訂閱電子報');
     }
-  }, [pathname]); // 讓重新整理有作用就行
+  }, [pathname]);
 
   function renderPlaygroundItem() {
     const hrefs = [
       '/playground/facial-recognition',
       '/playground/chat-gpt',
-      '/playground/create-your-own-puzzle',
-      // '/tech-intro/real-time-pose-estimation',
+      '/playground/text-to-image',
       '/playground/image-segmentation',
       '/playground/sketch',
     ];
@@ -79,7 +74,6 @@ function SideNavbar() {
       '臉部識別',
       '聊天機器人',
       '文字生成圖片',
-      // '肢體偵測',
       '圖像分割',
       '圖片分類',
     ];
@@ -95,8 +89,6 @@ function SideNavbar() {
           icons.push(<RiRobotFill className={className} />);
         } else if (selectOption[i] === '文字生成圖片') {
           icons.push(<TbTextSize className={className} />);
-          // } else if (selectOption[i] === '肢體偵測') {
-          //   icons.push(<IoBodySharp className={className} />);
         } else if (selectOption[i] === '圖像分割') {
           icons.push(<MdOutlineSpaceDashboard className={className} />);
         } else if (selectOption[i] === '圖片分類') {
@@ -136,7 +128,6 @@ function SideNavbar() {
 
   return (
     <Disclosure as="nav" className="">
-      {/* Use the `open` state to conditionally change the direction of an icon. */}
       {({ open, close }) => (
         <>
           <div
@@ -155,9 +146,6 @@ function SideNavbar() {
               close();
             }}></div>
           <Disclosure.Button
-            // When you need to style an element based on the state of a sibling
-            // element, mark the sibling with the peer class, and use peer-* modifiers
-            // like peer-invalid to style the target element:
             className={`
               group peer
               fixed left-6 top-2.5 z-50
@@ -171,7 +159,6 @@ function SideNavbar() {
             />
           </Disclosure.Button>
           <div
-            // peer-focus:left-0 可以讓點其他element，將 side navbar 收回，
             className={
               open
                 ? `
@@ -246,33 +233,6 @@ function SideNavbar() {
                     </h3>
                   </div>
                 </Link>
-                {/* <Link href={'/'} prefetch={false}>
-                  <div
-                    onClick={() => {
-                      setSelected('資料視覺化');
-                    }}
-                    className={
-                      selected === '資料視覺化'
-                        ? selectedNavItemStyle
-                        : navItemStyle
-                    }>
-                    <BiLogoVenmo
-                      className={
-                        selected === '資料視覺化'
-                          ? selectedIconStyle
-                          : iconStyle
-                      }
-                    />
-                    <h3
-                      className={
-                        selected === '資料視覺化'
-                          ? selectedNameStyle
-                          : nameStyle
-                      }>
-                      資料視覺化
-                    </h3>
-                  </div>
-                </Link> */}
               </div>
 
               <div className="my-4">

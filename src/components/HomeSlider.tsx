@@ -1,21 +1,19 @@
 'use client';
-// slider image
+
+import Image from 'next/image';
+import Link from 'next/link';
 import chatbot from '@/assets/home-carousel/GPT-3.webp';
+import avatar from '@/assets/home-carousel/avatar.jpeg';
 import facialRecognation from '@/assets/home-carousel/facial-recognition.jpg';
 import imageSegmentation from '@/assets/home-carousel/image-segmentation.png';
 import textToImage from '@/assets/home-carousel/stable-diffusion.png';
-import avatar from '@/assets/home-carousel/avatar.jpeg';
-import bodyDetection from '@/assets/home-carousel/body-detection.png';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination, Navigation } from 'swiper';
+import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
+import { EffectCoverflow, Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
-import Image from 'next/image';
-import Link from 'next/link';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import './HomeSlider.Style.css';
 
 const slides = [
@@ -41,7 +39,7 @@ const slides = [
     id: 3,
     image: textToImage,
     title: 'Text-To-Image-Slides',
-    url: '/playground/create-your-own-puzzle',
+    url: '/playground/text-to-image',
   },
   {
     id: 4,
@@ -49,12 +47,6 @@ const slides = [
     title: 'Avatar',
     url: '/playground/facial-recognition',
   },
-  // {
-  //   id: 5,
-  //   image: bodyDetection,
-  //   title: 'bodt-detection',
-  //   url: '/tech-intro/real-time-pose-estimation',
-  // },
 ];
 
 function HomeSlider() {
@@ -90,7 +82,7 @@ function HomeSlider() {
                     alt="slide image"
                     width={0}
                     height={0}
-                    quality={100}
+                    quality={60}
                   />
                 </Link>
               </SwiperSlide>

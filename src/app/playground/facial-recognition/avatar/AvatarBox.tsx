@@ -1,21 +1,21 @@
 'use client';
-import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
 import {
+  Category,
+  DrawingUtils,
   FaceLandmarker,
   FaceLandmarkerOptions,
   FilesetResolver,
-  DrawingUtils,
-  Category,
 } from '@mediapipe/tasks-vision';
-import { Color, Euler, Matrix4 } from 'three';
 import { Canvas } from '@react-three/fiber';
-// import { useDropzone } from 'react-dropzone';
-import Avatar from './components/Avatar';
-import type { SearchParams } from '../types';
-import Image from 'next/image';
-import readyPlayerMe from './img/ready-player-me-banner.png';
-import Link from 'next/link';
+import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+import { Color, Euler, Matrix4 } from 'three';
 import ToolTip from '@/components/ToolTip';
+import type { SearchParams } from '../types';
+import Avatar from './components/Avatar';
+import readyPlayerMeImg from './img/ready-player-me-banner.png';
 
 let video: HTMLVideoElement;
 let faceLandmarker: FaceLandmarker;
@@ -36,12 +36,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   const [blendshapes, setBlendshapes] = useState<Category[]>([]);
   const [rotation, setRotation] = useState<Euler>();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // const streamRef = useRef<any>(null);
-  // https://models.readyplayer.me/648ef0aef2caada0866fd637.glb
-  // https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb (男)
-  // https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb (女)
-  // https://models.readyplayer.me/6490655e99211a8c97fc395f.glb
-  // https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb
   const [url, setUrl] = useState<string | null>(null);
 
   function validateURL(url: string): boolean {
@@ -50,9 +44,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   }
 
   async function setup() {
-    // Before we can use faceLandmarker class we must wait for it to finish
-    // loading. Machine Learning models can be large and take a moment to
-    // get everything needed to run.
     const filesetResolver = await FilesetResolver.forVisionTasks(
       'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
     );
@@ -82,8 +73,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     if (canvasElement.getContext('2d')) {
       const canvasCtx = canvasElement.getContext('2d')!;
 
-      // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
-
       const radio = video.videoHeight / video.videoWidth;
       video.style.width = videoWidth + 'px';
       video.style.height = videoWidth * radio + 'px';
@@ -92,7 +81,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
       canvasElement.width = video.videoWidth;
       canvasElement.height = video.videoHeight;
 
-      // Now let's start detecting the stream.
       let nowInMs = Date.now();
       let results = undefined;
       let lastVideoTime = -1;
@@ -153,7 +141,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     }
   }
 
-  let myReq: number;
+  let animationFrame: number;
   async function predict() {
     await drawMaskOnWebcam();
 
@@ -180,7 +168,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
         setRotation(rotationData);
       }
     }
-    myReq = window.requestAnimationFrame(predict);
+    animationFrame = window.requestAnimationFrame(predict);
   }
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -198,13 +186,8 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     setup();
     return () => {
-      // streamRef.current
-      //   .getTracks()
-      //   .forEach(function (track: { stop: () => void }) {
-      //     track.stop();
-      //   });
       video.removeEventListener('loadeddata', predict);
-      window.cancelAnimationFrame(myReq);
+      window.cancelAnimationFrame(animationFrame);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -253,7 +236,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
           />
           <div className="relative mt-4 h-[80px] w-full">
             <video
-              // ref={streamRef}
               id="video"
               className="absolute right-3 top-0 h-full rounded-3xl"
               autoPlay
@@ -296,7 +278,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
               <div className="rounded-b-2xl ">
                 <Image
                   className="rounded-2xl"
-                  src={readyPlayerMe}
+                  src={readyPlayerMeImg}
                   alt="ready player me logo"
                   width={0}
                   height={0}
@@ -307,10 +289,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
                 />
               </div>
             </ToolTip>
-
-            {/* <h2 className="ml-10 text-xl text-white ">
-              點我創建屬於自己的虛擬人像
-            </h2> */}
           </Link>
         </div>
       </div>

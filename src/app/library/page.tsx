@@ -1,18 +1,17 @@
-import PageTitle from '@/components/PageTitle';
 import Image from 'next/image';
-import { SiAlwaysdata } from 'react-icons/si';
-import dataScience from './img/data-science.jpg';
-import dataVisualization from './img/data-visualization.jpg';
-import nlp from './img/NLP.jpg';
-import parallelComputing from './img/parallel-computing.webp';
-import pandas from './img/pandas.webp';
-
 import Link from 'next/link';
+import { SiAlwaysdata } from 'react-icons/si';
+import PageTitle from '@/components/PageTitle';
+import dataScienceImg from './img/data-science.jpg';
+import dataVisualizationImg from './img/data-visualization.jpg';
+import nlpImg from './img/nlp.jpg';
+import pandasImg from './img/pandas.webp';
+import parallelComputingImg from './img/parallel-computing.webp';
 
-function CardWithSliderInfoCover() {
+function Page() {
   const articles = [
     {
-      img: dataScience,
+      img: dataScienceImg,
       url: 'https://medium.com/@erictsai492718/透過-bias-和-variance-判斷模型是否有overfitting-或-underfitting-4294284e54a7',
       title: '資料科學',
       hashTag: '#機器學習、#統計學、#Python',
@@ -21,7 +20,7 @@ function CardWithSliderInfoCover() {
       underfitting，沒有用明確指標去輔助模型的建置...`,
     },
     {
-      img: dataVisualization,
+      img: dataVisualizationImg,
       url: 'https://medium.com/geekculture/create-an-interactive-report-by-using-plotly-981a513fdec4',
       title: '資料視覺化',
       hashTag: '#資料視覺化、#plotly',
@@ -31,7 +30,7 @@ function CardWithSliderInfoCover() {
         Maybe this is a way to help you...`,
     },
     {
-      img: nlp,
+      img: nlpImg,
       url: 'https://erictsai492718.medium.com/exploratory-data-analysis-with-nlp-project-6f8c31aae2f1',
       title: '自然語言處理',
       hashTag: '#NLP、#EDA',
@@ -40,7 +39,7 @@ function CardWithSliderInfoCover() {
       natural language processing (NLP)...`,
     },
     {
-      img: parallelComputing,
+      img: parallelComputingImg,
       url: 'https://erictsai492718.medium.com/understanding-python-multithreading-and-multiprocessing-by-visualization-41e529f2da6a',
       title: '平行運算',
       hashTag: '#multiprocessing、#multithreading',
@@ -51,7 +50,7 @@ function CardWithSliderInfoCover() {
     },
 
     {
-      img: pandas,
+      img: pandasImg,
       url: 'https://medium.com/@erictsai492718/使用-pandas-dataframe-常用的-26-個基本技巧-acf83105dcf4',
       title: '資料處理',
       hashTag: '#dataframe、#pandas',
@@ -112,4 +111,4 @@ function CardWithSliderInfoCover() {
   );
 }
 
-export default CardWithSliderInfoCover;
+export default Page;

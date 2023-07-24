@@ -1,27 +1,30 @@
 'use client';
+
 import { useState } from 'react';
-import AwsFacialRecognition from './aws-facial-recognition/AwsFacialRecognition';
+import { LuScanFace } from 'react-icons/lu';
+import PageTitle from '@/components/PageTitle';
+import type { SelectOption } from '@/components/Select';
+import { Select } from '@/components/Select';
 import AvatarBox from './avatar/AvatarBox';
+import AwsFacialRecognition from './aws-facial-recognition/AwsFacialRecognition';
+import ModelReport from './aws-facial-recognition/components/ModelReport';
+import options from './aws-facial-recognition/components/select-option-config';
+import { FaceDetail } from './aws-facial-recognition/types';
 import Tabs from './components/Tabs';
 import type { SearchParams } from './types';
-import {
-  Select,
-  SelectOption,
-} from './aws-facial-recognition/components/Select';
-import options from './aws-facial-recognition/components/select-option-config';
-import ModelReport from './aws-facial-recognition/components/ModelReport';
-import { FaceDetail } from './aws-facial-recognition/types';
-import PageTitle from '@/components/PageTitle';
-import { LuScanFace } from 'react-icons/lu';
 
-function Page({ searchParams }: { searchParams: SearchParams }) {
+interface Props {
+  searchParams: SearchParams;
+}
+
+function Page({ searchParams }: Props) {
   const [tabClass, setTabClass] = useState<string>('picture');
   const [selectOption, setSelectOption] = useState<SelectOption[]>([
     options[0],
   ]);
   const [faceDetails, setFaceDetails] = useState<FaceDetail[] | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [canvasUrls, setCanvasUrls] = useState<string | null>(null); // 存畫圖的url
+  const [canvasUrls, setCanvasUrls] = useState<string | null>(null);
 
   return (
     <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">

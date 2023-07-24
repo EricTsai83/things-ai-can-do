@@ -1,12 +1,13 @@
-import { Stage, Layer, Line, Text } from 'react-konva';
 import Konva from 'konva';
-import { useState, useRef, useEffect } from 'react';
-import huggingFaceApi from '@/utils/hugging-face-api';
-import dataURItoBlob from '@/utils/dataURItoBlob';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { IoIosRefreshCircle } from 'react-icons/io';
+import { Layer, Line, Stage, Text } from 'react-konva';
 import LoadingButton from '@/components/LoadingButton';
 import { apiNotify } from '@/components/ReactToast';
-import { StyledToastContainer } from '@/components/ReactToast';
+import { FlipToastContainer } from '@/components/ReactToast';
+import dataURItoBlob from '@/utils/dataURItoBlob';
+import huggingFaceApi from '@/utils/hugging-face-api';
+import type { ApiResponse } from '../types';
 
 interface LineData {
   tool: string;
@@ -15,7 +16,7 @@ interface LineData {
 
 interface CanvasProps {
   tool: string;
-  setApiResponse: any;
+  setApiResponse: Dispatch<SetStateAction<ApiResponse[] | null>>;
 }
 
 function Canvas({ tool, setApiResponse }: CanvasProps) {
@@ -26,7 +27,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
   const [dimensions, setDimensions] = useState({
     width: 0,
   });
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleMouseDown = (event: Konva.KonvaEventObject<MouseEvent>) => {
     const stage = event.target.getStage();
@@ -34,11 +35,6 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
 
     isDrawing.current = true;
     const pos = stage.getPointerPosition();
-
-    // these expressions allow you to safely access the x and y properties
-    // of pos by providing default values (0) in case pos is null or undefined.
-    // This helps prevent potential runtime errors when attempting to access
-    // properties of a null or undefined value.
     setLines([...lines, { tool, points: [pos?.x ?? 0, pos?.y ?? 0] }]);
   };
 
@@ -71,7 +67,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     const stage = stageRef.current;
     if (!stage) return;
     try {
-      setLoading(true);
+      setIsLoading(true);
       const uri = stage.toDataURL();
       const blobData = dataURItoBlob(uri);
       const respond = await huggingFaceApi.getSketchClassifier(blobData);
@@ -85,7 +81,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     } catch (e) {
       apiNotify();
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -163,12 +159,13 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
         </button>
 
         <LoadingButton
-          loading={loading}
+          isLoading={isLoading}
           executeFunction={getSketchClassifier}
+          text="模型推論"
         />
       </div>
 
-      <StyledToastContainer />
+      <FlipToastContainer />
     </div>
   );
 }

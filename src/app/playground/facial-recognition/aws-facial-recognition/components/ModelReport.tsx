@@ -1,14 +1,14 @@
 import { Disclosure } from '@headlessui/react';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { FaceDetail } from '../types';
-import { SelectOption } from './Select';
-import ImageMask from './ImageMask';
-import cutFaceOnImage from '@/utils/cut-face-on-image';
-import drawFacialResultOnImg from '@/utils/draw-facial-recognition-result-on-image';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
-import { ImCross, ImCheckmark } from 'react-icons/im';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { GiClick } from 'react-icons/gi';
+import { ImCheckmark, ImCross } from 'react-icons/im';
 import { IoIosRefreshCircle } from 'react-icons/io';
+import type { SelectOption } from '@/components/Select';
+import { FaceDetail } from '../types';
+import FacialAnalysis from './FacialAnalysis';
+import cutFaceOnImage from './cut-face-on-image';
+import drawFacialResultOnImg from './draw-facial-recognition-result-on-image';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
@@ -63,7 +63,7 @@ export default function ModelReport({
                   focus-visible:ring focus-visible:ring-teal-200
                   focus-visible:ring-opacity-75 ">
                 <span className="flex items-center text-xl">
-                  顯示臉部偵測點在圖片上
+                  <p>顯示臉部偵測點在圖片上</p>
                   <IoIosRefreshCircle
                     onClick={(event) => {
                       event.stopPropagation();
@@ -87,16 +87,16 @@ export default function ModelReport({
                           absolute -left-8 top-8 hidden w-32 border border-gray-300
                         bg-white p-2 text-center
                           group-hover:block">
-                        刷新臉部偵測點
+                        <p>刷新臉部偵測點</p>
                       </div>
                     </div>
 
-                    <p className="flex">
+                    <div className="flex">
                       <ImCheckmark className="text-2xl text-green-600" />
                       <p className="ml-2 flex items-center justify-center">
                         已完成繪製臉部偵測框與臉部偵測點
                       </p>
-                    </p>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex">
@@ -116,12 +116,6 @@ export default function ModelReport({
               <Disclosure.Button
                 onClick={() => {
                   setFaceUrls([]);
-                  // 在此示例中，我們使用array.reduce 方法來檢索吞吐量，並在每個元素上執行異步函數 asyncFunction。
-                  // reduce方法的回調函數接收兩個參數：previousPromise和data。previousPromise表示前一個異步
-                  // 函數的返回值，而data寫入當前元素的值。我們使用await previousPromise來等待前一個異步函數的完成
-                  // ，然後使用await asyncFunction(data)來執行當前元素對應的異步函數。
-                  // 通過這種方式，你可以確保異步函數按照隊列中的順序依次執行，並且每個異步函數都使用相應的數據作為輸入。
-
                   faceDetails &&
                     faceDetails.reduce(async (previousPromise, faceDetail) => {
                       await previousPromise;
@@ -134,7 +128,7 @@ export default function ModelReport({
                 hover:bg-teal-100 focus:outline-none focus-visible:ring
                 focus-visible:ring-teal-200 focus-visible:ring-opacity-75">
                 <span className="flex items-center text-xl">
-                  臉部分析模型推論結果
+                  <p>臉部分析模型推論結果</p>
                   <IoIosRefreshCircle
                     onClick={(event) => {
                       event.stopPropagation();
@@ -167,7 +161,7 @@ export default function ModelReport({
                       </p>
                     </div>
                     <div>
-                      <ImageMask
+                      <FacialAnalysis
                         faceDetails={faceDetails}
                         faceUrls={faceUrls}
                       />
