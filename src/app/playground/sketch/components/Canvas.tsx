@@ -5,6 +5,7 @@ import { Layer, Line, Stage, Text } from 'react-konva';
 import LoadingButton from '@/components/LoadingButton';
 import { apiNotify } from '@/components/ReactToast';
 import { FlipToastContainer } from '@/components/ReactToast';
+import TooltipContainer from '@/components/TooltipContainer';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import type { ApiResponse } from '../types';
@@ -157,12 +158,16 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
 ">
           下載圖畫
         </button>
-
-        <LoadingButton
-          isLoading={isLoading}
-          executeFunction={getSketchClassifier}
-          text="模型推論"
-        />
+        <TooltipContainer
+          tooltips="
+            在一段時間後，首次做模型推論，
+            模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
+          <LoadingButton
+            isLoading={isLoading}
+            executeFunction={getSketchClassifier}
+            text="模型推論"
+          />
+        </TooltipContainer>
       </div>
 
       <FlipToastContainer />
