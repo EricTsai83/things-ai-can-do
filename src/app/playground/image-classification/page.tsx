@@ -1,21 +1,22 @@
 'use client';
+
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import PageTitle from '@/components/PageTitle';
 import { ImMakeGroup } from 'react-icons/im';
 import ArrowIconButton from '@/components/ArrowIconButton';
-import label from './label';
+import PageTitle from '@/components/PageTitle';
 import Animated3dFlipCard from './components/Animated3dFlipCard';
-import type { ApiResponse } from './types';
+import label from './label';
+import type { Response } from './types';
 
-const NoSSRComponent = dynamic(() => import('./components/Canvas'), {
+const CanvasWithoutSSR = dynamic(() => import('./components/Canvas'), {
   ssr: false,
 });
 
-export default function TestsPage() {
-  const [tool, setTool] = useState('pen');
+function Page() {
+  const [drawingTool, setDrawingTool] = useState<string>('pen');
   const [subject, setSubject] = useState<string | null>(null);
-  const [apiResponse, setApiResponse] = useState<ApiResponse[] | null>(null);
+  const [responses, setResponses] = useState<Response[] | null>(null);
   const [rightAnwser, setRightAnwser] = useState<boolean>(false);
 
   function getRandomLabel() {
@@ -24,14 +25,14 @@ export default function TestsPage() {
   }
 
   useEffect(() => {
-    if (apiResponse !== null && subject !== null) {
-      const res = apiResponse.some((obj) => {
+    if (responses !== null && subject !== null) {
+      const res = responses.some((obj) => {
         return obj.label === label[subject];
       });
 
       setRightAnwser(res);
     }
-  }, [apiResponse, subject]);
+  }, [responses, subject]);
 
   return (
     <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
@@ -58,15 +59,18 @@ export default function TestsPage() {
         <div className="flex flex-1 flex-col">
           <select
             className="max-w-[120px] text-xl"
-            value={tool}
+            value={drawingTool}
             onChange={(e) => {
-              setTool(e.target.value);
+              setDrawingTool(e.target.value);
             }}>
             <option value="pen">✒️ 畫筆</option>
             <option value="eraser">⬜ 橡皮擦</option>
           </select>
           <div>
-            <NoSSRComponent tool={tool} setApiResponse={setApiResponse} />
+            <CanvasWithoutSSR
+              drawingTool={drawingTool}
+              setResponses={setResponses}
+            />
           </div>
         </div>
 
@@ -87,8 +91,8 @@ export default function TestsPage() {
               AI 五大猜測結果
             </div>
             <ul className="ml-3 mt-3 list-inside list-disc">
-              {apiResponse &&
-                apiResponse.map((response, index) => (
+              {responses &&
+                responses.map((response, index) => (
                   <li key={index} className="text-gray-600">
                     <span
                       className={
@@ -110,3 +114,5 @@ export default function TestsPage() {
     </div>
   );
 }
+
+export default Page;

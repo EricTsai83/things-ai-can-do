@@ -11,8 +11,8 @@ interface Props {
   searchParams: SearchParams;
   faceDetails: FaceDetail[] | null;
   setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
-  imageSrc: string | null;
-  setImageSrc: Dispatch<SetStateAction<string | null>>;
+  imgSrc: string | null;
+  setImgSrc: Dispatch<SetStateAction<string | null>>;
   canvasUrls: string | null;
   setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
@@ -22,16 +22,16 @@ function AwsFacialRecognition({
   searchParams,
   faceDetails,
   setFaceDetails,
-  imageSrc,
-  setImageSrc,
+  imgSrc,
+  setImgSrc,
   canvasUrls,
   setCanvasUrls,
 }: Props) {
   return (
     <div className="flex w-full flex-col">
       <Dropzone
-        imageSrc={imageSrc}
-        setImageSrc={setImageSrc}
+        imgSrc={imgSrc}
+        setImgSrc={setImgSrc}
         faceDetails={faceDetails}
         setFaceDetails={setFaceDetails}
         selectOption={selectOption}

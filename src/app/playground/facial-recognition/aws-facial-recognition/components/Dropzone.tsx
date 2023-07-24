@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import type { FaceDetail } from '../types.d';
 import { WritableDraft } from 'immer/dist/internal';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, Dispatch, DragEvent, SetStateAction } from 'react';
@@ -11,19 +12,18 @@ import {
   apiNotify,
   imgSizeNotify,
 } from '@/components/ReactToast';
+import { SelectOption } from '@/components/Select';
 import TooltipContainer from '@/components/TooltipContainer';
 import convertImageToBase64 from '@/utils/convert-image-to-base64';
-import { SelectOption } from '../../../../../components/Select';
 import { SearchParams } from '../../types';
 import sampleImg1 from '../img/sample-img-1.jpg';
 import sampleImg2 from '../img/sample-img-2.jpeg';
-import type { FaceDetail } from '../types';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
   setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
-  imageSrc: string | null;
-  setImageSrc: Dispatch<SetStateAction<string | null>>;
+  imgSrc: string | null;
+  setImgSrc: Dispatch<SetStateAction<string | null>>;
   selectOption: SelectOption[];
   searchParams: SearchParams;
   canvasUrls: string | null;
@@ -36,35 +36,35 @@ interface ImageBase64String {
 
 function Dropzone({
   setFaceDetails,
-  imageSrc,
-  setImageSrc,
+  imgSrc,
+  setImgSrc,
   searchParams,
   canvasUrls,
   setCanvasUrls,
 }: Props) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageBase64String, setImageBase64String] = useImmer<
+  const uploadInputRef = useRef<HTMLInputElement>(null);
+  const [imgBase64Str, setImgBase64Str] = useImmer<
     WritableDraft<ImageBase64String>
   >({});
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const imageFile = event.dataTransfer.files[0]!;
-    const maxSize = 1.5 * 1024 * 1024;
-    if (imageFile.size > maxSize) {
+    const imgFile = event.dataTransfer.files[0]!;
+    const maxSize = 1.5 * 1024 * 1024; //1.5 MB
+    if (imgFile.size > maxSize) {
       imgSizeNotify();
       return;
     }
 
-    const imageUrl = URL.createObjectURL(imageFile);
-    const base64String = (await convertImageToBase64(imageFile)) as string;
-    setImageBase64String((draft) => {
-      draft[imageUrl] = base64String;
+    const imgUrl = URL.createObjectURL(imgFile);
+    const base64String = (await convertImageToBase64(imgFile)) as string;
+    setImgBase64Str((draft) => {
+      draft[imgUrl] = base64String;
     });
     setFaceDetails(null);
     setCanvasUrls(null);
-    setImageSrc(imageUrl);
+    setImgSrc(imgUrl);
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -72,37 +72,37 @@ function Dropzone({
   };
 
   const handleBoxClick = () => {
-    fileInputRef.current?.click();
+    uploadInputRef.current?.click();
   };
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files?.[0]!;
+    const imgFile = event.target.files?.[0]!;
     const maxSize = 1.5 * 1024 * 1024;
-    if (imageFile.size > maxSize) {
+    if (imgFile.size > maxSize) {
       imgSizeNotify();
       return;
     }
 
-    const imageUrl = URL.createObjectURL(imageFile);
-    const base64String = (await convertImageToBase64(imageFile)) as string;
-    setImageBase64String((draft) => {
+    const imageUrl = URL.createObjectURL(imgFile);
+    const base64String = (await convertImageToBase64(imgFile)) as string;
+    setImgBase64Str((draft) => {
       draft[imageUrl] = base64String;
     });
-    setImageSrc(imageUrl);
+    setImgSrc(imageUrl);
     event.target.value = '';
   };
 
   async function getFacialRecognition() {
-    if (imageSrc) {
+    if (imgSrc) {
       try {
         setIsLoading(true);
-        const res = await fetch('/api/aws', {
+        const response = await fetch('/api/aws', {
           method: 'POST',
-          body: JSON.stringify({ image_base64: imageBase64String[imageSrc] }),
+          body: JSON.stringify({ image_base64: imgBase64Str[imgSrc] }),
         });
-        const facialRecoRes = await res.json();
-        console.log(facialRecoRes);
-        setFaceDetails(facialRecoRes.Tags.FaceDetails);
+        const data = await response.json();
+        console.log(data);
+        setFaceDetails(data.Tags.FaceDetails);
       } catch (e) {
         apiNotify();
       } finally {
@@ -113,15 +113,15 @@ function Dropzone({
 
   const handleSampleImgCallback = useCallback(
     async (blob: Blob) => {
-      const imageUrl = URL.createObjectURL(blob);
-      setImageSrc(imageUrl);
-      const base64String = await convertImageToBase64(blob);
-      setImageBase64String((draft) => {
-        draft[imageUrl] = base64String as string;
+      const imgUrl = URL.createObjectURL(blob);
+      setImgSrc(imgUrl);
+      const base64Str = await convertImageToBase64(blob);
+      setImgBase64Str((draft) => {
+        draft[imgUrl] = base64Str as string;
       });
-      setImageSrc(imageUrl);
+      setImgSrc(imgUrl);
     },
-    [setImageSrc, convertImageToBase64, setImageBase64String, setImageSrc],
+    [setImgSrc, convertImageToBase64, setImgBase64Str],
   );
 
   useEffect(() => {
@@ -159,23 +159,23 @@ function Dropzone({
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={handleBoxClick}>
-        {imageSrc && (
+        {imgSrc && (
           <Image
             className="absolute max-h-[360px] w-auto"
-            src={canvasUrls ? canvasUrls : imageSrc}
+            src={canvasUrls ? canvasUrls : imgSrc}
             alt="Image"
             width={0}
             height={0}
           />
         )}
-        {!imageSrc && (
+        {!imgSrc && (
           <p className="text-gray-500">點我或托照片到此區域來上傳圖片</p>
         )}
 
         <input
           type="file"
           accept="image/jpeg, image/png"
-          ref={fileInputRef}
+          ref={uploadInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
         />

@@ -12,25 +12,25 @@ import drawFacialResultOnImg from './draw-facial-recognition-result-on-image';
 
 interface Props {
   faceDetails: FaceDetail[] | null;
-  imageSrc: string | null;
   selectOption: SelectOption[];
+  imgSrc: string | null;
   setCanvasUrls: Dispatch<SetStateAction<string | null>>;
 }
 
 export default function ModelReport({
   faceDetails,
   selectOption,
-  imageSrc,
+  imgSrc,
   setCanvasUrls,
 }: Props) {
   const [faceUrls, setFaceUrls] = useState<string[]>([]);
 
   async function asyncDrawFacialResultOnImg(faceDetails: FaceDetail[]) {
     console.log(selectOption);
-    if (imageSrc && faceDetails && selectOption) {
+    if (imgSrc && faceDetails && selectOption) {
       const marksUsed = selectOption.map((element) => element.label);
       const newImageUrl = await drawFacialResultOnImg(
-        imageSrc,
+        imgSrc,
         faceDetails,
         marksUsed,
       );
@@ -39,8 +39,8 @@ export default function ModelReport({
   }
 
   async function asyncCutFaceOnImage(faceDetail: FaceDetail) {
-    if (imageSrc && faceDetail) {
-      const faceImageUrl = await cutFaceOnImage(imageSrc, faceDetail);
+    if (imgSrc && faceDetail) {
+      const faceImageUrl = await cutFaceOnImage(imgSrc, faceDetail);
       setFaceUrls((prev) => [...prev, faceImageUrl]);
     }
   }
