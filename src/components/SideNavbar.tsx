@@ -50,7 +50,7 @@ function SideNavbar() {
       setSelected('文字生成圖片');
     } else if (lastElement === 'human-image-matting') {
       setSelected('圖像分割');
-    } else if (lastElement === 'sketch') {
+    } else if (lastElement === 'image-classification') {
       setSelected('圖片分類');
     } else if (lastElement === 'data-science') {
       setSelected('資料科學');
@@ -67,7 +67,7 @@ function SideNavbar() {
       '/playground/chat-gpt',
       '/playground/text-to-image',
       '/playground/image-segmentation',
-      '/playground/sketch',
+      '/playground/image-classification',
     ];
 
     const selectOption = [
