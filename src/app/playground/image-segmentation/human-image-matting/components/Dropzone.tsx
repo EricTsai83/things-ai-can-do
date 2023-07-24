@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import type { Response } from '../../types.d';
 import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
 import { FaUpload } from 'react-icons/fa';
@@ -15,66 +16,65 @@ import {
 import TooltipContainer from '@/components/TooltipContainer';
 import huggingFaceApi from '@/utils/hugging-face-api';
 import replaceColorsInPNG from '@/utils/replace-color-in-png';
-import demoImg from '../../img/demo-guys-img.png';
+import guysImg from '../../img/demo-guys-img.png';
 
-interface Respond {
-  label: string;
-  mask: string;
-  score: number;
+interface CoverStatus {
+  [key: string]: boolean;
 }
 
-function MyDropzone() {
-  const [imageBlob, setImageBlob] = useState<File | Blob>();
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [apiData, setApiData] = useState<Respond[] | null>(null);
+interface Mask {
+  [key: string]: string;
+}
+
+function Dropzone() {
+  const [imgBlobForAPI, setImgBlobForAPI] = useState<Blob | null>(null);
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [response, setResponse] = useState<Response[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [cover, setCover] = useImmer<{ [key: string]: string }>({});
-  const [coverStatus, setCoverStatus] = useImmer<{ [key: string]: boolean }>(
-    {},
-  );
+  const uploadInputRef = useRef<HTMLInputElement>(null);
+  const [mask, setMask] = useImmer<Mask>({});
+  const [coverStatus, setCoverStatus] = useImmer<CoverStatus>({});
 
   useEffect(() => {
-    const fetchImage = async () => {
-      console.log(demoImg.src);
-      const response = await fetch(demoImg.src);
-      const imageArrayBuffer = await response.arrayBuffer();
-      const demoImageBlob = new Blob([imageArrayBuffer], {
+    async function fetchLocalImg() {
+      const response = await fetch(guysImg.src);
+      const imgArrayBuffer = await response.arrayBuffer();
+      const imgBlob = new Blob([imgArrayBuffer], {
         type: 'image/jpeg',
       });
-      console.log(demoImageBlob);
-      const imageUrl = URL.createObjectURL(demoImageBlob);
-      setImageBlob(demoImageBlob);
-      console.log(imageUrl);
-      setImageSrc(imageUrl);
-    };
+      console.log(imgBlob);
+      const imgUrl = URL.createObjectURL(imgBlob);
+      setImgBlobForAPI(imgBlob);
+      console.log(imgUrl);
+      setImgSrc(imgUrl);
+    }
 
-    fetchImage();
-  }, [setImageBlob, setImageSrc]);
+    fetchLocalImg();
+  }, [setImgBlobForAPI, setImgSrc]);
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const imageFile = event.dataTransfer.files[0];
+    const imgFile = event.dataTransfer.files[0];
 
     const allowedFormats = ['image/jpeg', 'image/png'];
-    if (!allowedFormats.includes(imageFile.type)) {
+    if (!allowedFormats.includes(imgFile.type)) {
       uploadWrongImgFormatNotify();
       return;
     }
 
-    if (imageFile) {
+    if (imgFile) {
       const maxSize = 1.5 * 1024 * 1024;
-      if (imageFile.size > maxSize) {
+      if (imgFile.size > maxSize) {
         imgSizeNotify();
         return;
       }
 
-      const imageUrl = URL.createObjectURL(imageFile);
-      setImageBlob(imageFile);
-      setImageSrc(imageUrl);
-      setApiData(null);
+      const imageUrl = URL.createObjectURL(imgFile);
+      setImgBlobForAPI(imgFile);
+      setImgSrc(imageUrl);
+      setResponse(null);
       setCoverStatus({});
-      setCover({});
+      setMask({});
     }
   };
 
@@ -82,48 +82,48 @@ function MyDropzone() {
     event.preventDefault();
   };
 
-  const handleBoxClick = (event: { preventDefault: () => void }) => {
-    fileInputRef.current?.click();
+  const handleBoxClick = () => {
+    uploadInputRef.current?.click();
   };
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files?.[0];
-    if (imageFile) {
-      const maxSize = 1.5 * 1024 * 1024;
-      if (imageFile.size > maxSize) {
+    const imgFile = event.target.files?.[0];
+    if (imgFile) {
+      const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
+      if (imgFile.size > maxSize) {
         imgSizeNotify();
         return;
       }
 
-      const imageUrl = URL.createObjectURL(imageFile);
-      setImageBlob(imageFile);
-      setImageSrc(imageUrl);
+      const imgUrl = URL.createObjectURL(imgFile);
+      setImgBlobForAPI(imgFile);
+      setImgSrc(imgUrl);
       event.target.value = '';
-      setApiData(null);
+      setResponse(null);
       setCoverStatus({});
-      setCover({});
+      setMask({});
     }
   };
 
-  async function getImageSegmentation(data: File | Blob) {
+  async function getImageSegmentation(data: Blob) {
     try {
       setIsLoading(true);
       console.log(data);
-      const respond = await huggingFaceApi.getImageSegmentation(data);
-      console.log(respond);
-      if (respond.error) {
+      const response = await huggingFaceApi.getImageSegmentation(data);
+      console.log(response);
+      if (response.error) {
         apiNotify();
       } else {
-        setApiData(respond);
+        setResponse(response);
       }
-    } catch (e) {
+    } catch (error) {
       apiNotify();
     } finally {
       setIsLoading(false);
     }
   }
 
-  async function addBackgroundMaskToImage(apiMask: string) {
+  async function addMaskOnImage(apiMask: string) {
     const colorMappings = [
       {
         targetColor: {
@@ -143,7 +143,7 @@ function MyDropzone() {
 
     await replaceColorsInPNG(apiMask, colorMappings)
       .then((modifiedPNGString) => {
-        setCover((draft) => {
+        setMask((draft) => {
           draft[apiMask] = modifiedPNGString as string;
           return draft;
         });
@@ -154,9 +154,8 @@ function MyDropzone() {
   }
 
   async function coverToggle(apiMask: string) {
-    if (apiMask in cover) {
-      console.log('嘿嘿');
-      setCover((draft) => {
+    if (apiMask in mask) {
+      setMask((draft) => {
         delete draft[apiMask];
         return draft;
       });
@@ -176,10 +175,10 @@ function MyDropzone() {
         border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}>
-        {imageSrc && (
+        {imgSrc && (
           <div className="absolute">
             <Image
-              src={imageSrc}
+              src={imgSrc}
               alt="Image"
               width={0}
               height={0}
@@ -187,10 +186,10 @@ function MyDropzone() {
             />
           </div>
         )}
-        {!imageSrc && '拖照片到此區域來上傳圖片'}
+        {!imgSrc && '拖照片到此區域來上傳圖片'}
 
-        {Object.values(cover).length > 0 &&
-          Object.values(cover).map((pngStr: string, id: number) => {
+        {Object.values(mask).length > 0 &&
+          Object.values(mask).map((pngStr: string, id: number) => {
             return (
               <Image
                 className="absolute max-h-[360px] w-auto"
@@ -204,7 +203,7 @@ function MyDropzone() {
           })}
 
         <input
-          ref={fileInputRef}
+          ref={uploadInputRef}
           type="file"
           accept="image/jpeg, image/png"
           onChange={handleUpload}
@@ -217,12 +216,12 @@ function MyDropzone() {
         <div className="absolute bottom-0 right-0">
           <TooltipContainer
             tooltips="
-             在一段時間後，首次做模型推論，
-             模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
+              在一段時間後，首次做模型推論，
+              模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
             <LoadingButton
               isLoading={isLoading}
               executeFunction={() =>
-                imageBlob && imageSrc && getImageSegmentation(imageBlob)
+                imgBlobForAPI && imgSrc && getImageSegmentation(imgBlobForAPI)
               }
               text="模型推論"
             />
@@ -230,8 +229,8 @@ function MyDropzone() {
         </div>
       </div>
       <div className="mt-10 flex h-20 flex-wrap items-center justify-center gap-2 border-black">
-        {apiData &&
-          apiData.map((data: Respond, idx: number) => {
+        {response &&
+          response.map((data: Response, idx: number) => {
             return (
               <div
                 key={idx}
@@ -246,9 +245,9 @@ function MyDropzone() {
 
                 <MirrorReflectionBtn
                   executeFunction={async () => {
-                    const status = await coverToggle(apiData[idx].mask);
+                    const status = await coverToggle(response[idx].mask);
                     if (status === 'cover') {
-                      await addBackgroundMaskToImage(apiData[idx].mask);
+                      await addMaskOnImage(response[idx].mask);
                     }
 
                     setCoverStatus((draft) => {
@@ -271,4 +270,4 @@ function MyDropzone() {
   );
 }
 
-export default MyDropzone;
+export default Dropzone;

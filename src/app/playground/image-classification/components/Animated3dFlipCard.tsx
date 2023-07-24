@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import subjectImages from '../subjectImages';
 import Link from 'next/link';
+import subjectImages from '../subjectImages';
 
 interface Props {
   subject: string | null;

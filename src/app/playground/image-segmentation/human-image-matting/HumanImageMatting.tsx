@@ -1,9 +1,9 @@
-import MyDropzone from './components/MyDropzone';
+import Dropzone from './components/Dropzone';
 
 function Page() {
   return (
     <div className="mt-3">
-      <MyDropzone />
+      <Dropzone />
     </div>
   );
 }

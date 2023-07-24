@@ -23,7 +23,7 @@ function Page({ searchParams }: Props) {
     options[0],
   ]);
   const [faceDetails, setFaceDetails] = useState<FaceDetail[] | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [canvasUrls, setCanvasUrls] = useState<string | null>(null);
 
   return (
@@ -45,8 +45,8 @@ function Page({ searchParams }: Props) {
             selectOption={selectOption}
             faceDetails={faceDetails}
             setFaceDetails={setFaceDetails}
-            imageSrc={imageSrc}
-            setImageSrc={setImageSrc}
+            imgSrc={imgSrc}
+            setImgSrc={setImgSrc}
             canvasUrls={canvasUrls}
             setCanvasUrls={setCanvasUrls}
           />
@@ -77,7 +77,7 @@ function Page({ searchParams }: Props) {
       {tabClass === 'picture' && (
         <ModelReport
           faceDetails={faceDetails}
-          imageSrc={imageSrc}
+          imgSrc={imgSrc}
           selectOption={selectOption}
           setCanvasUrls={setCanvasUrls}
         />

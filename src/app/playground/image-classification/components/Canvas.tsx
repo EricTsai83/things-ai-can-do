@@ -5,26 +5,31 @@ import { Layer, Line, Stage, Text } from 'react-konva';
 import LoadingButton from '@/components/LoadingButton';
 import { apiNotify } from '@/components/ReactToast';
 import { FlipToastContainer } from '@/components/ReactToast';
+import TooltipContainer from '@/components/TooltipContainer';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import type { ApiResponse } from '../types';
+import type { Response } from '../types';
 
 interface LineData {
-  tool: string;
+  drawingTool: string;
   points: number[];
 }
 
 interface CanvasProps {
-  tool: string;
-  setApiResponse: Dispatch<SetStateAction<ApiResponse[] | null>>;
+  drawingTool: string;
+  setResponses: Dispatch<SetStateAction<Response[] | null>>;
 }
 
-function Canvas({ tool, setApiResponse }: CanvasProps) {
+interface CanvasStageWidth {
+  width: number;
+}
+
+function Canvas({ drawingTool, setResponses }: CanvasProps) {
   const [lines, setLines] = useState<LineData[]>([]);
   const isDrawing = useRef(false);
   const stageRef = useRef<Konva.Stage>(null);
   const divRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({
+  const [canvasStageWidth, setCanvasStageWidth] = useState<CanvasStageWidth>({
     width: 0,
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +40,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
 
     isDrawing.current = true;
     const pos = stage.getPointerPosition();
-    setLines([...lines, { tool, points: [pos?.x ?? 0, pos?.y ?? 0] }]);
+    setLines([...lines, { drawingTool, points: [pos?.x ?? 0, pos?.y ?? 0] }]);
   };
 
   const handleMouseMove = (event: Konva.KonvaEventObject<MouseEvent>) => {
@@ -70,13 +75,13 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
       setIsLoading(true);
       const uri = stage.toDataURL();
       const blobData = dataURItoBlob(uri);
-      const respond = await huggingFaceApi.getSketchClassifier(blobData);
-      console.log(respond);
+      const response = await huggingFaceApi.getSketchClassifier(blobData);
+      console.log(response);
 
-      if (respond.error) {
+      if (response.error) {
         apiNotify();
       } else {
-        setApiResponse(respond);
+        setResponses(response);
       }
     } catch (e) {
       apiNotify();
@@ -94,16 +99,14 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
     document.body.removeChild(link);
   }
 
-  // We can't set the h & w on Stage to 100% it only takes px values so we have to
-  // find the parent container's w and h and then manually set those !
   useEffect(() => {
     if (divRef.current?.offsetWidth) {
       if (divRef.current?.offsetWidth >= 1280) {
-        setDimensions({
+        setCanvasStageWidth({
           width: divRef.current.offsetWidth - 240 - 220,
         });
       } else if (divRef.current?.offsetWidth < 1280) {
-        setDimensions({
+        setCanvasStageWidth({
           width: divRef.current.offsetWidth,
         });
       }
@@ -123,7 +126,7 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
       </button>
       <Stage
         ref={stageRef}
-        width={dimensions.width}
+        width={canvasStageWidth.width}
         height={350}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -141,7 +144,9 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
               lineCap="round"
               lineJoin="round"
               globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                line.drawingTool === 'eraser'
+                  ? 'destination-out'
+                  : 'source-over'
               }
             />
           ))}
@@ -157,12 +162,16 @@ function Canvas({ tool, setApiResponse }: CanvasProps) {
 ">
           下載圖畫
         </button>
-
-        <LoadingButton
-          isLoading={isLoading}
-          executeFunction={getSketchClassifier}
-          text="模型推論"
-        />
+        <TooltipContainer
+          tooltips="
+            在一段時間後，首次做模型推論，
+            模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
+          <LoadingButton
+            isLoading={isLoading}
+            executeFunction={getSketchClassifier}
+            text="模型推論"
+          />
+        </TooltipContainer>
       </div>
 
       <FlipToastContainer />

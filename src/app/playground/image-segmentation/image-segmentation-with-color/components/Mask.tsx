@@ -1,12 +1,13 @@
 'use client';
-import Image from 'next/image';
-import { Respond } from '../ImageSegmentationWithColor';
 
-function Mask({ segmentations }: { segmentations: Respond[] }) {
+import Image from 'next/image';
+import { Response } from '../../types.d';
+
+function Mask({ segmentations }: { segmentations: Response[] }) {
   return (
     <div className="flex flex-row gap-x-10">
       {segmentations &&
-        segmentations.map((segmentation: Respond, id: number) => {
+        segmentations.map((segmentation: Response, id: number) => {
           return (
             <Image
               key={id}
