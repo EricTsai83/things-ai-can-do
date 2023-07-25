@@ -84,7 +84,7 @@ function Page() {
                 src={article.img}
                 width={0}
                 height={0}
-                alt=""
+                alt={`${article.title}`}
               />
               <div
                 className="
