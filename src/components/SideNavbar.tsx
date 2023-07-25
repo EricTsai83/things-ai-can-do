@@ -37,27 +37,27 @@ function SideNavbar() {
   const [selected, setSelected] = useState('首頁');
 
   useEffect(() => {
-    const pathElements = pathname.split('/');
-    const lastElement = pathElements[pathElements.length - 1];
+    if (pathname) {
+      const pathElements = pathname.split('/');
+      const lastElement = pathElements[pathElements.length - 1];
 
-    if (lastElement === '') {
-      setSelected('首頁');
-    } else if (lastElement === 'facial-recognition') {
-      setSelected('臉部識別');
-    } else if (lastElement === 'chat-gpt') {
-      setSelected('聊天機器人');
-    } else if (lastElement === 'text-to-image') {
-      setSelected('文字生成圖片');
-    } else if (lastElement === 'human-image-matting') {
-      setSelected('圖像分割');
-    } else if (lastElement === 'image-classification') {
-      setSelected('圖片分類');
-    } else if (lastElement === 'data-science') {
-      setSelected('資料科學');
-    } else if (lastElement === 'data-visualization') {
-      setSelected('資料視覺化');
-    } else if (lastElement === 'news-letter') {
-      setSelected('訂閱電子報');
+      if (lastElement === '') {
+        setSelected('首頁');
+      } else if (lastElement === 'facial-recognition') {
+        setSelected('臉部識別');
+      } else if (lastElement === 'chat-gpt') {
+        setSelected('聊天機器人');
+      } else if (lastElement === 'text-to-image') {
+        setSelected('文字生成圖片');
+      } else if (lastElement === 'human-image-matting') {
+        setSelected('圖像分割');
+      } else if (lastElement === 'image-classification') {
+        setSelected('圖片分類');
+      } else if (lastElement === 'data-science') {
+        setSelected('資料科學');
+      } else if (lastElement === 'newsletter') {
+        setSelected('訂閱電子報');
+      }
     }
   }, [pathname]);
 
@@ -210,7 +210,7 @@ function SideNavbar() {
 
               <div className={blockStyle}>
                 <h2 className={titleStyle}>AI 圖書館</h2>
-                <Link href={'/library'} prefetch={false}>
+                <Link href={'/library/data-science'} prefetch={false}>
                   <div
                     onClick={() => {
                       setSelected('資料科學');
