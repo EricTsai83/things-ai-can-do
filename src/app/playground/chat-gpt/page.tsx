@@ -46,8 +46,8 @@ function Page() {
             <Divider
               className="
                 cursor-col-resize border-4 border-gray-700
-                hover:border-4 hover:border-teal-500
-                active:border-4 active:border-teal-500"
+                hover:border-4 hover:border-teal-600
+                active:border-4 active:border-teal-600"
             />
             <SplitPaneRight>
               <div className="h-full rounded-t-lg bg-gray-500">
