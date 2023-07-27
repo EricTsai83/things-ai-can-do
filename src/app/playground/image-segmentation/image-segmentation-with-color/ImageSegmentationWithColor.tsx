@@ -40,19 +40,16 @@ function Page() {
 
   useEffect(() => {
     async function fetchLocalImg() {
-      console.log(womanImg.src);
       const response = await fetch(womanImg.src);
       const imgArrayBuffer = await response.arrayBuffer();
       const imgBlob = new Blob([imgArrayBuffer], {
         type: 'image/jpeg',
       });
-      console.log(imgBlob);
       const imgUrl = URL.createObjectURL(imgBlob);
       setImgBlobForAPI((draft: ImgBlob) => {
         draft[imgUrl] = imgBlob;
         return draft;
       });
-      console.log(imgUrl);
       setDroppedImages((prevImages) => [...prevImages, imgUrl]);
       setImgSrc(imgUrl);
     }
@@ -73,7 +70,6 @@ function Page() {
     try {
       setIsLoading(true);
       const response = await huggingFaceApi.getImageSegmentation(data);
-      console.log(response);
       if (response.error) {
         apiNotify();
       } else {
@@ -99,7 +95,6 @@ function Page() {
     }
 
     if (imgFile.size > maxSize) {
-      console.log('handleDrop');
       imgSizeNotify();
       return;
     }

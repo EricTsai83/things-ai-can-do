@@ -104,7 +104,6 @@ function ChatGPT() {
             `}>
             <BsFiletypeJson
               onClick={() => {
-                console.log(response);
                 setReformatToggle((prev) => !prev);
               }}
               className="cursor-pointer text-2xl text-gray-200 active:text-white"

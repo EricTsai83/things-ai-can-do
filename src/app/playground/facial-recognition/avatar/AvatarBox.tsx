@@ -175,7 +175,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     if (event.key !== 'Enter') return;
     const target = event.target as HTMLInputElement;
     if (validateURL(target.value) && event.key === 'Enter') {
-      console.log(target.value);
       setUrl(target.value);
       target.value = '';
     } else {
@@ -195,25 +194,15 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     if ('gender' in searchParams && 'age' in searchParams) {
       if (searchParams.gender === 'man' && searchParams.age === '40') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
-
         setUrl('https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb');
       } else if (searchParams.gender === 'woman' && searchParams.age === '36') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
         setUrl('https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb');
       } else if (searchParams.gender === 'man' && searchParams.age === '28') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
         setUrl('https://models.readyplayer.me/648ef0aef2caada0866fd637.glb');
       } else if (searchParams.gender === 'woman' && searchParams.age === '18') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
         setUrl('https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb');
       } else {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
+        //pass
       }
     }
   }, [searchParams.gender, searchParams.age, searchParams, setUrl]);

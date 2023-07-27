@@ -101,7 +101,6 @@ function Dropzone({
           body: JSON.stringify({ image_base64: imgBase64Str[imgSrc] }),
         });
         const data = await response.json();
-        console.log(data);
         setFaceDetails(data.Tags.FaceDetails);
       } catch (e) {
         apiNotify();
@@ -130,18 +129,12 @@ function Dropzone({
         .then((response) => response.blob())
         .then((blob) => {
           handleSampleImgCallback(blob);
-        })
-        .catch((error) => {
-          console.error('Failed to fetch image:', error);
         });
     } else if (searchParams.img === 'sample-img-2') {
       fetch(sampleImg2.src)
         .then((response) => response.blob())
         .then((blob) => {
           handleSampleImgCallback(blob);
-        })
-        .catch((error) => {
-          console.error('Failed to fetch image:', error);
         });
     } else {
       // pass

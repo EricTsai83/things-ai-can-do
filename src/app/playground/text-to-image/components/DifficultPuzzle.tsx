@@ -39,7 +39,6 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
     if (target) {
       zIndexCounter.current++;
       target.style.zIndex = zIndexCounter.current.toString();
-      console.log(event.target);
     }
   };
 
@@ -73,7 +72,6 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
     ) {
       const tile = document.getElementById(tileId);
       if (tile) {
-        console.log(tile);
         tile.style.backgroundImage = `url(${imgBlobs[id]})`;
         target.style.display = 'none';
       }
@@ -85,7 +83,6 @@ function DifficultPuzzle({ imgBlobs }: { imgBlobs: TileObject }) {
 
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        console.log(imgBlobs);
         const puzzlePieceSrc = imgBlobs[`piece_${i}_${j}`];
         const puzzlePieceAlt = `Puzzle Piece piece_${i}_${j}`;
 

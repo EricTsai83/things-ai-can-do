@@ -15,7 +15,6 @@ function FacialAnalysis({ faceDetails, faceUrls }: Props) {
   const [faceAnalysis, setFaceAnalysis] = useState<FaceDetail | null>(null);
 
   async function showFaceAnalysisResult(idx: number) {
-    console.log(idx);
     faceDetails && setFaceAnalysis(faceDetails[idx]);
   }
 

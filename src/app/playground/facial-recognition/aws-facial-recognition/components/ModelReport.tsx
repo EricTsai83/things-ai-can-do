@@ -26,7 +26,6 @@ export default function ModelReport({
   const [faceUrls, setFaceUrls] = useState<string[]>([]);
 
   async function asyncDrawFacialResultOnImg(faceDetails: FaceDetail[]) {
-    console.log(selectOption);
     if (imgSrc && faceDetails && selectOption) {
       const marksUsed = selectOption.map((element) => element.label);
       const newImageUrl = await drawFacialResultOnImg(
