@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 interface Props {
   tooltips: string;
   tooltipsStyle?: string;
@@ -12,8 +13,8 @@ function TooltipContainer({ tooltips, tooltipsStyle, children }: Props) {
         className={
           tooltipsStyle
             ? tooltipsStyle
-            : `absolute
-          top-0 hidden rounded-xl 
+            : `absolute top-0
+          hidden rounded-xl 
           bg-white px-3 py-5 text-sm
           font-semibold text-white shadow-2xl
           before:absolute before:-bottom-1.5
@@ -21,7 +22,7 @@ function TooltipContainer({ tooltips, tooltipsStyle, children }: Props) {
           before:-translate-x-1/2 
           before:rotate-45
           group-hover:-top-40
-          group-hover:z-10
+          group-hover:z-40
           group-hover:block
         group-hover:bg-teal-600
           group-hover:opacity-100

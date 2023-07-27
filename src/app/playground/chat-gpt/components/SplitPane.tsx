@@ -74,7 +74,6 @@ interface ClassNameProps {
 
 export const Divider = (props: ClassNameProps) => {
   const { onMouseHoldDown } = useContext(SplitPaneContext);
-
   return <div {...props} onMouseDown={onMouseHoldDown} />;
 };
 
@@ -110,7 +109,9 @@ export const SplitPaneTop = () => {
           return (
             <li key={element.id} className="md:w-[320px]">
               <div
-                className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
+                className="
+                  text-xl text-gray-800 
+                  hover:underline hover:decoration-teal-400 hover:underline-offset-4"
                 onClick={() => setCurrContent(element.id)}>
                 {element.subject}
 
@@ -185,7 +186,7 @@ interface SplitPaneRightProps {
 }
 
 export const SplitPaneRight = ({ children }: SplitPaneRightProps) => {
-  return <div className="flex-1 overflow-auto">{children}</div>;
+  return <div className="flex-1 overflow-visible">{children}</div>;
 };
 
 export default SplitPane;

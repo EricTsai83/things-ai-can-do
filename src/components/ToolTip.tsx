@@ -25,10 +25,10 @@ function ToolTip({ children, tooltip }: Props) {
           ref={tooltipRef}
           className="
           invisible absolute top-full
-          mt-2 whitespace-nowrap
-          rounded-xl bg-teal-500 p-1 text-white opacity-0 
-          transition group-hover:visible
-          group-hover:opacity-100
+          mt-2
+          whitespace-nowrap rounded-xl bg-teal-500 p-1 text-white 
+          opacity-0 transition
+          group-hover:visible group-hover:z-10 group-hover:opacity-100
         ">
           {tooltip}
         </span>

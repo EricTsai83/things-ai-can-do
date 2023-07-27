@@ -1,3 +1,10 @@
+export interface Plan {
+  title: string;
+  description1: string;
+  description2: string;
+  description3: string;
+}
+
 export const plans = [
   {
     title: '直接顯示圖片',
