@@ -10,7 +10,7 @@ function PromptSearchBox() {
   const [selected, setSelected] = useState(prompts[0]);
   const [query, setQuery] = useState('');
 
-  const filteredPrompt =
+  const optionList =
     query === ''
       ? prompts
       : prompts.filter((prompt) =>
@@ -19,6 +19,39 @@ function PromptSearchBox() {
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
         );
+
+  function getOptionTemplate(
+    prompt: Prompt,
+    selected: boolean,
+    active: boolean,
+  ) {
+    return (
+      <>
+        <span
+          className={`block truncate ${
+            selected ? 'font-medium' : 'font-normal'
+          }`}>
+          {prompt.text}
+        </span>
+        {selected ? (
+          <span
+            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+              active ? 'text-white' : 'text-teal-600'
+            }`}>
+            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+          </span>
+        ) : null}
+      </>
+    );
+  }
+
+  function getEmptyOptionTemplate() {
+    return (
+      <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
+        Nothing found.
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -56,41 +89,22 @@ function PromptSearchBox() {
             leaveTo="opacity-0"
             afterLeave={() => setQuery('')}>
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredPrompt.length === 0 && query !== '' ? (
-                <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-                  Nothing found.
-                </div>
-              ) : (
-                filteredPrompt.map((person) => (
-                  <Combobox.Option
-                    key={person.id}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900'
-                      }`
-                    }
-                    value={person}>
-                    {({ selected, active }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? 'font-medium' : 'font-normal'
-                          }`}>
-                          {person.text}
-                        </span>
-                        {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? 'text-white' : 'text-teal-600'
-                            }`}>
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Combobox.Option>
-                ))
-              )}
+              {optionList.length === 0 && query !== ''
+                ? getEmptyOptionTemplate()
+                : optionList.map((prompt) => (
+                    <Combobox.Option
+                      key={prompt.id}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                        }`
+                      }
+                      value={prompt}>
+                      {({ selected, active }) =>
+                        getOptionTemplate(prompt, selected, active)
+                      }
+                    </Combobox.Option>
+                  ))}
             </Combobox.Options>
           </Transition>
         </div>

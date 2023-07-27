@@ -39,12 +39,16 @@ function Page() {
             </div>
           </div>
 
-          <SplitPane className="hidden h-full w-full flex-row md:flex">
+          <SplitPane className="hidden h-full w-full flex-row  md:flex">
             <SplitPaneLeft>
               <SplitPaneBottom />
             </SplitPaneLeft>
-            <Divider className="cursor-col-resize border border-gray-800 hover:border-4 active:border-4" />
-
+            <Divider
+              className="
+                cursor-col-resize border-4 border-gray-700
+                hover:border-4 hover:border-teal-600
+                active:border-4 active:border-teal-600"
+            />
             <SplitPaneRight>
               <div className="h-full rounded-t-lg bg-gray-500">
                 <ChatGPT />

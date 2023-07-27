@@ -42,10 +42,8 @@ function Dropzone() {
       const imgBlob = new Blob([imgArrayBuffer], {
         type: 'image/jpeg',
       });
-      console.log(imgBlob);
       const imgUrl = URL.createObjectURL(imgBlob);
       setImgBlobForAPI(imgBlob);
-      console.log(imgUrl);
       setImgSrc(imgUrl);
     }
 
@@ -108,9 +106,7 @@ function Dropzone() {
   async function getImageSegmentation(data: Blob) {
     try {
       setIsLoading(true);
-      console.log(data);
       const response = await huggingFaceApi.getImageSegmentation(data);
-      console.log(response);
       if (response.error) {
         apiNotify();
       } else {
@@ -141,16 +137,14 @@ function Dropzone() {
       },
     ];
 
-    await replaceColorsInPNG(apiMask, colorMappings)
-      .then((modifiedPNGString) => {
+    await replaceColorsInPNG(apiMask, colorMappings).then(
+      (modifiedPNGString) => {
         setMask((draft) => {
           draft[apiMask] = modifiedPNGString as string;
           return draft;
         });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      },
+    );
   }
 
   async function coverToggle(apiMask: string) {

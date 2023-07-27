@@ -32,38 +32,32 @@ function Page() {
   const [modeSelected, setModeSelected] = useState<ModeSelected>(plans[1]);
 
   async function getStableDiffusionImage() {
-    try {
-      if (textForDiffusion.current) {
-        setIsLoading(true);
-        const postData = {
-          inputs: textForDiffusion.current.value,
-          options: {
-            wait_for_model: true,
-          },
-        };
-        try {
-          const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
-          const imgUrl = URL.createObjectURL(myBlob);
-          setImgUrl(imgUrl);
-          setShowEasyPuzzle(true);
-          setShowDifficultPuzzle(false);
-          setShowImage(false);
-          setModeSelected(plans[1]);
-        } catch (event) {
-          apiNotify();
-        } finally {
-          setIsLoading(false);
-        }
+    if (textForDiffusion.current) {
+      setIsLoading(true);
+      const postData = {
+        inputs: textForDiffusion.current.value,
+        options: {
+          wait_for_model: true,
+        },
+      };
+      try {
+        const myBlob = await huggingFaceApi.getStableDiffusionImage(postData);
+        const imgUrl = URL.createObjectURL(myBlob);
+        setImgUrl(imgUrl);
+        setShowEasyPuzzle(true);
+        setShowDifficultPuzzle(false);
+        setShowImage(false);
+        setModeSelected(plans[1]);
+      } catch (event) {
+        apiNotify();
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      console.log(err);
-      console.log('model is currently loading');
     }
   }
 
   const getSplitImage = async (imageUrl: string) => {
     const tileObj = await splitImage(imageUrl);
-    console.log(tileObj);
     setImgBlobs(tileObj);
   };
 
@@ -71,7 +65,6 @@ function Page() {
     if (imgUrl) {
       await getSplitImage(imgUrl);
       setShowDifficultPuzzle(true);
-      console.log('Cut completed.');
     }
   }
 

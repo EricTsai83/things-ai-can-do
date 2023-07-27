@@ -19,7 +19,11 @@ interface InitialStates {
   style: string;
 }
 
-function EasyPuzzle({ imgUrl }: { imgUrl: string }) {
+interface Props {
+  imgUrl: string;
+}
+
+function EasyPuzzle({ imgUrl }: Props) {
   let initialStates: InitialStates[] = [
     { dataId: 1, style: '-200px 0px' },
     { dataId: 0, style: '0px 0px' }, // Avoid puzzle is completed before the shuffle.

@@ -5,6 +5,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 import { BsFiletypeJson } from 'react-icons/bs';
 import { MdCleaningServices } from 'react-icons/md';
 import LoadingAnimation from '@/components/LoadingAnimation';
+import TooltipContainer from '@/components/TooltipContainer';
 
 function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -81,20 +82,62 @@ function ChatGPT() {
             p-2 text-center text-2xl text-gray-200">
           ChatGPT
         </div>
-        <BsFiletypeJson
-          onClick={() => {
-            console.log(response);
-            setReformatToggle((prev) => !prev);
-          }}
-          className="absolute right-16 top-3 cursor-pointer text-2xl text-gray-200 active:text-white"
-        />
-        <MdCleaningServices
-          onClick={() => {
-            setReformatToggle(false);
-            setResponse('');
-          }}
-          className="absolute right-5 top-3 cursor-pointer text-2xl text-gray-200 active:text-white"
-        />
+
+        <div className="absolute right-16 top-3">
+          <TooltipContainer
+            tooltips="將 ChatGPT 回傳的資料格式轉為可閱讀的格式。"
+            tooltipsStyle={`absolute top-0 w-40
+            hidden rounded-xl 
+            bg-white px-3 py-5 text-sm
+            font-semibold text-white shadow-2xl
+            before:absolute before:-bottom-1.5
+            before:left-[50%] before:h-4 before:w-4
+            before:-translate-x-1/2 
+            before:rotate-45
+            group-hover:-top-32
+            group-hover:z-40
+            group-hover:block
+          group-hover:bg-teal-600
+            group-hover:opacity-100
+            group-hover:drop-shadow-md
+          before:group-hover:bg-teal-600
+            `}>
+            <BsFiletypeJson
+              onClick={() => {
+                setReformatToggle((prev) => !prev);
+              }}
+              className="cursor-pointer text-2xl text-gray-200 active:text-white"
+            />
+          </TooltipContainer>
+        </div>
+        <div className="absolute right-5 top-3">
+          <TooltipContainer
+            tooltips="清除回覆"
+            tooltipsStyle={`absolute top-0 w-20
+            hidden rounded-xl 
+            bg-white px-3 py-5 text-sm
+            font-semibold text-white shadow-2xl
+            before:absolute before:-bottom-1.5
+            before:left-[50%] before:h-4 before:w-4
+            before:-translate-x-1/2 
+            before:rotate-45
+            group-hover:-top-24
+            group-hover:z-40
+            group-hover:block
+          group-hover:bg-teal-600
+            group-hover:opacity-100
+            group-hover:drop-shadow-md
+          before:group-hover:bg-teal-600
+            `}>
+            <MdCleaningServices
+              onClick={() => {
+                setReformatToggle(false);
+                setResponse('');
+              }}
+              className="cursor-pointer text-2xl text-gray-200 active:text-white"
+            />
+          </TooltipContainer>
+        </div>
       </div>
       <div className="w-full">
         {response && (

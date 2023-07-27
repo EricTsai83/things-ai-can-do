@@ -76,7 +76,6 @@ function Canvas({ drawingTool, setResponses }: CanvasProps) {
       const uri = stage.toDataURL();
       const blobData = dataURItoBlob(uri);
       const response = await huggingFaceApi.getSketchClassifier(blobData);
-      console.log(response);
 
       if (response.error) {
         apiNotify();

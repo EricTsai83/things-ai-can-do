@@ -1,9 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+
 import Image from 'next/image';
-import replaceColorsInPNG from '@/utils/replace-color-in-png';
+import { useEffect, useState } from 'react';
 import generateHighlyDistinctRGB from '@/utils/generate-highly-distinct-rgb';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
+import replaceColorsInPNG from '@/utils/replace-color-in-png';
 
 interface Segmentation {
   score: number;
@@ -33,8 +34,6 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
 
   useEffect(() => {
     if (maskUniqueColors) {
-      console.log(segmentations);
-
       const randomRGB = generateHighlyDistinctRGB(segmentations.length);
       let arrays: string[] = [];
       segmentations.forEach((segmentation: Segmentation, idx: number) => {
@@ -54,16 +53,13 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
           },
         ];
 
-        replaceColorsInPNG(segmentation.mask, colorMappings)
-          .then((modifiedPNGString): void => {
+        replaceColorsInPNG(segmentation.mask, colorMappings).then(
+          (modifiedPNGString): void => {
             const pngStr = modifiedPNGString as string;
             modifiedPNGString && arrays.push(pngStr);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+          },
+        );
       });
-      console.log(arrays);
       setPngStrAfterColorChange(arrays);
     }
   }, [segmentations, maskUniqueColors]);
