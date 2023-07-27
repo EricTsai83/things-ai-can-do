@@ -20,7 +20,11 @@ function PromptSearchBox() {
             .includes(query.toLowerCase().replace(/\s+/g, '')),
         );
 
-  function getOptionTemplate(prompt: any, selected: any, active: any) {
+  function getOptionTemplate(
+    prompt: Prompt,
+    selected: boolean,
+    active: boolean,
+  ) {
     return (
       <>
         <span

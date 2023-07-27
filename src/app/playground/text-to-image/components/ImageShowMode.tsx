@@ -14,6 +14,12 @@ interface Props {
   setShowEasyPuzzle: Dispatch<SetStateAction<boolean>>;
 }
 
+enum GameMode {
+  DIFFICULT = '拼圖遊戲(困難)',
+  EASY = '拼圖遊戲(簡單)',
+  DIRECT_DISPLAY = '直接顯示圖片',
+}
+
 export default function ImageShowMode({
   modeSelected,
   setModeSelected,
@@ -24,22 +30,22 @@ export default function ImageShowMode({
 }: Props) {
   function showPuzzleGame(plan: Plan) {
     if (
-      plan.title === '拼圖遊戲(困難)' &&
-      modeSelected.title !== '拼圖遊戲(困難)'
+      plan.title === GameMode.DIFFICULT &&
+      modeSelected.title !== GameMode.DIFFICULT
     ) {
       setShowEasyPuzzle(false);
       setShowImage(false);
       getPuzzle();
     } else if (
-      plan.title === '拼圖遊戲(簡單)' &&
-      modeSelected.title !== '拼圖遊戲(簡單)'
+      plan.title === GameMode.EASY &&
+      modeSelected.title !== GameMode.EASY
     ) {
       setShowDifficultPuzzle(false);
       setShowImage(false);
       setShowEasyPuzzle(true);
     } else if (
-      plan.title === '直接顯示圖片' &&
-      modeSelected.title !== '直接顯示圖片'
+      plan.title === GameMode.DIRECT_DISPLAY &&
+      modeSelected.title !== GameMode.DIRECT_DISPLAY
     ) {
       setShowDifficultPuzzle(false);
       setShowEasyPuzzle(false);
