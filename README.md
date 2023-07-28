@@ -5,18 +5,10 @@
     <img src="./img/logo.png" alt="Logo" width="80px">
   </a>
   
-![Next.js](https://img.shields.io/badge/Next.js-^13.4.7-black)
-![React](https://img.shields.io/badge/React-18.2.0-61DAFB)
-![typescript](https://img.shields.io/badge/typescript-5.1.3-blue)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-^3.3.2-%2338B2AC.svg)
-
-  <p align="center">
-    <a href="https://github.com/EricTsai83/thing-ai-can-do# About">About</a>
-    |
-    <a href="https://github.com/EricTsai83/thing-ai-can-do# Flow chart">Flow chart</a>
-    |
-    <a href="https://github.com/EricTsai83/thing-ai-can-do# Demo">Demo</a>
-  </p>
+	![Next.js](https://img.shields.io/badge/Next.js-^13.4.7-black)
+	![React](https://img.shields.io/badge/React-18.2.0-61DAFB)
+	![typescript](https://img.shields.io/badge/typescript-5.1.3-blue)
+	![TailwindCSS](https://img.shields.io/badge/tailwindcss-^3.3.2-%2338B2AC.svg)
 </div>
 
 
