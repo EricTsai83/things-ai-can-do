@@ -4,7 +4,7 @@
     style="margin-bottom:20px; display:block;">
     <img src="./img/logo.png" alt="Logo" width="80px">
   </a>
-  
+
 ![Next.js](https://img.shields.io/badge/Next.js-^13.4.7-black)
 ![React](https://img.shields.io/badge/React-18.2.0-61DAFB)
 ![typescript](https://img.shields.io/badge/typescript-5.1.3-blue)
