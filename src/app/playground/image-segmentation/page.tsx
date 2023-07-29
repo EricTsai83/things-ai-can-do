@@ -8,7 +8,7 @@ import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSeg
 
 function Page() {
   return (
-    <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="flex w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <PageTitle
         title="圖像分割"
         content="
@@ -23,11 +23,11 @@ function Page() {
           <IoCutSharp className="flex items-center justify-center text-6xl text-teal-700" />
         </div>
       </PageTitle>
-      <h2 className="mb-3 text-2xl font-semibold text-teal-700">
+      <h2 className="mb-3 text-xl font-semibold text-teal-700 ssm:text-2xl">
         步驟一：透過顏色了解模型如何對圖中的物件做分割
       </h2>
       <ImageSegmentationWithColor />
-      <h2 className="mb-3 mt-16 text-2xl font-semibold text-teal-700">
+      <h2 className="mb-3 mt-16 text-xl font-semibold text-teal-700 ssm:text-2xl">
         步驟二：選擇特定分割出來的圖層進行遮罩來實現去背的效果
         (白色：遮罩區域、黑色：保留區域)
       </h2>

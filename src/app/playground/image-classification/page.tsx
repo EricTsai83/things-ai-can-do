@@ -35,7 +35,7 @@ function Page() {
   }, [responses, subject]);
 
   return (
-    <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="flex w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <PageTitle
         title="圖片分類"
         content="
