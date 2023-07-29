@@ -1,7 +1,9 @@
-import PageTitle from '@/components/PageTitle';
+import dynamic from 'next/dynamic';
+import { AiFillInfoCircle } from 'react-icons/ai';
 import { BsFillRocketTakeoffFill } from 'react-icons/bs';
 import HomeSlider from '@/components/HomeSlider';
-import dynamic from 'next/dynamic';
+import PageTitle from '@/components/PageTitle';
+
 const DynamicNewsletter = dynamic(() => import('@/components/Newsletter'), {
   loading: () => <p>Loading...</p>,
 });
@@ -18,6 +20,13 @@ function Page() {
           ，讓AI為你帶來驚奇與便利，一同體驗未來科技的奇蹟吧！">
         <BsFillRocketTakeoffFill className="flex items-center justify-center text-5xl text-teal-700" />
       </PageTitle>
+
+      <div className="flex items-center gap-1 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 bg-clip-text text-xl font-bold">
+        <AiFillInfoCircle className="text-xl font-bold text-red-500" />
+        <span className="text-transparent">
+          大部分的互動遊戲需要透過電腦才可以遊玩喔！
+        </span>
+      </div>
       <HomeSlider />
       <DynamicNewsletter />
     </div>

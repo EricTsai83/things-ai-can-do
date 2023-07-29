@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 const buttonStyle =
-  'rounded-lg bg-zinc-800 px-3 py-2 text-white md:px-6 md:py-2 ';
+  'rounded-lg bg-zinc-800 py-2 text-white md:py-2 text-sm min-w-[70px]';
 
 export default function ProfileIcon() {
   const { data: session, status } = useSession();

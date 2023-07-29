@@ -61,7 +61,7 @@ export default function ModelReport({
                 hover:bg-teal-100 focus:outline-none
                   focus-visible:ring focus-visible:ring-teal-200
                   focus-visible:ring-opacity-75 ">
-                <span className="flex items-center text-xl">
+                <span className="flex items-center text-sm ssm:text-xl">
                   <p>顯示臉部偵測點在圖片上</p>
                   <IoIosRefreshCircle
                     onClick={(event) => {
@@ -126,7 +126,7 @@ export default function ModelReport({
                 px-4 py-2 text-left text-lg font-medium text-teal-600
                 hover:bg-teal-100 focus:outline-none focus-visible:ring
                 focus-visible:ring-teal-200 focus-visible:ring-opacity-75">
-                <span className="flex items-center text-xl">
+                <span className="flex items-center text-sm ssm:text-xl">
                   <p>臉部分析模型推論結果</p>
                   <IoIosRefreshCircle
                     onClick={(event) => {
@@ -150,7 +150,7 @@ export default function ModelReport({
                   } h-8 w-8 text-teal-600`}
                 />
               </Disclosure.Button>
-              <Disclosure.Panel className="flex flex-col items-start px-6 pb-2 pt-4 text-sm text-gray-500">
+              <Disclosure.Panel className="flex flex-col items-start pb-2 pt-4 text-sm text-gray-500 ssm:px-6">
                 {faceDetails ? (
                   <div className="w-full">
                     <div className="flex">
