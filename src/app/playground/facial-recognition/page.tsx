@@ -27,7 +27,7 @@ function Page({ searchParams }: Props) {
   const [canvasUrls, setCanvasUrls] = useState<string | null>(null);
 
   return (
-    <div className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="flex w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <PageTitle
         title="臉部識別"
         content="
@@ -38,7 +38,7 @@ function Page({ searchParams }: Props) {
         底下功能能夠深度帶你了解 AI 是如何對你的臉進行分析的，動手玩看看吧！">
         <LuScanFace className="flex items-center justify-center text-5xl text-teal-700" />
       </PageTitle>
-      <div className="flex w-full flex-col-reverse gap-6 md:flex-row ">
+      <div className="flex w-full flex-col-reverse items-start gap-6 md:flex-row ">
         {tabClass === 'picture' ? (
           <AwsFacialRecognition
             searchParams={searchParams}
@@ -53,7 +53,7 @@ function Page({ searchParams }: Props) {
         ) : (
           <AvatarBox searchParams={searchParams} />
         )}
-        <div className="flex w-full min-w-[360px] flex-col items-end gap-6">
+        <div className="flex w-full flex-col items-end gap-6">
           <Tabs
             setTabClass={setTabClass}
             setFaceDetails={setFaceDetails}

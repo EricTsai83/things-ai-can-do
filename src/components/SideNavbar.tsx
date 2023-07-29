@@ -20,7 +20,7 @@ const navItemStyle = `
   group flex w-full cursor-pointer items-center justify-start
   gap-4 rounded-lg pb-4 pl-5 pr-2 pt-4 hover:bg-zinc-100`;
 const iconStyle = `text-2xl text-gray-600 group-hover:text-gray-800`;
-const nameStyle = `text-base font-medium text-gray-600 group-hover:text-gray-800`;
+const nameStyle = `text-sm ssm:text-base font-medium text-gray-600 group-hover:text-gray-800`;
 const titleStyle = `pb-4 text-xl font-semibold text-gray-600 underline underline-offset-4 decoration-teal-500`;
 const blockStyle = `my-4 border-b border-gray-100 pb-4`;
 
@@ -30,7 +30,7 @@ const selectedNavItemStyle = `
 const selectedIconStyle = `
   text-2xl text-teal-800`;
 const selectedNameStyle = `
-  text-base font-medium text-teal-800`;
+text-sm ssm:text-base font-medium text-teal-800`;
 
 function SideNavbar() {
   const pathname = usePathname();
@@ -251,7 +251,7 @@ function SideNavbar() {
                       hover:bg-gradient-to-r hover:from-emerald-200  hover:to-lime-200 hover:shadow-lg
                     `}>
                     <HiOutlineMail className="text-2xl text-gray-600 group-hover:text-gray-800" />
-                    <h3 className="text-base font-semibold text-gray-600 group-hover:text-gray-800">
+                    <h3 className="text-sm font-semibold text-gray-600 group-hover:text-gray-800 ssm:text-base">
                       訂閱電子報
                     </h3>
                   </div>

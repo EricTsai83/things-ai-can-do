@@ -11,6 +11,7 @@ import {
 } from '@mediapipe/tasks-vision';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+import RingLoader from 'react-spinners/RingLoader';
 import { Color, Euler, Matrix4 } from 'three';
 import ToolTip from '@/components/ToolTip';
 import type { SearchParams } from '../types';
@@ -185,8 +186,8 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     setup();
     return () => {
-      video.removeEventListener('loadeddata', predict);
-      window.cancelAnimationFrame(animationFrame);
+      video && video.removeEventListener('loadeddata', predict);
+      animationFrame && window.cancelAnimationFrame(animationFrame);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -209,13 +210,13 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
 
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border-cyan-600">
-      <div className="h-7 min-w-[380px] rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 md:w-full"></div>
-      <div className="min-w-[380px] rounded-t-xl">
+      <div className="h-7 w-[320px] rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 ssm:w-[380px] md:w-[450px]"></div>
+      <div className="flex items-center justify-center rounded-t-xl">
         <div
           className="
-            relative flex h-[600px] w-[380px] flex-col
-            items-center justify-center  bg-gradient-to-r
-          from-cyan-500 to-blue-500 md:w-[500px]">
+            relative flex h-[600px] w-[320px] flex-col items-center
+            justify-center bg-gradient-to-r  from-cyan-500
+          to-blue-500 ssm:w-[380px] md:w-[450px]">
           <input
             ref={inputRef}
             className="mt-4 flex h-8 w-4/5 items-center justify-center rounded-xl bg-stone-100 px-[16px]"
@@ -234,51 +235,71 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
               id="output_canvas"></canvas>
           </div>
 
-          <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
-            <ambientLight intensity={0.5} />
-            <pointLight
-              position={[10, 10, 10]}
-              color={new Color(1, 1, 0)}
-              intensity={0.5}
-              castShadow
-            />
-            <pointLight
-              position={[-10, 0, 10]}
-              color={new Color(1, 0, 0)}
-              intensity={0.5}
-              castShadow
-            />
-            <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
-            {rotation && url && (
-              <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
-            )}
-          </Canvas>
-        </div>
-
-        <div
-          className="
-          flex w-[380px] rounded-b-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
-          p-1 md:w-[500px]">
-          <Link
-            className="flex items-center"
-            href="https://demo.readyplayer.me/avatar"
-            target="_blank">
-            <ToolTip tooltip="點我創建屬於自己的虛擬人像">
-              <div className="rounded-b-2xl ">
-                <Image
-                  className="rounded-2xl"
-                  src={readyPlayerMeImg}
-                  alt="ready player me logo"
-                  width={0}
-                  height={0}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                  }}
+          {rotation && url ? (
+            <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
+              <ambientLight intensity={0.5} />
+              <pointLight
+                position={[10, 10, 10]}
+                color={new Color(1, 1, 0)}
+                intensity={0.5}
+                castShadow
+              />
+              <pointLight
+                position={[-10, 0, 10]}
+                color={new Color(1, 0, 0)}
+                intensity={0.5}
+                castShadow
+              />
+              <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
+              {rotation && url && (
+                <Avatar
+                  url={url}
+                  blendshapes={blendshapes}
+                  rotation={rotation}
                 />
-              </div>
-            </ToolTip>
-          </Link>
+              )}
+            </Canvas>
+          ) : (
+            <div className="flex h-[500px] items-center justify-center">
+              <ToolTip tooltip="選擇右方的虛擬人像">
+                <RingLoader
+                  color="#36d7b7"
+                  cssOverride={{}}
+                  loading={true}
+                  size={60}
+                  speedMultiplier={1}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </ToolTip>
+            </div>
+          )}
+
+          <div
+            className="
+              flex w-[320px] rounded-b-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1
+              ssm:w-[380px] md:w-[450px]">
+            <Link
+              className="flex items-center"
+              href="https://demo.readyplayer.me/avatar"
+              target="_blank">
+              <ToolTip tooltip="點我創建屬於自己的虛擬人像">
+                <div className="rounded-b-2xl ">
+                  <Image
+                    className="rounded-2xl"
+                    src={readyPlayerMeImg}
+                    alt="ready player me logo"
+                    width={0}
+                    height={0}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                    }}
+                  />
+                </div>
+              </ToolTip>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

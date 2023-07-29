@@ -146,7 +146,7 @@ function Dropzone({
       <div
         className="
           relative mb-6 flex h-[360px] w-full 
-          min-w-[360px] items-center 
+          min-w-[280px] items-center 
           justify-center border-2 border-dashed
           border-black object-contain"
         onDrop={handleDrop}
@@ -162,7 +162,9 @@ function Dropzone({
           />
         )}
         {!imgSrc && (
-          <p className="text-gray-500">點我或托照片到此區域來上傳圖片</p>
+          <p className="text-gray-500 ssm:text-sm">
+            點我或托照片到此區域來上傳圖片
+          </p>
         )}
 
         <input

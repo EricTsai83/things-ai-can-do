@@ -34,7 +34,7 @@ function Page() {
           <SplitPaneTop />
           <div className="md:hidden">
             <SplitPaneBottom />
-            <div className="mt-10 h-full rounded-t-lg bg-gray-500">
+            <div className="mt-10 h-[75vh] rounded-t-lg bg-gray-500">
               <ChatGPT />
             </div>
           </div>

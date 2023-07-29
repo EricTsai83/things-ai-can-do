@@ -79,7 +79,7 @@ function ChatGPT() {
         <div
           className="
             absolute left-0 top-0 w-full rounded-lg bg-gray-700
-            p-2 text-center text-2xl text-gray-200">
+            p-2 text-center text-lg text-gray-200 ssm:text-2xl">
           ChatGPT
         </div>
 
@@ -151,7 +151,7 @@ function ChatGPT() {
         )}
       </div>
       <div className="flex-1"></div>
-      <div className="absolute bottom-0 px-12">
+      <div className="absolute bottom-0 w-full px-4 ssm:px-8">
         <div className="relative">
           <textarea
             onInput={resizeTextarea}
@@ -173,7 +173,7 @@ function ChatGPT() {
             {isLoading && <LoadingAnimation />}
           </div>
         </div>
-        <p className="mt-1.5 px-10 text-xs text-gray-200">
+        <p className="mt-1.5 hidden px-10 text-xs text-gray-200 ssm:block">
           Free Research Preview. ChatGPT may produce inaccurate information
           about people, places, or facts.
           <a

@@ -14,7 +14,7 @@ function PageTitle({ title, content, children }: Props) {
         {children}
       </div>
 
-      <div className="pb-16 pl-2 pt-4 text-lg font-semibold text-zinc-600">
+      <div className="pb-16 pl-2 pt-4 text-base font-semibold text-zinc-600 ssm:text-lg">
         {content}
         <p className="text-right text-sm text-zinc-400">{`[由 ChatGPT 產生]`}</p>
       </div>

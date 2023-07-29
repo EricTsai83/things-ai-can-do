@@ -71,7 +71,7 @@ function FacialMoodPieChart({ faceAnalysis }: Props) {
       {pieChartOption && (
         <ReactECharts
           style={{
-            width: '450px',
+            width: '300px',
             height: '480px',
             display: 'flex',
             justifyContent: 'center',
