@@ -69,7 +69,7 @@ function Page() {
   }
 
   return (
-    <main className="flex w-screen flex-col px-16 pt-24 xl:w-[calc(100vw-240px)]">
+    <main className="flex w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <PageTitle
         title="文字生成圖片"
         content="

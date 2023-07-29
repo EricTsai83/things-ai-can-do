@@ -18,7 +18,7 @@ function Page() {
   const [currContent, setCurrContent] = useState(1); // Content ID
 
   return (
-    <div className="flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="flex h-screen w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <ContentContext.Provider
         value={{ contents, currContent, setCurrContent }}>
         <PageTitle

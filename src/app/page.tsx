@@ -10,7 +10,7 @@ const DynamicNewsletter = dynamic(() => import('@/components/Newsletter'), {
 
 function Page() {
   return (
-    <div className="relative flex h-screen w-screen flex-col px-8 pt-24 xl:w-[calc(100vw-240px)]">
+    <div className="relative flex h-screen w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <PageTitle
         title="Make AI do things for you"
         content="  
