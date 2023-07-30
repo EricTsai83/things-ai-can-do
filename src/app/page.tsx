@@ -21,7 +21,7 @@ function Page() {
         <BsFillRocketTakeoffFill className="flex items-center justify-center text-5xl text-teal-700" />
       </PageTitle>
 
-      <div className="flex items-center gap-1 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 bg-clip-text text-xl font-bold">
+      <div className="mb-5 flex items-center gap-1 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 bg-clip-text text-xl font-bold ssm:hidden">
         <AiFillInfoCircle className="text-xl font-bold text-red-500" />
         <span className="text-transparent">
           大部分的互動遊戲需要透過電腦才可以遊玩喔！
