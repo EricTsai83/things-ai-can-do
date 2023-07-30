@@ -261,7 +261,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
             </Canvas>
           ) : (
             <div className="flex h-[500px] items-center justify-center">
-              <ToolTip tooltip="選擇右方的虛擬人像">
+              <ToolTip tooltip="請選擇虛擬人像">
                 <RingLoader
                   color="#36d7b7"
                   cssOverride={{}}
