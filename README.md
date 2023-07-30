@@ -22,7 +22,15 @@ Combined AI technology with a user-friendly front-end interface. The leading tec
 
 ## Flow chart
 
-![](./img/flow-chart.png)
+<div align="center">
+  <img src="./img/flow-chart.png" alt="flow-chart" width="600px">
+</div>
+
+## API architecture
+
+<div align="center">
+  <img src="./img/api.png" alt="api" width="600px">
+</div>
 
 ## Demo
 
