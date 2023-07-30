@@ -92,10 +92,14 @@ function Page() {
                   flex-col justify-center rounded-2xl bg-sky-900/60 p-7
                 text-white backdrop-blur-md backdrop-sepia-0 duration-1000 ease-in-out
                   group-hover:right-0">
-                <h1 className="text-3xl font-bold">{article.title}</h1>
+                <h1 className="text-xl font-bold ssm:text-3xl">
+                  {article.title}
+                </h1>
                 <p className="text-sm">{article.hashTag}</p>
-                <p className="my-5 leading-7">{article.desc}</p>
-                <div className="flex justify-center">
+                <p className="hidden ssm:my-5 ssm:block ssm:leading-7">
+                  {article.desc}
+                </p>
+                <div className="my-5 flex justify-center ssm:my-0">
                   <Link target="_blank" href={article.url}>
                     <button className="cursor-pointer rounded bg-teal-600 px-5 py-2.5 font-medium text-white">
                       前往文章
