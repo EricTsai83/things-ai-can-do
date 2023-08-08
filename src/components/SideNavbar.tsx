@@ -62,67 +62,80 @@ function SideNavbar() {
   }, [pathname]);
 
   function renderPlaygroundItem() {
-    const hrefs = [
-      '/playground/facial-recognition',
-      '/playground/chat-gpt',
-      '/playground/text-to-image',
-      '/playground/image-segmentation',
-      '/playground/image-classification',
+    const menuItems = [
+      {
+        label: '臉部識別',
+        href: '/playground/facial-recognition',
+        icon: (
+          <MdOutlineTagFaces
+            className={selected === '臉部識別' ? selectedIconStyle : iconStyle}
+          />
+        ),
+      },
+      {
+        label: '聊天機器人',
+        href: '/playground/chat-gpt',
+        icon: (
+          <RiRobotFill
+            className={
+              selected === '聊天機器人' ? selectedIconStyle : iconStyle
+            }
+          />
+        ),
+      },
+      {
+        label: '文字生成圖片',
+        href: '/playground/text-to-image',
+        icon: (
+          <TbTextSize
+            className={
+              selected === '文字生成圖片' ? selectedIconStyle : iconStyle
+            }
+          />
+        ),
+      },
+      {
+        label: '圖像分割',
+        href: '/playground/image-segmentation',
+        icon: (
+          <MdOutlineSpaceDashboard
+            className={selected === '圖像分割' ? selectedIconStyle : iconStyle}
+          />
+        ),
+      },
+      {
+        label: '圖片分類',
+        href: '/playground/image-classification',
+        icon: (
+          <BsImageFill
+            className={selected === '圖片分類' ? selectedIconStyle : iconStyle}
+          />
+        ),
+      },
     ];
 
-    const selectOption = [
-      '臉部識別',
-      '聊天機器人',
-      '文字生成圖片',
-      '圖像分割',
-      '圖片分類',
-    ];
-
-    function createIconComponents() {
-      const icons = [];
-      for (let i = 0; i < selectOption.length; i++) {
-        const className =
-          selected === selectOption[i] ? selectedIconStyle : iconStyle;
-        if (selectOption[i] === '臉部識別') {
-          icons.push(<MdOutlineTagFaces className={className} />);
-        } else if (selectOption[i] === '聊天機器人') {
-          icons.push(<RiRobotFill className={className} />);
-        } else if (selectOption[i] === '文字生成圖片') {
-          icons.push(<TbTextSize className={className} />);
-        } else if (selectOption[i] === '圖像分割') {
-          icons.push(<MdOutlineSpaceDashboard className={className} />);
-        } else if (selectOption[i] === '圖片分類') {
-          icons.push(<BsImageFill className={className} />);
-        } else {
-          // pass
-        }
-      }
-      return icons;
-    }
-    const icons = createIconComponents();
-
-    const items = [];
-    for (let i = 0; i < hrefs.length; i++) {
-      items.push(
-        <Link href={hrefs[i]} key={i} prefetch={false}>
+    const items = menuItems.map((element, idx) => {
+      return (
+        <Link href={element.href} key={idx} prefetch={false}>
           <div
             onClick={() => {
-              setSelected(selectOption[i]);
+              setSelected(element.label);
             }}
             className={
-              selected === selectOption[i] ? selectedNavItemStyle : navItemStyle
+              selected === element.label ? selectedNavItemStyle : navItemStyle
             }>
-            {icons[i]}
+            {element.icon}
             <h3
               className={
-                selected === selectOption[i] ? selectedNameStyle : nameStyle
+                selected === element.label ? selectedNameStyle : nameStyle
               }>
-              {selectOption[i]}
+              {element.label}
             </h3>
           </div>
-        </Link>,
+        </Link>
       );
-    }
+    });
+
     return items;
   }
 
@@ -144,7 +157,8 @@ function SideNavbar() {
             }
             onClick={() => {
               close();
-            }}></div>
+            }}
+          />
           <Disclosure.Button
             className={`
               group peer
