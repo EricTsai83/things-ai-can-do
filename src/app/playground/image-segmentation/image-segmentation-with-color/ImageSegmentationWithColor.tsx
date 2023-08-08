@@ -118,15 +118,11 @@ function Page() {
     if (Object.keys(imgBlobForAPI).length < 6) {
       const imgFile = event.target.files?.[0]!;
       const maxSize = 1.5 * 1024 * 1024;
-      // if (imgFile) {
-
       if (imgFile.size > maxSize) {
         imgSizeNotify();
         return;
       }
-
       const imageUrl = URL.createObjectURL(imgFile);
-
       setImgBlobForAPI((draft: ImgBlob) => {
         draft[imageUrl] = imgFile;
         return draft;
@@ -134,7 +130,6 @@ function Page() {
       setImgSrc(imageUrl);
       setDroppedImages((prevImages) => [...prevImages, imageUrl]);
       event.target.value = '';
-      // }
     } else {
       limitedImgNumNotify();
     }

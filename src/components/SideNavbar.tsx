@@ -144,7 +144,8 @@ function SideNavbar() {
             }
             onClick={() => {
               close();
-            }}></div>
+            }}
+          />
           <Disclosure.Button
             className={`
               group peer
