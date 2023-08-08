@@ -116,19 +116,25 @@ function Page() {
 
   function handleUpload(event: ChangeEvent<HTMLInputElement>) {
     if (Object.keys(imgBlobForAPI).length < 6) {
-      const imgFile = event.target.files?.[0];
-      if (imgFile) {
-        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
-        if (imgFile.size > maxSize) {
-          imgSizeNotify();
-          return;
-        }
+      const imgFile = event.target.files?.[0]!;
+      const maxSize = 1.5 * 1024 * 1024;
+      // if (imgFile) {
 
-        const imgUrl = URL.createObjectURL(imgFile);
-        setImgSrc(imgUrl);
-        setDroppedImages((prev) => [...prev, imgUrl]);
-        event.target.value = '';
+      if (imgFile.size > maxSize) {
+        imgSizeNotify();
+        return;
       }
+
+      const imageUrl = URL.createObjectURL(imgFile);
+
+      setImgBlobForAPI((draft: ImgBlob) => {
+        draft[imageUrl] = imgFile;
+        return draft;
+      });
+      setImgSrc(imageUrl);
+      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+      event.target.value = '';
+      // }
     } else {
       limitedImgNumNotify();
     }
