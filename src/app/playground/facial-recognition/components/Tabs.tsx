@@ -1,8 +1,10 @@
 'use client';
-import { useState } from 'react';
+
+import { useRouter } from 'next/navigation';
 import { Tab } from '@headlessui/react';
-import Link from 'next/link';
+import { Dispatch, SetStateAction, useState } from 'react';
 import classNames from '@/utils/tailwind-class-name-formatter';
+import { FaceDetail } from '../aws-facial-recognition/types';
 
 interface Category {
   id: number;
@@ -17,11 +19,18 @@ interface Categories {
   [key: string]: Category[];
 }
 
+interface Props {
+  setTabClass: Dispatch<SetStateAction<string>>;
+  setFaceDetails: Dispatch<SetStateAction<FaceDetail[] | null>>;
+  setCanvasUrls: Dispatch<SetStateAction<string | null>>;
+}
+
 export default function Tabs({
   setTabClass,
   setFaceDetails,
   setCanvasUrls,
-}: any) {
+}: Props) {
+  const router = useRouter();
   let [categories] = useState<Categories>({
     picture: [
       {
@@ -80,17 +89,16 @@ export default function Tabs({
   return (
     <div className="w-full">
       <Tab.Group defaultIndex={0}>
-        <Tab.List className="flex space-x-1 rounded-xl bg-slate-200 p-1">
+        <Tab.List className="flex w-full space-x-1 rounded-xl bg-slate-200 p-1">
           {Object.keys(categories).map((category) => (
             <Tab
               onClick={() => {
-                console.log(category);
                 setTabClass(category);
               }}
               key={category}
               className={({ selected }) =>
                 classNames(
-                  'w-full rounded-lg py-2.5 text-2xl font-medium leading-5 text-teal-600',
+                  'w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-teal-600 ssm:text-2xl',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-teal-200 focus:outline-none focus:ring-2',
                   selected
                     ? 'bg-teal-50 shadow'
@@ -126,17 +134,19 @@ export default function Tabs({
                       <li>{post.subject}</li>
                     </ul>
 
-                    <Link
-                      href={`/playground/facial-recognition/${post.sampleImgQuery}`}
+                    <div
                       className={classNames(
-                        'absolute inset-0 rounded-md',
+                        'absolute inset-0 cursor-pointer rounded-md',
                         'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
                       )}
                       onClick={() => {
                         setFaceDetails(null);
                         setCanvasUrls(null);
-                      }}
-                    />
+                        router.push(
+                          `/playground/facial-recognition/${post.sampleImgQuery}`,
+                          { shallow: true },
+                        );
+                      }}></div>
                   </li>
                 ))}
               </ul>

@@ -1,18 +1,19 @@
 'use client';
-import Image from 'next/image';
-import { Respond } from '../ImageSegmentationWithColor';
 
-function Mask({ segmentations }: { segmentations: Respond[] }) {
+import Image from 'next/image';
+import { Response } from '../../types.d';
+
+function Mask({ segmentations }: { segmentations: Response[] }) {
   return (
     <div className="flex flex-row gap-x-10">
       {segmentations &&
-        segmentations.map((segmentation: Respond, id: number) => {
+        segmentations.map((segmentation: Response, id: number) => {
           return (
             <Image
               key={id}
               src={`data:image/png;base64,${segmentation.mask}`}
               alt="Decoded Image"
-              style={{ opacity: '0.5' }} // Adjust the opacity value as desired (0.0 to 1.0)
+              style={{ opacity: '0.5' }}
               width={100}
               height={100}
             />

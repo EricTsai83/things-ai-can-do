@@ -1,38 +1,34 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import type { ReactNode, MouseEventHandler } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
+import { TbTargetArrow } from 'react-icons/tb';
 import ContentContext from '../context/ContentContext';
 import SplitPaneContext from '../context/SplitPaneContext';
-import Delimiter from './prompt/Delimiter';
-import StructureFormat from './prompt/StructureFormat';
 import Condition from './prompt/Condition';
+import Delimiter from './prompt/Delimiter';
 import Imitate from './prompt/Imitate';
-import { TbTargetArrow } from 'react-icons/tb';
+import StructureFormat from './prompt/StructureFormat';
 
 interface SplitPaneProps {
   children: ReactNode[];
   className: string;
 }
 
-// ...props: 可以方便你重用組建時，取不一樣的props
 function SplitPane({ children, ...props }: SplitPaneProps) {
   const [clientHeight, setClientHeight] = useState<number | null>(null);
   const [clientWidth, setClientWidth] = useState<number | null>(null);
   const yDividerPos = useRef<number | null>(null);
   const xDividerPos = useRef<number | null>(null);
 
-  // 按下左鍵
   const onMouseHoldDown: MouseEventHandler = (event) => {
     yDividerPos.current = event.clientY;
     xDividerPos.current = event.clientX;
   };
 
-  // 放開左鍵
   const onMouseHoldUp = () => {
     yDividerPos.current = null;
     xDividerPos.current = null;
   };
 
-  // 按者左鍵移動滑鼠
   const onMouseHoldMove: EventListener = (event) => {
     if (yDividerPos.current === null || xDividerPos.current === null) {
       return;
@@ -78,7 +74,6 @@ interface ClassNameProps {
 
 export const Divider = (props: ClassNameProps) => {
   const { onMouseHoldDown } = useContext(SplitPaneContext);
-
   return <div {...props} onMouseDown={onMouseHoldDown} />;
 };
 
@@ -114,8 +109,9 @@ export const SplitPaneTop = () => {
           return (
             <li key={element.id} className="md:w-[320px]">
               <div
-                className="text-xl text-gray-800 hover:underline hover:decoration-teal-400 hover:underline-offset-4"
-                // href=""
+                className="
+                  text-xl text-gray-800 
+                  hover:underline hover:decoration-teal-400 hover:underline-offset-4"
                 onClick={() => setCurrContent(element.id)}>
                 {element.subject}
 
@@ -190,7 +186,7 @@ interface SplitPaneRightProps {
 }
 
 export const SplitPaneRight = ({ children }: SplitPaneRightProps) => {
-  return <div className="flex-1 overflow-auto">{children}</div>;
+  return <div className="flex-1 overflow-visible">{children}</div>;
 };
 
 export default SplitPane;

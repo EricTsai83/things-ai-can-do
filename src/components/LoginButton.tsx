@@ -5,8 +5,7 @@ export default function LoginButton() {
       onClick={() => {
         signIn();
       }}
-      className="mt-4 rounded-lg bg-slate-800 
-      px-6 py-3 text-white">
+      className="mt-4 rounded-lg bg-slate-800 px-6 py-3 text-white">
       Sign in
     </button>
   );

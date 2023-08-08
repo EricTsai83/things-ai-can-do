@@ -1,110 +1,137 @@
 'use client';
-import { useState, useRef } from 'react';
-import type { DragEvent, ChangeEvent } from 'react';
-import { useImmer } from 'use-immer';
+
 import Image from 'next/image';
-import ColorMask from './components/ColorMask';
+import { Response } from '../types.d';
+import { useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, DragEvent } from 'react';
+import { FaUpload } from 'react-icons/fa';
+import { useImmer } from 'use-immer';
+import LoadingButton from '@/components/LoadingButton';
+import {
+  apiNotify,
+  imgSizeNotify,
+  limitedImgNumNotify,
+  uploadWrongImgFormatNotify,
+} from '@/components/ReactToast';
+import TooltipContainer from '@/components/TooltipContainer';
 import getUniqueColorsInPNG from '@/utils/get-unique-colors-in-png';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
 import huggingFaceApi from '@/utils/hugging-face-api';
-import LoadingButton from '@/components/LoadingButton';
-import { FaUpload } from 'react-icons/fa';
-import { apiNotify, imgSizeNotify } from '@/components/ReactToast';
+import womanImg from '../img/demo-woman-img.jpeg';
+import ColorMask from './components/ColorMask';
 
-interface ImageBlob {
-  [key: string]: File;
-}
-
-export interface Respond {
-  score: number;
-  label: string;
-  mask: string;
+interface ImgBlob {
+  [key: string]: Blob;
 }
 
 interface Masks {
-  [key: string]: Respond[];
+  [key: string]: Response[];
 }
 
 function Page() {
-  const [imageBlob, setImageBlob] = useImmer<ImageBlob>({});
-  const [imageSrc, setImageSrc] = useState<string | null>(null); // 用來記錄當下dropzone 展示哪一張照片
-  const [droppedImages, setDroppedImages] = useState<string[]>([]); // 用來記錄dropzone 下方小圖展示的圖片有哪些
-  const fileInputRef = useRef<HTMLInputElement>(null); // 用來讓 dropdown zone 可以點擊up load file
-  const [masks, setMasks] = useImmer<Masks>({}); // set api data
+  const [imgBlobForAPI, setImgBlobForAPI] = useImmer<ImgBlob>({});
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [droppedImages, setDroppedImages] = useState<string[]>([]);
+  const uploadInputRef = useRef<HTMLInputElement>(null);
+  const [responseOfImg, setResponseOfImg] = useImmer<Masks>({});
   const [maskUniqueColors, setMaskUniqueColors] =
     useState<UniqueColorsInPng | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function getImageSegmentation(data: File) {
+  useEffect(() => {
+    async function fetchLocalImg() {
+      const response = await fetch(womanImg.src);
+      const imgArrayBuffer = await response.arrayBuffer();
+      const imgBlob = new Blob([imgArrayBuffer], {
+        type: 'image/jpeg',
+      });
+      const imgUrl = URL.createObjectURL(imgBlob);
+      setImgBlobForAPI((draft: ImgBlob) => {
+        draft[imgUrl] = imgBlob;
+        return draft;
+      });
+      setDroppedImages((prevImages) => [...prevImages, imgUrl]);
+      setImgSrc(imgUrl);
+    }
+
+    fetchLocalImg();
+  }, [setImgBlobForAPI, setDroppedImages, setImgSrc]);
+
+  async function getImageSegmentation(data: Blob) {
+    async function storeApiResponse(response: Response[]) {
+      setResponseOfImg((draft: Masks) => {
+        if (imgSrc) {
+          draft[imgSrc] = response;
+        }
+        return draft;
+      });
+    }
+
     try {
-      setLoading(true);
-      const respond = await huggingFaceApi.getImageSegmentation(data);
-      console.log(respond);
-      if (respond.error) {
+      setIsLoading(true);
+      const response = await huggingFaceApi.getImageSegmentation(data);
+      if (response.error) {
         apiNotify();
       } else {
-        await storeMaskData(respond);
-        await setUniqueColorsInPNG(respond);
+        await storeApiResponse(response);
+        await setUniqueColorsInPNG(response);
       }
-    } catch (e) {
+    } catch (error) {
       apiNotify();
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  }
-
-  async function storeMaskData(apiRespond: any) {
-    setMasks((draft: Masks) => {
-      if (imageSrc) {
-        draft[imageSrc] = apiRespond;
-      }
-      return draft;
-    });
   }
 
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
-    const imageFile = event.dataTransfer.files[0];
+    const imgFile = event.dataTransfer.files[0];
     const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
-    if (imageFile.size > maxSize) {
-      console.log('handleDrop');
+
+    const allowedFormats = ['image/jpeg', 'image/png'];
+    if (!allowedFormats.includes(imgFile.type)) {
+      uploadWrongImgFormatNotify();
+      return;
+    }
+
+    if (imgFile.size > maxSize) {
       imgSizeNotify();
       return;
     }
 
-    if (Object.keys(imageBlob).length < 6) {
-      if (imageFile) {
-        const imageUrl = URL.createObjectURL(imageFile);
-        setImageBlob((draft: ImageBlob) => {
-          draft[imageUrl] = imageFile;
+    if (Object.keys(imgBlobForAPI).length < 6) {
+      if (imgFile) {
+        const imageUrl = URL.createObjectURL(imgFile);
+        setImgBlobForAPI((draft: ImgBlob) => {
+          draft[imageUrl] = imgFile;
           return draft;
         });
-        setImageSrc(imageUrl);
+        setImgSrc(imageUrl);
         setDroppedImages((prevImages) => [...prevImages, imageUrl]);
       }
     } else {
-      window.alert('最多上傳 6 張圖片喔！');
+      limitedImgNumNotify();
     }
   }
 
   function handleUpload(event: ChangeEvent<HTMLInputElement>) {
-    console.log('handleUpload');
-    if (Object.keys(imageBlob).length < 6) {
-      const imageFile = event.target.files?.[0];
-      if (imageFile) {
-        const maxSize = 1.5 * 1024 * 1024; // 1.5 MB
-        if (imageFile.size > maxSize) {
-          imgSizeNotify();
-          return;
-        }
-
-        const imageUrl = URL.createObjectURL(imageFile);
-        setImageSrc(imageUrl);
-        setDroppedImages((prevImages) => [...prevImages, imageUrl]);
-        event.target.value = ''; // Reset the file input field
+    if (Object.keys(imgBlobForAPI).length < 6) {
+      const imgFile = event.target.files?.[0]!;
+      const maxSize = 1.5 * 1024 * 1024;
+      if (imgFile.size > maxSize) {
+        imgSizeNotify();
+        return;
       }
+      const imageUrl = URL.createObjectURL(imgFile);
+      setImgBlobForAPI((draft: ImgBlob) => {
+        draft[imageUrl] = imgFile;
+        return draft;
+      });
+      setImgSrc(imageUrl);
+      setDroppedImages((prevImages) => [...prevImages, imageUrl]);
+      event.target.value = '';
     } else {
-      window.alert('最多上傳 6 張圖片喔！');
+      limitedImgNumNotify();
     }
   }
 
@@ -112,20 +139,19 @@ function Page() {
     event.preventDefault();
   }
 
-  function handleSmallImageClick(imageUrl: string) {
-    setMasks({});
-    setImageSrc(imageUrl);
+  function handleSmallImageClick(imgUrl: string) {
+    setResponseOfImg({});
+    setImgSrc(imgUrl);
   }
 
   function handleUploadIconClick() {
-    fileInputRef.current?.click();
+    uploadInputRef.current?.click();
   }
 
-  async function setUniqueColorsInPNG(respond: any) {
-    if (imageSrc) {
-      const uniqueColors = await getUniqueColorsInPNG(respond[0].mask);
+  async function setUniqueColorsInPNG(responses: Response[]) {
+    if (imgSrc) {
+      const uniqueColors = await getUniqueColorsInPNG(responses[0].mask);
       setMaskUniqueColors(uniqueColors as UniqueColorsInPng);
-      console.log('set color completed');
     }
   }
 
@@ -139,17 +165,16 @@ function Page() {
         border-black object-contain"
         onDrop={handleDrop}
         onDragOver={handleDragOver}>
-        {imageSrc && (
+        {imgSrc && (
           <div className="absolute">
-            {masks[imageSrc] && (
+            {responseOfImg[imgSrc] && (
               <ColorMask
-                // @ts-ignore
-                segmentations={masks[imageSrc] as Respond}
+                segmentations={responseOfImg[imgSrc]}
                 maskUniqueColors={maskUniqueColors as UniqueColorsInPng}
               />
             )}
             <Image
-              src={imageSrc}
+              src={imgSrc}
               alt="Image"
               width={0}
               height={0}
@@ -157,11 +182,11 @@ function Page() {
             />
           </div>
         )}
-        {!imageSrc && '拖照片到此區域來上傳圖片'}
+        {!imgSrc && '拖照片到此區域來上傳圖片'}
         <input
           type="file"
           accept="image/jpeg, image/png"
-          ref={fileInputRef}
+          ref={uploadInputRef}
           onChange={handleUpload}
           className="absolute -left-full"
         />
@@ -171,15 +196,21 @@ function Page() {
         </div>
 
         <div className="absolute bottom-0 right-0 z-10">
-          <LoadingButton
-            loading={loading}
-            executeFunction={() =>
-              imageSrc && getImageSegmentation(imageBlob[imageSrc])
-            }
-          />
+          <TooltipContainer
+            tooltips="
+            在一段時間後，首次做模型推論，
+            模型得先進行加載，若推論失敗，請等待幾秒鐘後，再次點擊按鈕。">
+            <LoadingButton
+              isLoading={isLoading}
+              executeFunction={() =>
+                imgSrc && getImageSegmentation(imgBlobForAPI[imgSrc])
+              }
+              text="模型推論"
+            />
+          </TooltipContainer>
         </div>
       </div>
-      <div className="flex h-20 items-center justify-center border-black">
+      <div className="flex h-20 flex-wrap items-center justify-center gap-2 border-black">
         {droppedImages.map((imageUrl, index) => (
           <Image
             key={index}

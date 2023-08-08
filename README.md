@@ -1,19 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <a 
+    href="https://main.d1iicrvwglvc93.amplifyapp.com/" 
+    style="margin-bottom:20px; display:block;">
+    <img src="./img/logo.png" alt="Logo" width="80px">
+  </a>
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-^13.4.7-black)
+![React](https://img.shields.io/badge/React-18.2.0-61DAFB)
+![typeScript](https://img.shields.io/badge/typeScript-5.1.3-blue)
+![TailwindCSS](https://img.shields.io/badge/tailwindCSS-^3.3.2-%2338B2AC.svg)
 
-First, run the development server:
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+# Things AI Can Do
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+An interactive AI website that demonstrates the capabilities of AI and enables users to understand practical applications of AI through hands-on interactions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## About
 
-## Deploy on Vercel
+Combined AI technology with a user-friendly front-end interface. The leading technologies used in this project include TypeScript, Tailwind CSS, Next.js, and Amazon web services such as Lambda, Amplify, and API Gateway.
+
+## Flow chart
+
+<div align="center">
+  <img src="./img/flow-chart.png" alt="flow-chart" width="600px">
+</div>
+
+## API architecture
+
+<div align="center">
+  <img src="./img/api.png" alt="api" width="600px">
+</div>
+
+## Demo
+
+### Facial Recognition
+
+- Integrated AWS Lambda, API Gateway, and ML services to develop a facial recognition API to let user can interact with the website.
+
+<div align="center">
+	<img src="./img/facial-recognition-1.png" alt="facial-recognition-1" width="600px">
+	<img src="./img/facial-recognition-2.png" alt="facial-recognition-2" width="600px">
+</div>
+
+- Used three.js in combination with facial recognition technology to create a 3D virtual avatar application.
+
+<div align="center">
+	<img src="./img/avatar.png" alt="avatar" width="200px">
+</div>
+
+### ChatBot (ChatGPT)
+
+- Integrated ChatGPT to build the chatbot feature on the website.
+- Created a tutorial with sample prompts to teach people how to use Chatbot efficiently.
+
+<div align="center">
+	<img src="./img/chatGPT.png" alt="chatGPT" width="480px">
+</div>
+
+### Text to Image
+
+- Created the user interface to write an image description and generate an image by the AI model.
+
+<div align="center">
+	<img src="./img/text-to-image-ui.png" alt="text-to-image-ui" width="560px">
+</div>
+
+- Designed puzzle games to increase the fun and engagement of the website.
+
+<div align="center">
+	<img src="./img/puzzle-easy.png" alt="puzzle-easy" width="560px">
+	<img src="./img/puzzle-difficult.png" alt="puzzle-difficult" width="560px">
+</div>
+
+### Image segmentation
+
+- Employed visualization techniques to make users know how the model performs object segmentation within the images.
+
+<div align="center">
+	<img src="./img/color-masks.png" alt="color-masks" width="560px">
+</div>
+
+- Utilized image segmentation techniques to achieve image background removal functionality.
+
+<div align="center">
+	<img src="./img/image-matting.png" alt="image-matting" width="560px">
+</div>
+
+### Image Classifier
+
+- Draw the scratch and let AI model inference.
+
+<div align="center">
+	<img src="./img/image-classifier.png" alt="image-classifier" width="560px">
+</div>

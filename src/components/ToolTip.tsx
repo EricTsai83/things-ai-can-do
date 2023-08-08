@@ -5,7 +5,7 @@ interface Props {
   tooltip?: string;
 }
 
-function ToolTip({ children, tooltip }: any) {
+function ToolTip({ children, tooltip }: Props) {
   const tooltipRef = useRef<HTMLSpanElement>(null);
   const container = useRef<HTMLDivElement>(null);
 
@@ -24,11 +24,10 @@ function ToolTip({ children, tooltip }: any) {
         <span
           ref={tooltipRef}
           className="
-          invisible absolute top-full
-          mt-2 whitespace-nowrap
-          rounded-xl bg-teal-500 p-1 text-white opacity-0 
-          transition group-hover:visible
-          group-hover:opacity-100
+          invisible absolute top-full mt-2
+          whitespace-nowrap rounded-xl bg-teal-500 p-1 text-white 
+          opacity-0 transition
+          group-hover:visible group-hover:z-10 group-hover:opacity-100
         ">
           {tooltip}
         </span>

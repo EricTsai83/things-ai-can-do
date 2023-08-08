@@ -1,14 +1,15 @@
 'use client';
-import {
-  BounceToastContainer,
-  newsletterSubscribeFailure,
-  newsletterSubscribeSuccess,
-  StyledToastContainer,
-} from '@/components/ReactToast';
+
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { GiArtificialHive, GiRobotGolem } from 'react-icons/gi';
-import robotPeek from './robot-peek.png';
-import Image from 'next/image';
+import {
+  BounceToastContainer,
+  FlipToastContainer,
+  newsletterSubscribeFailureNotify,
+  newsletterSubscribeSuccessNotify,
+} from '@/components/ReactToast';
+import robotPeekImg from './robot-peek.png';
 
 function Page() {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -24,10 +25,10 @@ function Page() {
     const currRef = inputRef.current!;
     if (currRef.value) {
       if (emailStatus) {
-        newsletterSubscribeSuccess();
+        newsletterSubscribeSuccessNotify();
         currRef.value = '';
       } else {
-        newsletterSubscribeFailure();
+        newsletterSubscribeFailureNotify();
       }
     }
   }, [email, emailStatus]);
@@ -35,30 +36,28 @@ function Page() {
   return (
     <div
       className="
-      flex h-[calc(100vh-64px)] w-screen flex-col items-center justify-center
-      px-12 pt-24 xl:w-[calc(100vw-240px)]">
+        flex h-[calc(100vh-64px)] w-screen flex-col items-center justify-center
+        px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
       <div className="w-full max-w-3xl">
         <section className="relative py-24">
           <GiArtificialHive className="absolute left-5 top-5 z-10 text-6xl text-teal-700" />
           <div className="relative z-10 mx-auto mt-5 max-w-screen-2xl items-center justify-between gap-10 px-8 md:flex">
-            <div className="max-w-[75%] md:max-w-none">
-              <h3 className="text-3xl font-bold ">
-                <div className="text-xl text-gray-700 md:text-2xl">
+            <div className="max-w-[90%] md:max-w-none">
+              <h3 className="text-3xl font-bold">
+                <div className="text-lg text-gray-700 ssm:text-xl md:text-2xl">
                   現在訂閱電子報，即時獲取 AI 應用的第一手資訊。
                 </div>
-                <br />
-                <div className="text-2xl text-gray-700 md:text-3xl">
+                <div className="mt-5 text-lg text-gray-700 ssm:text-2xl md:text-3xl">
                   一起讓 AI 成為你人生的助力吧！
                 </div>
-                <br />
               </h3>
             </div>
-            <div className="min-w-[45%] md:mt-0">
+            <div className="mt-5 min-w-[45%] md:mt-0">
               <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex items-center gap-x-3 md:justify-end">
+                onSubmit={(event) => event.preventDefault()}
+                className="mt-10 flex flex-col items-center gap-3 gap-x-3 ssm:mt-0 ssm:flex-row md:justify-end">
                 <div className="relative">
-                  <svg // 信箱 icon
+                  <svg // email icon
                     className="absolute inset-y-0 left-3 my-auto h-6 w-6 text-gray-400"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -72,6 +71,7 @@ function Page() {
                     />
                   </svg>
                   <input
+                    type="text"
                     ref={inputRef}
                     placeholder="輸入信箱"
                     className="
@@ -104,22 +104,22 @@ function Page() {
             <div className="absolute bottom-1 right-0 px-5 text-lg text-gray-500">
               <div className="my-3 flex">
                 <GiRobotGolem className="text-6xl text-indigo-700" />
-                <div className="ml-5 flex items-end">
+                <div className="ml-5 hidden items-end ssm:flex">
                   Know what AI can do, and make AI do things for you.
                 </div>
               </div>
             </div>
           </div>
           <Image
-            className="absolute right-0 top-0 translate-x-52"
-            src={robotPeek}
+            className="absolute right-0 top-0 hidden translate-x-52 ssm:block"
+            src={robotPeekImg}
             width={300}
             height={300}
-            alt=""
+            alt="newsletter's decorated image"
           />
         </section>
       </div>
-      {emailStatus ? <StyledToastContainer /> : <BounceToastContainer />}
+      {emailStatus ? <FlipToastContainer /> : <BounceToastContainer />}
     </div>
   );
 }

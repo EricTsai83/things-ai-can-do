@@ -1,9 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+
 import Image from 'next/image';
-import replaceColorsInPNG from '@/utils/replace-color-in-png';
+import { useEffect, useState } from 'react';
 import generateHighlyDistinctRGB from '@/utils/generate-highly-distinct-rgb';
 import type { UniqueColorsInPng } from '@/utils/get-unique-colors-in-png';
+import replaceColorsInPNG from '@/utils/replace-color-in-png';
 
 interface Segmentation {
   score: number;
@@ -33,8 +34,6 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
 
   useEffect(() => {
     if (maskUniqueColors) {
-      console.log(segmentations);
-
       const randomRGB = generateHighlyDistinctRGB(segmentations.length);
       let arrays: string[] = [];
       segmentations.forEach((segmentation: Segmentation, idx: number) => {
@@ -54,16 +53,13 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
           },
         ];
 
-        replaceColorsInPNG(segmentation.mask, colorMappings)
-          .then((modifiedPNGString): void => {
+        replaceColorsInPNG(segmentation.mask, colorMappings).then(
+          (modifiedPNGString): void => {
             const pngStr = modifiedPNGString as string;
             modifiedPNGString && arrays.push(pngStr);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+          },
+        );
       });
-      console.log(arrays);
       setPngStrAfterColorChange(arrays);
     }
   }, [segmentations, maskUniqueColors]);
@@ -72,17 +68,13 @@ function ColorMask({ segmentations, maskUniqueColors }: Props) {
     <div className="relative z-10">
       {pngStrAfterColorChange &&
         pngStrAfterColorChange.map((pngStr: string, id: number) => {
-          // console.log(element.label);
-          // console.log(maskUniqueColors);
-          // console.log('=========');
-          // console.log(pngStr);
           return (
             <Image
               className="absolute max-h-[360px] w-auto"
               key={id}
               src={pngStr}
               alt="Decoded Image"
-              style={{ opacity: '0.5' }} // Adjust the opacity value as desired (0.0 to 1.0)
+              style={{ opacity: '0.5' }}
               width={0}
               height={0}
             />

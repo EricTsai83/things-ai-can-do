@@ -1,21 +1,22 @@
 'use client';
-import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
 import {
+  Category,
+  DrawingUtils,
   FaceLandmarker,
   FaceLandmarkerOptions,
   FilesetResolver,
-  DrawingUtils,
-  Category,
 } from '@mediapipe/tasks-vision';
-import { Color, Euler, Matrix4 } from 'three';
 import { Canvas } from '@react-three/fiber';
-// import { useDropzone } from 'react-dropzone';
-import Avatar from './components/Avatar';
-import type { SearchParams } from '../types';
-import Image from 'next/image';
-import readyPlayerMe from './img/ready-player-me-banner.png';
-import Link from 'next/link';
+import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
+import RingLoader from 'react-spinners/RingLoader';
+import { Color, Euler, Matrix4 } from 'three';
 import ToolTip from '@/components/ToolTip';
+import type { SearchParams } from '../types';
+import Avatar from './components/Avatar';
+import readyPlayerMeImg from './img/ready-player-me-banner.png';
 
 let video: HTMLVideoElement;
 let faceLandmarker: FaceLandmarker;
@@ -36,12 +37,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   const [blendshapes, setBlendshapes] = useState<Category[]>([]);
   const [rotation, setRotation] = useState<Euler>();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // const streamRef = useRef<any>(null);
-  // https://models.readyplayer.me/648ef0aef2caada0866fd637.glb
-  // https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb (男)
-  // https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb (女)
-  // https://models.readyplayer.me/6490655e99211a8c97fc395f.glb
-  // https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb
   const [url, setUrl] = useState<string | null>(null);
 
   function validateURL(url: string): boolean {
@@ -50,9 +45,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   }
 
   async function setup() {
-    // Before we can use faceLandmarker class we must wait for it to finish
-    // loading. Machine Learning models can be large and take a moment to
-    // get everything needed to run.
     const filesetResolver = await FilesetResolver.forVisionTasks(
       'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm',
     );
@@ -82,8 +74,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     if (canvasElement.getContext('2d')) {
       const canvasCtx = canvasElement.getContext('2d')!;
 
-      // x!; // 告訴 TS，x 這個變數不會是 null 或 undefined
-
       const radio = video.videoHeight / video.videoWidth;
       video.style.width = videoWidth + 'px';
       video.style.height = videoWidth * radio + 'px';
@@ -92,7 +82,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
       canvasElement.width = video.videoWidth;
       canvasElement.height = video.videoHeight;
 
-      // Now let's start detecting the stream.
       let nowInMs = Date.now();
       let results = undefined;
       let lastVideoTime = -1;
@@ -153,7 +142,7 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
     }
   }
 
-  let myReq: number;
+  let animationFrame: number;
   async function predict() {
     await drawMaskOnWebcam();
 
@@ -180,14 +169,13 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
         setRotation(rotationData);
       }
     }
-    myReq = window.requestAnimationFrame(predict);
+    animationFrame = window.requestAnimationFrame(predict);
   }
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key !== 'Enter') return;
     const target = event.target as HTMLInputElement;
     if (validateURL(target.value) && event.key === 'Enter') {
-      console.log(target.value);
       setUrl(target.value);
       target.value = '';
     } else {
@@ -198,13 +186,8 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     setup();
     return () => {
-      // streamRef.current
-      //   .getTracks()
-      //   .forEach(function (track: { stop: () => void }) {
-      //     track.stop();
-      //   });
-      video.removeEventListener('loadeddata', predict);
-      window.cancelAnimationFrame(myReq);
+      video && video.removeEventListener('loadeddata', predict);
+      animationFrame && window.cancelAnimationFrame(animationFrame);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -212,38 +195,28 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
   useEffect(() => {
     if ('gender' in searchParams && 'age' in searchParams) {
       if (searchParams.gender === 'man' && searchParams.age === '40') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
-
         setUrl('https://models.readyplayer.me/649068aea1051fa7234fdbdf.glb');
       } else if (searchParams.gender === 'woman' && searchParams.age === '36') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
         setUrl('https://models.readyplayer.me/649fb6cd0b339f947f7c5e2b.glb');
       } else if (searchParams.gender === 'man' && searchParams.age === '28') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
         setUrl('https://models.readyplayer.me/648ef0aef2caada0866fd637.glb');
       } else if (searchParams.gender === 'woman' && searchParams.age === '18') {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
         setUrl('https://models.readyplayer.me/6490674099211a8c97fc3ee9.glb');
       } else {
-        console.log('gender', searchParams.gender);
-        console.log('age', searchParams.age);
+        //pass
       }
     }
   }, [searchParams.gender, searchParams.age, searchParams, setUrl]);
 
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border-cyan-600">
-      <div className="h-7 min-w-[380px] rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 md:w-full"></div>
-      <div className="min-w-[380px] rounded-t-xl">
+      <div className="h-7 w-[320px] rounded-t-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 ssm:w-[380px] md:w-[450px]"></div>
+      <div className="flex items-center justify-center rounded-t-xl">
         <div
           className="
-            relative flex h-[600px] w-[380px] flex-col
-            items-center justify-center  bg-gradient-to-r
-          from-cyan-500 to-blue-500 md:w-[500px]">
+            relative flex h-[600px] w-[320px] flex-col items-center
+            justify-center bg-gradient-to-r  from-cyan-500
+          to-blue-500 ssm:w-[380px] md:w-[450px]">
           <input
             ref={inputRef}
             className="mt-4 flex h-8 w-4/5 items-center justify-center rounded-xl bg-stone-100 px-[16px]"
@@ -253,7 +226,6 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
           />
           <div className="relative mt-4 h-[80px] w-full">
             <video
-              // ref={streamRef}
               id="video"
               className="absolute right-3 top-0 h-full rounded-3xl"
               autoPlay
@@ -263,55 +235,71 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
               id="output_canvas"></canvas>
           </div>
 
-          <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
-            <ambientLight intensity={0.5} />
-            <pointLight
-              position={[10, 10, 10]}
-              color={new Color(1, 1, 0)}
-              intensity={0.5}
-              castShadow
-            />
-            <pointLight
-              position={[-10, 0, 10]}
-              color={new Color(1, 0, 0)}
-              intensity={0.5}
-              castShadow
-            />
-            <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
-            {rotation && url && (
-              <Avatar url={url} blendshapes={blendshapes} rotation={rotation} />
-            )}
-          </Canvas>
-        </div>
-
-        <div
-          className="
-          flex w-[380px] rounded-b-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
-          p-1 md:w-[500px]">
-          <Link
-            className="flex items-center"
-            href="https://demo.readyplayer.me/avatar"
-            target="_blank">
-            <ToolTip tooltip="點我創建屬於自己的虛擬人像">
-              <div className="rounded-b-2xl ">
-                <Image
-                  className="rounded-2xl"
-                  src={readyPlayerMe}
-                  alt="ready player me logo"
-                  width={0}
-                  height={0}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                  }}
+          {rotation && url ? (
+            <Canvas style={{ height: 500 }} camera={{ fov: 25 }} shadows>
+              <ambientLight intensity={0.5} />
+              <pointLight
+                position={[10, 10, 10]}
+                color={new Color(1, 1, 0)}
+                intensity={0.5}
+                castShadow
+              />
+              <pointLight
+                position={[-10, 0, 10]}
+                color={new Color(1, 0, 0)}
+                intensity={0.5}
+                castShadow
+              />
+              <pointLight position={[0, 0, 10]} intensity={0.5} castShadow />
+              {rotation && url && (
+                <Avatar
+                  url={url}
+                  blendshapes={blendshapes}
+                  rotation={rotation}
                 />
-              </div>
-            </ToolTip>
+              )}
+            </Canvas>
+          ) : (
+            <div className="flex h-[500px] items-center justify-center">
+              <ToolTip tooltip="請選擇虛擬人像">
+                <RingLoader
+                  color="#36d7b7"
+                  cssOverride={{}}
+                  loading={true}
+                  size={60}
+                  speedMultiplier={1}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </ToolTip>
+            </div>
+          )}
 
-            {/* <h2 className="ml-10 text-xl text-white ">
-              點我創建屬於自己的虛擬人像
-            </h2> */}
-          </Link>
+          <div
+            className="
+              flex w-[320px] rounded-b-2xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1
+              ssm:w-[380px] md:w-[450px]">
+            <Link
+              className="flex items-center"
+              href="https://demo.readyplayer.me/avatar"
+              target="_blank">
+              <ToolTip tooltip="點我創建屬於自己的虛擬人像">
+                <div className="rounded-b-2xl ">
+                  <Image
+                    className="rounded-2xl"
+                    src={readyPlayerMeImg}
+                    alt="ready player me logo"
+                    width={0}
+                    height={0}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                    }}
+                  />
+                </div>
+              </ToolTip>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

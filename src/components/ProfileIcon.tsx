@@ -1,24 +1,27 @@
 'use client';
-import { signIn, signOut, useSession } from 'next-auth/react';
+
 import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
+
+const buttonStyle =
+  'rounded-lg bg-zinc-800 py-2 text-white md:py-2 text-sm min-w-[70px]';
 
 export default function ProfileIcon() {
-  const { data: session, status }: any = useSession();
+  const { data: session, status } = useSession();
   if (status === 'authenticated') {
     return (
-      <div className="flex gap-5">
+      <div className="flex items-center justify-center gap-5">
         <Image
-          src={session.user.image as string}
+          className="hidden rounded-full sm:block sm:h-10 sm:w-10"
+          src={session.user ? (session.user.image as string) : ''}
           width={40}
           height={40}
-          className="rounded-full"
           alt=""
         />
 
         <button
-          className="text-base text-gray-600"
+          className={buttonStyle}
           onClick={() => {
-            // @ts-ignore
             signOut();
           }}>
           登出
@@ -28,8 +31,10 @@ export default function ProfileIcon() {
   }
 
   return (
-    <button className="text-base text-gray-600" onClick={() => signIn()}>
-      登入
-    </button>
+    <div className="flex items-center justify-center">
+      <button className={buttonStyle} onClick={() => signIn()}>
+        登入
+      </button>
+    </div>
   );
 }

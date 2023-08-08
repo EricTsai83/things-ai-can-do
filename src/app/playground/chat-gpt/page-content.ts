@@ -1,4 +1,4 @@
-const constents = [
+const contents = [
   {
     id: 1,
     subject: '使用分隔符指示關注的重點',
@@ -22,4 +22,4 @@ const constents = [
   },
 ];
 
-export default constents;
+export default contents;
