@@ -55,7 +55,7 @@ function Page() {
         <ArrowIconButton text={'產生題目'} />
       </div>
 
-      <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 md:flex-row md:items-start">
+      <div className="mt-5 flex w-full flex-col items-center justify-center gap-4 md:flex-row md:items-start">
         <div className="flex flex-1 flex-col">
           <select
             className="max-w-[120px] text-xl"
@@ -66,7 +66,7 @@ function Page() {
             <option value="pen">✒️ 畫筆</option>
             <option value="eraser">⬜ 橡皮擦</option>
           </select>
-          <div>
+          <div className="w-full">
             <CanvasWithoutSSR
               drawingTool={drawingTool}
               setResponses={setResponses}
