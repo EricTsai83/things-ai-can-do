@@ -100,15 +100,9 @@ function Canvas({ drawingTool, setResponses }: CanvasProps) {
 
   useEffect(() => {
     if (divRef.current?.offsetWidth) {
-      if (divRef.current?.offsetWidth >= 1280) {
-        setCanvasStageWidth({
-          width: divRef.current.offsetWidth - 240 - 220,
-        });
-      } else if (divRef.current?.offsetWidth < 1280) {
-        setCanvasStageWidth({
-          width: divRef.current.offsetWidth,
-        });
-      }
+      setCanvasStageWidth({
+        width: divRef.current.offsetWidth,
+      });
     }
   }, []);
 
