@@ -8,6 +8,10 @@ import nlpImg from './img/nlp.jpg';
 import pandasImg from './img/pandas.webp';
 import parallelComputingImg from './img/parallel-computing.webp';
 
+export const metadata = {
+  title: 'Library',
+};
+
 function Page() {
   const articles = [
     {
