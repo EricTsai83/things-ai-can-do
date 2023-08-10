@@ -2,6 +2,10 @@ import { ImMakeGroup } from 'react-icons/im';
 import PageTitle from '@/components/PageTitle';
 import MainContent from './components/MainContent';
 
+export const metadata = {
+  title: 'Image Classification',
+};
+
 function Page() {
   return (
     <div className="flex w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">

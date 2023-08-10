@@ -3,6 +3,10 @@ import { GiArtificialHive, GiRobotGolem } from 'react-icons/gi';
 import EmailInput from './components/EmailInput';
 import robotPeekImg from './robot-peek.png';
 
+export const metadata = {
+  title: 'Newsletter',
+};
+
 function Page() {
   return (
     <div
