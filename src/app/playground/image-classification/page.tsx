@@ -11,6 +11,7 @@ import type { Response } from './types';
 
 const CanvasWithoutSSR = dynamic(() => import('./components/Canvas'), {
   ssr: false,
+  loading: () => <p>Loading...</p>,
 });
 
 function Page() {
