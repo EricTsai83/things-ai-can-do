@@ -24,7 +24,6 @@
       "@/*": ["./src/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/components/*": ["./src/components/*"],
-      "@/GlobalRedux/*": ["./src/app/GlobalRedux/*"],
       "@/hook/*": ["./src/app/hook/*"],
       "@/assets/*": ["./src/app/assets/*"]
     }
