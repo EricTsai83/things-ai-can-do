@@ -1,5 +1,3 @@
-'use client';
-
 import { IoCutSharp } from 'react-icons/io5';
 import PageTitle from '@/components/PageTitle';
 import { FlipToastContainer } from '@/components/ReactToast';
