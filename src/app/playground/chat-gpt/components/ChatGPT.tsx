@@ -9,9 +9,9 @@ import TooltipContainer from '@/components/TooltipContainer';
 
 function ChatGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [response, setResponse] = useState('');
-  const [reformatToggle, setReformatToggle] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState<string>('');
+  const [reformatToggle, setReformatToggle] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function getChatGPTResponse(data: string) {
     const response = await fetch(`/api/chatGPT`, {
