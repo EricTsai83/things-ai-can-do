@@ -2,6 +2,9 @@ import { BsRobot } from 'react-icons/bs';
 import PageTitle from '@/components/PageTitle';
 import Tutorial from './components/Tutorial';
 
+export const metadata = {
+  title: 'ChatGPT',
+};
 function Page() {
   return (
     <div className="flex h-screen w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">

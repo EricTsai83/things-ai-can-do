@@ -4,6 +4,10 @@ import { FlipToastContainer } from '@/components/ReactToast';
 import HumanImageMatting from './human-image-matting/HumanImageMatting';
 import ImageSegmentationWithColor from './image-segmentation-with-color/ImageSegmentationWithColor';
 
+export const metadata = {
+  title: 'Image Segmentation',
+};
+
 function Page() {
   return (
     <div className="flex w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">

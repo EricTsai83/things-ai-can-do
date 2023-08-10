@@ -3,6 +3,10 @@ import PageTitle from '@/components/PageTitle';
 import MainContent from './components/MainContent';
 import { SearchParams } from './types';
 
+export const metadata = {
+  title: 'Facial Recognition',
+};
+
 interface Props {
   searchParams: SearchParams;
 }
