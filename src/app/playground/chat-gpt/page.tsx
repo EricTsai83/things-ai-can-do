@@ -15,7 +15,7 @@ import ContentContext from './context/ContentContext';
 import contents from './page-content';
 
 function Page() {
-  const [currContent, setCurrContent] = useState(1); // Content ID
+  const [currContent, setCurrContent] = useState<number>(1); // Content ID
 
   return (
     <div className="flex h-screen w-screen flex-col px-4 pt-24 ssm:px-16 xl:w-[calc(100vw-240px)]">
