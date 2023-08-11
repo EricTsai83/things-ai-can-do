@@ -16,7 +16,7 @@ export const metadata = {
     title: 'Things AI Can Do',
     description:
       '透過互動的教學，讓您暸解 AI 的實際應用，解放你的大腦、釋放你的時間和加速你的工作效率。一起學習 AI 吧！讓它成為你人生最大的助力！',
-    url: 'https://main.d1iicrvwglvc93.amplifyapp.com/',
+    url: 'https://main.d1iicrvwglvc93.amplifyapp.com',
     images: [
       {
         url: 'https://www.marktechpost.com/wp-content/uploads/2023/04/artificial-intelligence-new-technology-science-futuristic-abstract-human-brain-ai-technology-cpu-central-processor-unit-chipset-big-data-machine-learning-cyber-mind-domination-generative-ai-scaled.jpg',
