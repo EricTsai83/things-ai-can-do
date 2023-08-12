@@ -8,15 +8,15 @@ import {
   newsletterSubscribeSuccessNotify,
 } from '@/components/ReactToast';
 
+function validateEmail(email: string) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
+}
+
 function EmailInput() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [emailStatus, setEmailStatus] = useState<boolean>(true);
   const [email, setEmail] = useState<string>('');
-
-  function validateEmail(email: string) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  }
 
   useEffect(() => {
     const currRef = inputRef.current!;

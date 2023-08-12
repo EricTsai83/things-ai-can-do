@@ -282,7 +282,8 @@ function AvatarBox({ searchParams }: { searchParams: SearchParams }) {
             <Link
               className="flex items-center"
               href="https://demo.readyplayer.me/avatar"
-              target="_blank">
+              target="_blank"
+              rel="noreferrer noopenner">
               <ToolTip tooltip="點我創建屬於自己的虛擬人像">
                 <div className="rounded-b-2xl ">
                   <Image
