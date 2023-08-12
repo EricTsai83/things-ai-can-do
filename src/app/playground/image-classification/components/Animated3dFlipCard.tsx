@@ -27,6 +27,7 @@ function Animated3dFlipCard({ subject }: Props) {
 
             <Link
               target="_blank"
+              rel="noreferrer noopenner"
               href={`https://www.google.com/search?q=${subject}&tbm=isch`}
               className="
                 absolute -bottom-20 scale-0 rounded-full bg-teal-500 px-6 py-2
