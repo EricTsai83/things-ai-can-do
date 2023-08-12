@@ -194,7 +194,7 @@ function SideNavbar() {
             }>
             <div className={blockStyle}>
               <div className={blockStyle}>
-                <Link href={'/'} prefetch={false}>
+                <Link href={'/'}>
                   <div
                     onClick={() => {
                       setSelected('首頁');
@@ -224,7 +224,7 @@ function SideNavbar() {
 
               <div className={blockStyle}>
                 <h2 className={titleStyle}>AI 圖書館</h2>
-                <Link href={'/library/data-science'} prefetch={false}>
+                <Link href={'/library/data-science'}>
                   <div
                     onClick={() => {
                       setSelected('資料科學');
@@ -250,7 +250,7 @@ function SideNavbar() {
               </div>
 
               <div className="my-4">
-                <Link href="/newsletter" prefetch={false}>
+                <Link href="/newsletter">
                   <div
                     onClick={() => {
                       setSelected('訂閱電子報');
