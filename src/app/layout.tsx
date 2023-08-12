@@ -6,6 +6,7 @@ import './globals.css';
 import { NextAuthProvider } from './provider';
 
 export const metadata = {
+  metadataBase: new URL('https://main.d1iicrvwglvc93.amplifyapp.com'),
   title: {
     default: 'Things AI Can Do',
     template: '%s | Things AI Can Do',
