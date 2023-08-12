@@ -50,7 +50,6 @@ function ChatGPT() {
     setIsLoading(true);
     if (inputRef.current?.value) {
       setReformatToggle(false);
-      setReformatToggle(false);
       setResponse('');
       await getChatGPTResponse(inputRef.current.value);
     }
@@ -179,7 +178,8 @@ function ChatGPT() {
           <a
             className="underline decoration-1"
             href="https://platform.openai.com/docs/guides/gpt/chat-completions-api"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer noopenner">
             gpt-3.5-turbo
           </a>
         </p>
